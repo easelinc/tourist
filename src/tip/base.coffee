@@ -15,7 +15,7 @@ class Tourist.Tip.Base
   closeButtonTemplate: '<a class="btn btn-close tour-close" href="#"><i class="icon icon-remove"></i></a>'
   okButtonTemplate: '<button class="btn btn-small tour-close btn-primary">Okay</button>'
 
-  actionLabelTemplate: '<h4 class="action-label">{{label}}</h4>'
+  actionLabelTemplate: '<h4 class="action-label"><%= label %></h4>'
   actionLabels: ['Do this:', 'Then this:', 'Next this:']
 
   highlightClass: 'tour-highlight'
@@ -23,12 +23,12 @@ class Tourist.Tip.Base
   template: _.template '''
     <div>
       <div class="tour-container">
-        {{close_button}}
-        {{content}}
-        <p class="tour-counter {{counter_class}}">{{counter}}</p>
+        <%= close_button %>
+        <%= content %>
+        <p class="tour-counter <%= counter_class %>"><%= counter%></p>
       </div>
       <div class="tour-buttons">
-        {{buttons}}
+        <%= buttons %>
       </div>
     </div>
   '''

@@ -49,13 +49,13 @@
 
     Base.prototype.okButtonTemplate = '<button class="btn btn-small tour-close btn-primary">Okay</button>';
 
-    Base.prototype.actionLabelTemplate = '<h4 class="action-label">{{label}}</h4>';
+    Base.prototype.actionLabelTemplate = '<h4 class="action-label"><%= label %></h4>';
 
     Base.prototype.actionLabels = ['Do this:', 'Then this:', 'Next this:'];
 
     Base.prototype.highlightClass = 'tour-highlight';
 
-    Base.prototype.template = _.template('<div>\n  <div class="tour-container">\n    {{close_button}}\n    {{content}}\n    <p class="tour-counter {{counter_class}}">{{counter}}</p>\n  </div>\n  <div class="tour-buttons">\n    {{buttons}}\n  </div>\n</div>');
+    Base.prototype.template = _.template('<div>\n  <div class="tour-container">\n    <%= close_button %>\n    <%= content %>\n    <p class="tour-counter <%= counter_class %>"><%= counter%></p>\n  </div>\n  <div class="tour-buttons">\n    <%= buttons %>\n  </div>\n</div>');
 
     function Base(options) {
       this.options = options != null ? options : {};
@@ -391,7 +391,9 @@
       return Simple.__super__.constructor.apply(this, arguments);
     }
 
-    Simple.prototype.initialize = function(options) {};
+    Simple.prototype.initialize = function(options) {
+      return $('body').append(this.el);
+    };
 
     Simple.prototype.show = function() {
       return this.el.show();

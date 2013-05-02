@@ -3,6 +3,7 @@ Simplest implementation of a tooltip
 ###
 class Tourist.Tip.Simple extends Tourist.Tip.Base
   initialize: (options) ->
+    $('body').append(@el)
 
   # Show the tip
   show: ->
