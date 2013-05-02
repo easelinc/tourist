@@ -93,15 +93,21 @@ class Tourist.Tour
   #   finalCancel - step object for a step that runs if hit the close button.
   #   finalSuccess - step object for a step that runs last when they make it all the way through.
   constructor: (@options={}) ->
-    @model = new Draw.TourModel
+    defs =
+      tipClass: 'Simple'
+    @options = _.extend(defs, @options)
+
+    @model = new Tourist.Model
       current_step: null
 
     # there is only one tooltip. It will rerender for each step
-    @view = new Draw.TourTip
+    @view = new Tourist.Tip[@options.tipClass]
       model: @model
 
     @view.bind('click:close', _.bind(@stop, this, true))
     @view.bind('click:next', @next)
+
+    @model.bind('change:current_step', @onChangeCurrentStep)
 
 
   ###
@@ -112,7 +118,6 @@ class Tourist.Tour
   #
   # Return nothing
   start: ->
-    pds this, 'tour starting!!', this
     @next()
 
   # Resets the data and runs the final step
@@ -130,8 +135,6 @@ class Tourist.Tour
   #
   # Return nothing
   next: =>
-    pds this, 'Move to next step'
-
     currentStep = @_teardownCurrentStep()
 
     index = 0
@@ -148,6 +151,13 @@ class Tourist.Tour
   setStepOptions: (stepOptions) ->
     @options.stepOptions = stepOptions
 
+
+  ###
+  Handlers
+  ###
+
+  onChangeCurrentStep: (model, step) =>
+    @view.render(step)
 
   ###
   Private
@@ -177,7 +187,6 @@ class Tourist.Tour
   #
   # Return nothing
   _stop: ->
-    pds this, 'Stopping for real'
     @_teardownCurrentStep()
     @model.set(current_step: null)
 
@@ -200,8 +209,6 @@ class Tourist.Tour
     return @_stop() unless finalStep
     return @_stop() if currentStep and currentStep.final
 
-    pds this, 'Showing Final Step'
-
     finalStep.final = true
     @_showStep(finalStep, @options.steps.length)
 
@@ -213,8 +220,6 @@ class Tourist.Tour
   # Return nothing
   _showStep: (step, index) ->
     return unless step
-
-    pds this, 'Showing Step', index, step
 
     step = _.clone(step)
     step.index = index

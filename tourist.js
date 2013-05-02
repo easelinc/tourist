@@ -25,44 +25,208 @@
 
   })(Backbone.Model);
 
+  window.Tourist.Tip = window.Tourist.Tip || {};
+
   /*
   The flyout showing the content of each step.
+  
+  Base class containing most of the logic. Can extend for different tooltip
+  implementations.
   */
 
 
-  Tourist.Tip = (function(_super) {
-    var ADJUST, OFFSETS, TIP_HEIGHT, TIP_WIDTH;
+  Tourist.Tip.Base = (function() {
 
-    __extends(Tip, _super);
+    Base.prototype._module = 'Tourist';
 
-    function Tip() {
-      this._renderTipBackground = __bind(this._renderTipBackground, this);
+    _.extend(Base.prototype, Backbone.Events);
 
+    Base.prototype.skipButtonTemplate = '<button class="btn btn-small pull-right tour-next">Skip this step →</button>';
+
+    Base.prototype.nextButtonTemplate = '<button class="btn btn-primary btn-small pull-right tour-next">Next step →</button>';
+
+    Base.prototype.closeButtonTemplate = '<a class="btn btn-close tour-close" href="#"><i class="icon icon-remove"></i></a>';
+
+    Base.prototype.okButtonTemplate = '<button class="btn btn-small tour-close btn-primary">Okay</button>';
+
+    Base.prototype.actionLabelTemplate = '<h4 class="action-label">{{label}}</h4>';
+
+    Base.prototype.actionLabels = ['Do this:', 'Then this:', 'Next this:'];
+
+    Base.prototype.highlightClass = 'tour-highlight';
+
+    Base.prototype.template = _.template('<div>\n  <div class="tour-container">\n    {{close_button}}\n    {{content}}\n    <p class="tour-counter {{counter_class}}">{{counter}}</p>\n  </div>\n  <div class="tour-buttons">\n    {{buttons}}\n  </div>\n</div>');
+
+    function Base(options) {
+      this.options = options != null ? options : {};
       this.onClickNext = __bind(this.onClickNext, this);
 
       this.onClickClose = __bind(this.onClickClose, this);
 
-      this.onChangeCurrentStep = __bind(this.onChangeCurrentStep, this);
-      return Tip.__super__.constructor.apply(this, arguments);
+      this.el = $('<div/>');
+      this.initialize(options);
+      this._bindClickEvents();
+      Tourist.Tip.Base._cacheTip(this);
     }
 
-    Tip.prototype._module = 'Tourist';
+    Base.prototype.destroy = function() {
+      return this.el.remove();
+    };
 
-    Tip.prototype.skipButtonTemplate = '<button class="btn btn-small pull-right tour-next">Skip this step →</button>';
+    Base.prototype.render = function(step) {
+      this.hide();
+      if (step) {
+        this._setTarget(step.target || false, step);
+        this._renderContent(step, this._buildContentElement(step));
+        this.show();
+      }
+      return this;
+    };
 
-    Tip.prototype.nextButtonTemplate = '<button class="btn btn-primary btn-small pull-right tour-next">Next step →</button>';
+    Base.prototype.show = function() {};
 
-    Tip.prototype.closeButtonTemplate = '<a class="btn btn-close tour-close" href="#"><i class="icon icon-remove"></i></a>';
+    Base.prototype.hide = function() {};
 
-    Tip.prototype.okButtonTemplate = '<button class="btn btn-small tour-close btn-primary">Okay</button>';
+    Base.prototype.cleanupCurrentTarget = function() {
+      if (this.target && this.target.removeClass) {
+        this.target.removeClass(this.highlightClass);
+      }
+      return this.target = null;
+    };
 
-    Tip.prototype.actionLabelTemplate = '<h4 class="action-label">{{label}}</h4>';
+    /*
+      Event Handlers
+    */
 
-    Tip.prototype.actionLabels = ['Do this:', 'Then this:', 'Next this:'];
 
-    Tip.prototype.highlightClass = 'tour-highlight';
+    Base.prototype.onClickClose = function(event) {
+      this.trigger('click:close', this, event);
+      return false;
+    };
 
-    Tip.prototype.template = '<div>\n  <div class="tour-container">\n    {{close_button}}\n    {{content}}\n    <p class="tour-counter {{counter_class}}">{{counter}}</p>\n  </div>\n  <div class="tour-buttons">\n    {{buttons}}\n  </div>\n</div>';
+    Base.prototype.onClickNext = function(event) {
+      this.trigger('click:next', this, event);
+      return false;
+    };
+
+    /*
+      Private
+    */
+
+
+    Base.prototype._getTipElement = function() {};
+
+    Base.prototype._renderContent = function(step, contentElement) {};
+
+    Base.prototype._bindClickEvents = function() {
+      var el;
+      el = this._getTipElement();
+      el.delegate('.tour-close', 'click', this.onClickClose);
+      return el.delegate('.tour-next', 'click', this.onClickNext);
+    };
+
+    Base.prototype._setTarget = function(target, step) {
+      this.cleanupCurrentTarget();
+      if (target && step && step.highlightTarget) {
+        target.addClass(this.highlightClass);
+      }
+      return this.target = target;
+    };
+
+    Base.prototype._buildContentElement = function(step) {
+      var buttons, content;
+      buttons = this._buildButtons(step);
+      content = $($.parseHTML(this.template({
+        content: step.content,
+        buttons: buttons,
+        close_button: this._buildCloseButton(step),
+        counter: step.final ? '' : "step " + (step.index + 1) + " of " + step.total,
+        counter_class: step.final ? 'final' : ''
+      })));
+      if (!buttons) {
+        content.find('.tour-buttons').remove();
+      }
+      this._renderActionLabels(content);
+      return content;
+    };
+
+    Base.prototype._buildButtons = function(step) {
+      var buttons;
+      buttons = '';
+      if (step.okButton) {
+        buttons += this.okButtonTemplate;
+      }
+      if (step.skipButton) {
+        buttons += this.skipButtonTemplate;
+      }
+      if (step.nextButton) {
+        buttons += this.nextButtonTemplate;
+      }
+      return buttons;
+    };
+
+    Base.prototype._buildCloseButton = function(step) {
+      if (step.closeButton) {
+        return this.closeButtonTemplate;
+      } else {
+        return '';
+      }
+    };
+
+    Base.prototype._renderActionLabels = function(el) {
+      var action, actionIndex, actions, label, _i, _len, _results;
+      actions = el.find('.action');
+      actionIndex = 0;
+      _results = [];
+      for (_i = 0, _len = actions.length; _i < _len; _i++) {
+        action = actions[_i];
+        label = $($.parseHTML(_.template(this.actionLabelTemplate, {
+          label: this.actionLabels[actionIndex]
+        })));
+        label.insertBefore(action);
+        _results.push(actionIndex++);
+      }
+      return _results;
+    };
+
+    Base._cacheTip = function(tip) {
+      if (!Tourist.Tip.Base._cachedTips) {
+        Tourist.Tip.Base._cachedTips = [];
+      }
+      return Tourist.Tip.Base._cachedTips.push(tip);
+    };
+
+    Base.destroy = function() {
+      var tip, _i, _len, _ref;
+      if (!Tourist.Tip.Base._cachedTips) {
+        return;
+      }
+      _ref = Tourist.Tip.Base._cachedTips;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        tip = _ref[_i];
+        tip.destroy();
+      }
+      return Tourist.Tip.Base._cachedTips = null;
+    };
+
+    return Base;
+
+  })();
+
+  /*
+  Qtip based tip
+  */
+
+
+  Tourist.Tip.QTip = (function(_super) {
+    var ADJUST, OFFSETS, TIP_HEIGHT, TIP_WIDTH;
+
+    __extends(QTip, _super);
+
+    function QTip() {
+      this._renderTipBackground = __bind(this._renderTipBackground, this);
+      return QTip.__super__.constructor.apply(this, arguments);
+    }
 
     TIP_WIDTH = 6;
 
@@ -77,7 +241,7 @@
       bottom: -80
     };
 
-    Tip.prototype.QTIP_DEFAULTS = {
+    QTip.prototype.QTIP_DEFAULTS = {
       content: {
         text: '..'
       },
@@ -132,104 +296,25 @@
       zindex: 2000
     };
 
-    Tip.prototype.initialize = function(options) {
-      this.options = options != null ? options : {};
-      this.el = $(this.el);
+    QTip.prototype.initialize = function(options) {
       this.el.qtip(this.QTIP_DEFAULTS);
       this.qtip = this.el.qtip('api');
-      this.qtip.render();
-      this._bindModel();
-      this._bindClickEvents();
-      return Draw.TourTip._cacheTip(this);
+      return this.qtip.render();
     };
 
-    Tip.prototype.destroy = function() {
+    QTip.prototype.destroy = function() {
       if (this.qtip) {
         this.qtip.destroy();
       }
-      return this.el.remove();
+      return QTip.__super__.destroy.call(this);
     };
 
-    Tip.prototype.render = function() {
-      var at, buttons, content, my, step,
-        _this = this;
-      this.qtip.hide();
-      step = this.model.get('current_step');
-      if (step) {
-        buttons = this._buildButtons(step);
-        content = $($.parseHTML(this.renderTemplate(this.template, {
-          content: step.content,
-          buttons: buttons,
-          close_button: this._buildCloseButton(step),
-          counter: step.final ? '' : "step " + (step.index + 1) + " of " + step.total,
-          counter_class: step.final ? 'final' : ''
-        })));
-        if (!buttons) {
-          content.find('.tour-buttons').remove();
-        }
-        my = step.my || 'left center';
-        at = step.at || 'right center';
-        this._adjustPlacement(my, at);
-        this._renderActionLabels(content);
-        this.qtip.set('content.text', content);
-        this.qtip.set('position.container', step.container || $('body'));
-        this.qtip.set('position.my', my);
-        this.qtip.set('position.at', at);
-        this.qtip.set('position.viewport', step.viewport || false);
-        this.setTarget(step.target || false);
-        this.show();
-        setTimeout(function() {
-          return _this._renderTipBackground(my.split(' ')[0]);
-        }, 10);
-      }
-      return this;
-    };
-
-    Tip.prototype.show = function() {
+    QTip.prototype.show = function() {
       return this.qtip.show();
     };
 
-    Tip.prototype.hide = function() {
+    QTip.prototype.hide = function() {
       return this.qtip.hide();
-    };
-
-    Tip.prototype.cleanupCurrentTarget = function() {
-      if (this.target && this.target.removeClass) {
-        this.target.removeClass(this.highlightClass);
-      }
-      return this.target = null;
-    };
-
-    Tip.prototype.setTarget = function(target) {
-      var step;
-      this.cleanupCurrentTarget();
-      this.qtip.set('position.target', target);
-      step = this.model.get('current_step');
-      if (target && step && step.highlightTarget) {
-        target.addClass(this.highlightClass);
-      }
-      return this.target = target;
-    };
-
-    /*
-      Event Handlers
-    */
-
-
-    Tip.prototype.onChangeCurrentStep = function(model, step) {
-      return this.render();
-    };
-
-    Tip.prototype.onClickClose = function(event) {
-      pds(this, 'close clicked', event);
-      this.trigger('click:close', this, event);
-      return false;
-    };
-
-    Tip.prototype.onClickNext = function(event) {
-      pds(this, 'next clicked', event);
-      this.trigger('click:next', this, event);
-      return false;
     };
 
     /*
@@ -237,57 +322,28 @@
     */
 
 
-    Tip.prototype._bindModel = function() {
-      return this.model.bind('change:current_step', this.onChangeCurrentStep);
+    QTip.prototype._getTipElement = function() {
+      return $('#qtip-' + this.qtip.id);
     };
 
-    Tip.prototype._bindClickEvents = function() {
-      var el;
-      el = $('#qtip-' + this.qtip.id);
-      el.delegate('.tour-close', 'click', this.onClickClose);
-      return el.delegate('.tour-next', 'click', this.onClickNext);
+    QTip.prototype._renderContent = function(step, contentElement) {
+      var at, my,
+        _this = this;
+      my = step.my || 'left center';
+      at = step.at || 'right center';
+      this._adjustPlacement(my, at);
+      this.qtip.set('content.text', contentElement);
+      this.qtip.set('position.container', step.container || $('body'));
+      this.qtip.set('position.my', my);
+      this.qtip.set('position.at', at);
+      this.qtip.set('position.viewport', step.viewport || false);
+      this.qtip.set('position.target', step.target || false);
+      return setTimeout(function() {
+        return _this._renderTipBackground(my.split(' ')[0]);
+      }, 10);
     };
 
-    Tip.prototype._buildButtons = function(step) {
-      var buttons;
-      buttons = '';
-      if (step.okButton) {
-        buttons += this.okButtonTemplate;
-      }
-      if (step.skipButton) {
-        buttons += this.skipButtonTemplate;
-      }
-      if (step.nextButton) {
-        buttons += this.nextButtonTemplate;
-      }
-      return buttons;
-    };
-
-    Tip.prototype._buildCloseButton = function(step) {
-      if (step.closeButton) {
-        return this.closeButtonTemplate;
-      } else {
-        return '';
-      }
-    };
-
-    Tip.prototype._renderActionLabels = function(el) {
-      var action, actionIndex, actions, label, _i, _len, _results;
-      actions = el.find('.action');
-      actionIndex = 0;
-      _results = [];
-      for (_i = 0, _len = actions.length; _i < _len; _i++) {
-        action = actions[_i];
-        label = $($.parseHTML(_.template(this.actionLabelTemplate, {
-          label: this.actionLabels[actionIndex]
-        })));
-        label.insertBefore(action);
-        _results.push(actionIndex++);
-      }
-      return _results;
-    };
-
-    Tip.prototype._adjustPlacement = function(my, at) {
+    QTip.prototype._adjustPlacement = function(my, at) {
       if (my.indexOf('top') === 0) {
         return this._adjust(0, ADJUST);
       } else if (my.indexOf('bottom') === 0) {
@@ -299,12 +355,12 @@
       }
     };
 
-    Tip.prototype._adjust = function(adjustX, adjusty) {
+    QTip.prototype._adjust = function(adjustX, adjusty) {
       this.qtip.set('position.adjust.x', adjustX);
       return this.qtip.set('position.adjust.y', adjusty);
     };
 
-    Tip.prototype._renderTipBackground = function(direction) {
+    QTip.prototype._renderTipBackground = function(direction) {
       var bg, el;
       el = $('#qtip-' + this.qtip.id + ' .qtip-tip');
       bg = el.find('.qtip-tip-bg');
@@ -318,29 +374,44 @@
       return bg.addClass(direction);
     };
 
-    Tip._cacheTip = function(tip) {
-      if (!Draw.TourTip._cachedTips) {
-        Draw.TourTip._cachedTips = [];
-      }
-      return Draw.TourTip._cachedTips.push(tip);
+    return QTip;
+
+  })(Tourist.Tip.Base);
+
+  /*
+  Simplest implementation of a tooltip
+  */
+
+
+  Tourist.Tip.Simple = (function(_super) {
+
+    __extends(Simple, _super);
+
+    function Simple() {
+      return Simple.__super__.constructor.apply(this, arguments);
+    }
+
+    Simple.prototype.initialize = function(options) {};
+
+    Simple.prototype.show = function() {
+      return this.el.show();
     };
 
-    Tip.destroy = function() {
-      var tip, _i, _len, _ref;
-      if (!Draw.TourTip._cachedTips) {
-        return;
-      }
-      _ref = Draw.TourTip._cachedTips;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        tip = _ref[_i];
-        tip.destroy();
-      }
-      return Draw.TourTip._cachedTips = null;
+    Simple.prototype.hide = function() {
+      return this.el.hide();
     };
 
-    return Tip;
+    Simple.prototype._getTipElement = function() {
+      return this.el;
+    };
 
-  })(Backbone.View);
+    Simple.prototype._renderContent = function(step, contentElement) {
+      return this.el.html(contentElement);
+    };
+
+    return Simple;
+
+  })(Tourist.Tip.Base);
 
   /*
   
@@ -434,17 +505,25 @@
     Tour.prototype._module = 'Tourist';
 
     function Tour(options) {
+      var defs;
       this.options = options != null ? options : {};
+      this.onChangeCurrentStep = __bind(this.onChangeCurrentStep, this);
+
       this.next = __bind(this.next, this);
 
-      this.model = new Draw.TourModel({
+      defs = {
+        tipClass: 'Simple'
+      };
+      this.options = _.extend(defs, this.options);
+      this.model = new Tourist.Model({
         current_step: null
       });
-      this.view = new Draw.TourTip({
+      this.view = new Tourist.Tip[this.options.tipClass]({
         model: this.model
       });
       this.view.bind('click:close', _.bind(this.stop, this, true));
       this.view.bind('click:next', this.next);
+      this.model.bind('change:current_step', this.onChangeCurrentStep);
     }
 
     /*
@@ -453,7 +532,6 @@
 
 
     Tour.prototype.start = function() {
-      pds(this, 'tour starting!!', this);
       return this.next();
     };
 
@@ -467,7 +545,6 @@
 
     Tour.prototype.next = function() {
       var currentStep, index;
-      pds(this, 'Move to next step');
       currentStep = this._teardownCurrentStep();
       index = 0;
       if (currentStep) {
@@ -484,6 +561,15 @@
 
     Tour.prototype.setStepOptions = function(stepOptions) {
       return this.options.stepOptions = stepOptions;
+    };
+
+    /*
+      Handlers
+    */
+
+
+    Tour.prototype.onChangeCurrentStep = function(model, step) {
+      return this.view.render(step);
     };
 
     /*
@@ -507,7 +593,6 @@
     };
 
     Tour.prototype._stop = function() {
-      pds(this, 'Stopping for real');
       this._teardownCurrentStep();
       return this.model.set({
         current_step: null
@@ -528,7 +613,6 @@
       if (currentStep && currentStep.final) {
         return this._stop();
       }
-      pds(this, 'Showing Final Step');
       finalStep.final = true;
       return this._showStep(finalStep, this.options.steps.length);
     };
@@ -537,7 +621,6 @@
       if (!step) {
         return;
       }
-      pds(this, 'Showing Step', index, step);
       step = _.clone(step);
       step.index = index;
       step.total = this.options.steps.length;
