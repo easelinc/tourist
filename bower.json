@@ -1,0 +1,15 @@
+{
+  "name": "Tourist",
+  "version": "0.0.0",
+  "main": ["./tourist.js"],
+  "dependencies": {},
+  "ignore": [
+    ".gitignore",
+    "LICENSE",
+    "Makefile",
+    "**/*.md",
+    "**/*.json",
+    "src/",
+    "test/"
+  ]
+}

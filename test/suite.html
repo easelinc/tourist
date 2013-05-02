@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Test Suite</title>
+
+  <link rel="stylesheet" href="vendor/jasmine.css" type="text/css" media="screen">
+
+  <script src="vendor/jquery-1.9.1.js"></script>
+  <script src="vendor/underscore-1.4.4.js"></script>
+  <script src="vendor/backbone-1.0.0.js"></script>
+
+  <script src="vendor/jasmine.js"></script>
+  <script src="vendor/jasmine-html.js"></script>
+
+  <!-- include spec files here... -->
+  <script src="lib/specHelper.js"></script>
+  <script src="lib/tourSpec.js"></script>
+  <script src="lib/tipSpec.js"></script>
+
+  <!-- include source files here... -->
+  <script src="../tourist.js"></script>
+
+  <script type="text/javascript">
+    (function() {
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+
+      var trivialReporter = new jasmine.TrivialReporter();
+
+      jasmineEnv.addReporter(trivialReporter);
+
+      jasmineEnv.specFilter = function(spec) {
+        return trivialReporter.specFilter(spec);
+      };
+
+      $(function(){
+        jasmineEnv.execute();
+      });
+
+    })();
+  </script>
+
+</head>
+<body>
+</body>
+</html>
