@@ -54,6 +54,9 @@ window.BasicTourTests = (description, tourGenerator) ->
 
       @s = tourGenerator.call(this)
 
+    afterEach ->
+      Tourist.Tip.Base.destroy()
+
     describe 'basics', ->
       it 'inits', ->
         expect(@s.model instanceof Tourist.Model).toEqual(true)
@@ -66,7 +69,6 @@ window.BasicTourTests = (description, tourGenerator) ->
         @s.next()
 
         el = @s.view._getTipElement()
-        console.log el[0]
         expect(el.find('.action')).toExist()
         expect(el.find('.action-label')).toExist()
         expect(el.find('.action-label').text()).toEqual('Do this:')
