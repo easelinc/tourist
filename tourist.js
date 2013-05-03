@@ -424,81 +424,81 @@
   The 'step object' is a simple js obj that specifies how the step will behave.
   
   A simple Example of a step object:
-  {
-    content: '<p>Welcome to my step</p>'
-    target: $('#something-to-point-at')
-    closeButton: true
-    highlightTarget: true
-    setup: (tour, options) ->
-      # do stuff in the interface/bind
-    teardown: (tour, options) ->
-      # remove stuff/unbind
-  }
+    {
+      content: '<p>Welcome to my step</p>'
+      target: $('#something-to-point-at')
+      closeButton: true
+      highlightTarget: true
+      setup: (tour, options) ->
+        # do stuff in the interface/bind
+      teardown: (tour, options) ->
+        # remove stuff/unbind
+    }
   
   Basic Step object options:
   
-  content - a string of html to put into the step.
-  target - jquery object or absolute point: [10, 30]
-  highlightTarget - optional bool, true will outline the target with a bright color.
-  container - optional jquery element that should contain the step flyout.
-              default: $('body')
-  viewport - optional jquery element that the step flyout should stay within.
-             $(window) is commonly used. default: false
+    content - a string of html to put into the step.
+    target - jquery object or absolute point: [10, 30]
+    highlightTarget - optional bool, true will outline the target with a bright color.
+    container - optional jquery element that should contain the step flyout.
+                default: $('body')
+    viewport - optional jquery element that the step flyout should stay within.
+               $(window) is commonly used. default: false
   
-  my - string position of the pointer on the tip. default: 'left center'
-  at - string position on the element the tip points to. default: 'right center'
-  see http://craigsworks.com/projects/qtip2/docs/position/#basics
+    my - string position of the pointer on the tip. default: 'left center'
+    at - string position on the element the tip points to. default: 'right center'
+    see http://craigsworks.com/projects/qtip2/docs/position/#basics
   
   Step object button options:
   
-  okButton - optional bool, true will show a red ok button
-  closeButton - optional bool, true will show a grey close button
-  skipButton - optional bool, true will show a grey skip button
-  nextButton - optional bool, true will show a red next button
+    okButton - optional bool, true will show a red ok button
+    closeButton - optional bool, true will show a grey close button
+    skipButton - optional bool, true will show a grey skip button
+    nextButton - optional bool, true will show a red next button
   
   Step object function options:
   
-  All functions on the step will have the signature '(tour, options) ->'
+    All functions on the step will have the signature '(tour, options) ->'
   
-    tour - the Draw.Tour object. Handy to call tour.next()
-    options - the step options. An object passed into the tour when created.
-              It has the environment that the fns can use to manipulate the
-              interface, bind to events, etc. The same object is passed to all
-              of a step object's functions, so it is handy for passing data
-              between steps.
+      tour - the Draw.Tour object. Handy to call tour.next()
+      options - the step options. An object passed into the tour when created.
+                It has the environment that the fns can use to manipulate the
+                interface, bind to events, etc. The same object is passed to all
+                of a step object's functions, so it is handy for passing data
+                between steps.
   
-  setup - called before step is shown. Use to scroll to your target, hide/show things, ...
+    setup - called before step is shown. Use to scroll to your target, hide/show things, ...
   
-    'this' is the step object itself.
+      'this' is the step object itself.
   
-    MUST return an object. Properties in the returned object will override
-    properties in the step object.
+      MUST return an object. Properties in the returned object will override
+      properties in the step object.
   
-    i.e. the target might be dynamic so you would specify:
+      i.e. the target might be dynamic so you would specify:
   
-    setup: (tour, options) ->
-      return { target: $('#point-to-me') }
+      setup: (tour, options) ->
+        return { target: $('#point-to-me') }
   
-  teardown - function called right before hiding the step. Use to unbind from
-    things you bound to in setup().
+    teardown - function called right before hiding the step. Use to unbind from
+      things you bound to in setup().
   
-    'this' is the step object itself.
+      'this' is the step object itself.
   
-    Return nothing.
+      Return nothing.
   
-  bind - an array of function names to bind. Use this for event handlers you use in setup().
+    bind - an array of function names to bind. Use this for event handlers you use in setup().
   
-    Will bind functions to the step object as this, and the first 2 args as tour and options.
+      Will bind functions to the step object as this, and the first 2 args as tour and options.
   
-    i.e.
+      i.e.
   
-    bind: ['onChangeSomething']
-    setup: (tour, options) ->
-      options.document.bind('change:something', @onChangeSomething)
-    onChangeSomething: (tour, options, model, value) ->
-      tour.next()
-    teardown: (tour, options) ->
-      options.document.unbind('change:something', @onChangeSomething)
+      bind: ['onChangeSomething']
+      setup: (tour, options) ->
+        options.document.bind('change:something', @onChangeSomething)
+      onChangeSomething: (tour, options, model, value) ->
+        tour.next()
+      teardown: (tour, options) ->
+        options.document.unbind('change:something', @onChangeSomething)
   */
 
 
