@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>QTip Example</title>
+
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="../test/vendor/stylesheets/jquery.qtip.css" type="text/css" media="screen">
+
+  <script src="../test/vendor/javascripts/jquery-1.9.1.js"></script>
+  <script src="../test/vendor/javascripts/underscore-1.4.4.js"></script>
+  <script src="../test/vendor/javascripts/backbone-1.0.0.js"></script>
+  <script src="../test/vendor/javascripts/jquery.qtip.js"></script>
+
+  <!-- Uses JQUI for the effects only :/ -->
+  <script src="../test/vendor/javascripts/jquery-ui-1.10.2.custom.js"></script>
+
+  <script src="../tourist.js"></script>
+
+  <!-- Tour js is defined here -->
+  <script type="text/javascript">
+  $(function(){
+
+  STEP_OPTIONS = {
+    one: 1,
+    two: 2
+  };
+
+  STEPS = [{
+    content: '<p>This is a minimal step.</p><p class="action">Read the heading, then click next.</p>',
+    highlightTarget: true,
+    nextButton: true,
+    target: $('#main-heading'),
+    my: 'top center',
+    at: 'bottom center'
+  }/*,{
+    content: '<p>First read the heading</p>',
+    highlightTarget: true,
+    nextButton: true,
+    bind: ['onChangeState', 'onChangeSnapped']
+    setup: (tour, options) ->
+      track(this)
+
+      # this is how we know when there is a container created
+      options.document.bind('change:state', @onChangeState)
+
+      target = Draw.TourUtil.scrollToBootstrapElement('bslayout', options)
+
+      # set the target in a timeout because the sidebar open is animated. it
+      # wont point to the right place otherwise.
+      setTimeout(->
+        tour.view.setTarget(target)
+      , 200)
+
+      {}
+
+    # something is added/removed from doc
+    onChangeState: (tour, options, event, parent, object, path, stateChangeOptions) ->
+      return unless event == 'change:hierarchy' and object instanceof Draw.BootstrapContainer
+
+      # this will handle the user dragging in and creating the element, but
+      # dragging it back into the sidebar.
+      if stateChangeOptions.operation == 'add'
+        options.container = object # save it for later steps
+        object.bind('change:snapped', @onChangeSnapped)
+        tour.view.hide()
+      else
+        # they dragged it back into the sidebar here.
+        object.unbind('change:snapped', @onChangeSnapped)
+        tour.view.show()
+
+    # when snapped, we know it was properly added
+    onChangeSnapped: (tour, options, model, value) ->
+      # in timeout as it snaps then removes when the user doesnt actually add it
+      # (they dont drag past the sidebar)
+      setTimeout( =>
+        tour.next() if value and options.container.parent
+      , 50)
+
+    teardown: (tour, options) ->
+      options.document.unbind('change:state', @onChangeState)
+      options.container.unbind('change:snapped', @onChangeSnapped) if options.container
+  }*/]
+
+  TOUR = new Tourist.Tour({
+    stepOptions: STEP_OPTIONS,
+    steps: STEPS,
+    //cancelStep: @finalQuit
+    //successStep: @finalSucceed
+    tipClass: 'QTip',
+    tipOptions:{
+      style: {
+        classes: 'qtip-tour qtip-bootstrap'
+      }
+    }
+  });
+  TOUR.start();
+
+  });
+  </script>
+
+  <!-- Tour CSS is defined here -->
+  <style type="text/css">
+  /**/
+  .tour-highlight{
+    /*outline: 2px solid #00c3ff;*/
+    background: transparent;
+    -moz-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+    -o-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+    box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+    border-radius: 3px;
+  }
+
+  /*the tip itself*/
+  .qtip-tour, .qtip-tour .qtip-content{
+    padding: 0;
+  }
+  .qtip-tour .qtip-content{
+    padding-top: 10px;
+  }
+  .qtip-tour .qtip-content p{
+    margin: 0 8px 10px 8px;
+  }
+  .qtip-tour .qtip-content .action-label{
+    background: rgba(0, 111, 255, 0.168627);
+    font-size: 14px;
+    padding: 3px 10px;
+  }
+  .qtip-tour .qtip-content .tour-counter{
+    margin: 0; padding: 0;
+    position: absolute;
+    left: 10px; bottom: 12px;
+    font-size: 11px;
+    color: #acacac;
+  }
+  .qtip-tour .tour-buttons{
+    padding: 8px 10px;
+    min-height: 27px;
+    background: #f5f5f5;
+    border-radius: 0px 0px 6px 6px;
+  }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <h1 id="main-heading" class="page-header">Tourist works with QTip2. Let me show you.</h1>
+    <p>This is an extremely minimal example. Look at the page source!</p>
+
+  </div>
+</body>
+</html>

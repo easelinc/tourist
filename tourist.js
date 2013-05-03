@@ -297,7 +297,8 @@
     };
 
     QTip.prototype.initialize = function(options) {
-      this.el.qtip(this.QTIP_DEFAULTS);
+      options = $.extend(true, {}, this.QTIP_DEFAULTS, options);
+      this.el.qtip(options);
       this.qtip = this.el.qtip('api');
       return this.qtip.render();
     };
@@ -507,7 +508,7 @@
     Tour.prototype._module = 'Tourist';
 
     function Tour(options) {
-      var defs;
+      var defs, tipOptions;
       this.options = options != null ? options : {};
       this.onChangeCurrentStep = __bind(this.onChangeCurrentStep, this);
 
@@ -520,9 +521,10 @@
       this.model = new Tourist.Model({
         current_step: null
       });
-      this.view = new Tourist.Tip[this.options.tipClass]({
+      tipOptions = _.extend({
         model: this.model
-      });
+      }, this.options.tipOptions);
+      this.view = new Tourist.Tip[this.options.tipClass](tipOptions);
       this.view.bind('click:close', _.bind(this.stop, this, true));
       this.view.bind('click:next', this.next);
       this.model.bind('change:current_step', this.onChangeCurrentStep);

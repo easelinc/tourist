@@ -68,7 +68,8 @@ class Tourist.Tip.QTip extends Tourist.Tip.Base
     zindex: 2000
 
   initialize: (options) ->
-    @el.qtip(@QTIP_DEFAULTS)
+    options = $.extend(true, {}, @QTIP_DEFAULTS, options)
+    @el.qtip(options)
     @qtip = @el.qtip('api')
     @qtip.render()
 

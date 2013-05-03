@@ -89,6 +89,7 @@ class Tourist.Tour
 
   # options - tour options
   #   stepOptions - an object of options to be passed to each function called on a step object
+  #   tipOptions - an object passed to the tip
   #   steps - array of step objects
   #   finalCancel - step object for a step that runs if hit the close button.
   #   finalSuccess - step object for a step that runs last when they make it all the way through.
@@ -101,8 +102,8 @@ class Tourist.Tour
       current_step: null
 
     # there is only one tooltip. It will rerender for each step
-    @view = new Tourist.Tip[@options.tipClass]
-      model: @model
+    tipOptions = _.extend({model: @model}, @options.tipOptions)
+    @view = new Tourist.Tip[@options.tipClass](tipOptions)
 
     @view.bind('click:close', _.bind(@stop, this, true))
     @view.bind('click:next', @next)
