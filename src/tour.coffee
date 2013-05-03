@@ -157,6 +157,7 @@ class Tourist.Tour
   Handlers
   ###
 
+  # Called when the current step changes on the model.
   onChangeCurrentStep: (model, step) =>
     @view.render(step)
 

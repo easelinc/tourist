@@ -30,8 +30,8 @@
   /*
   The flyout showing the content of each step.
   
-  Base class containing most of the logic. Can extend for different tooltip
-  implementations.
+  This is the base class containing most of the logic. Can extend for different
+  tooltip implementations.
   */
 
 
@@ -214,7 +214,7 @@
   })();
 
   /*
-  Qtip based tip
+  Qtip based tip implementation
   */
 
 
@@ -380,7 +380,8 @@
   })(Tourist.Tip.Base);
 
   /*
-  Simplest implementation of a tooltip
+  Simplest implementation of a tooltip. Used in the tests. Useful as an example
+  as well.
   */
 
 

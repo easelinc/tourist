@@ -1,6 +1,6 @@
 
 ###
-Qtip based tip
+Qtip based tip implementation
 ###
 class Tourist.Tip.QTip extends Tourist.Tip.Base
 
@@ -67,6 +67,7 @@ class Tourist.Tip.QTip extends Tourist.Tip.Base
     events: {}
     zindex: 2000
 
+  # Options support everything qtip supports.
   initialize: (options) ->
     options = $.extend(true, {}, @QTIP_DEFAULTS, options)
     @el.qtip(options)
@@ -94,7 +95,8 @@ class Tourist.Tip.QTip extends Tourist.Tip.Base
   _getTipElement: ->
     $('#qtip-'+@qtip.id)
 
-  # Jam the content into the qtip's body
+  # Jam the content into the qtip's body. Also place the tip along side the
+  # target element.
   _renderContent: (step, contentElement) ->
 
     my = step.my or 'left center'

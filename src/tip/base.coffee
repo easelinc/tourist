@@ -2,13 +2,14 @@
 ###
 The flyout showing the content of each step.
 
-Base class containing most of the logic. Can extend for different tooltip
-implementations.
+This is the base class containing most of the logic. Can extend for different
+tooltip implementations.
 ###
 class Tourist.Tip.Base
   _module: 'Tourist'
   _.extend @prototype, Backbone.Events
 
+  # You can override any of thsee templates for your own stuff
   skipButtonTemplate: '<button class="btn btn-small pull-right tour-next">Skip this step →</button>'
   nextButtonTemplate: '<button class="btn btn-primary btn-small pull-right tour-next">Next step →</button>'
 
@@ -64,11 +65,11 @@ class Tourist.Tip.Base
 
   # Show the tip
   show: ->
-    # override this
+    # Override me
 
   # Hide the tip
   hide: ->
-    # override this
+    # Override me
 
   # Unhighlight and unset the current target
   cleanupCurrentTarget: ->
@@ -94,10 +95,16 @@ class Tourist.Tip.Base
   Private
   ###
 
+  # Returns the jquery element that contains all the tip data.
   _getTipElement: ->
-    # Override me!
+    # Override me
 
-  # Jam the content into the qtip's body
+  # Place content into your tip's body. Called in render()
+  #
+  # step - the step object for the current step
+  # contentElement - a jquery element containing all the tip's content
+  #
+  # Returns nothing
   _renderContent: (step, contentElement) ->
     # Override me
 
@@ -118,6 +125,11 @@ class Tourist.Tip.Base
     target.addClass(@highlightClass) if target and step and step.highlightTarget
     @target = target
 
+  # Will build the element that has all the content for the current step
+  #
+  # step - the step object for the current step
+  #
+  # Returns a jquery object with all the content.
   _buildContentElement: (step) ->
     buttons = @_buildButtons(step)
 
@@ -157,11 +169,12 @@ class Tourist.Tip.Base
       label.insertBefore(action)
       actionIndex++
 
+  # Caches this tip for destroying it later.
   @_cacheTip: (tip) ->
     Tourist.Tip.Base._cachedTips = [] unless Tourist.Tip.Base._cachedTips
     Tourist.Tip.Base._cachedTips.push(tip)
 
-  # destroy all dialogs!
+  # Destroy all tips. Useful in tests.
   @destroy: ->
     return unless Tourist.Tip.Base._cachedTips
     for tip in Tourist.Tip.Base._cachedTips
