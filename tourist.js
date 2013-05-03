@@ -49,7 +49,7 @@
 
     Base.prototype.okButtonTemplate = '<button class="btn btn-small tour-close btn-primary">Okay</button>';
 
-    Base.prototype.actionLabelTemplate = '<h4 class="action-label"><%= label %></h4>';
+    Base.prototype.actionLabelTemplate = _.template('<h4 class="action-label"><%= label %></h4>');
 
     Base.prototype.actionLabels = ['Do this:', 'Then this:', 'Next this:'];
 
@@ -182,7 +182,7 @@
       _results = [];
       for (_i = 0, _len = actions.length; _i < _len; _i++) {
         action = actions[_i];
-        label = $($.parseHTML(_.template(this.actionLabelTemplate, {
+        label = $($.parseHTML(this.actionLabelTemplate({
           label: this.actionLabels[actionIndex]
         })));
         label.insertBefore(action);
