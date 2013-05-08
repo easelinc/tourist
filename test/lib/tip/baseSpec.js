@@ -12,9 +12,36 @@
       afterEach(function() {
         return Tourist.Tip.Base.destroy();
       });
-      return describe('basics', function() {
+      describe('basics', function() {
         return it('inits', function() {
           return expect(this.s.options.model instanceof Tourist.Model).toEqual(true);
+        });
+      });
+      return describe('setTarget()', function() {
+        it('will set the @target', function() {
+          var el;
+
+          el = $('#target-one');
+          this.s.setTarget(el, {});
+          return expect(this.s.target).toEqual(el);
+        });
+        it('will highlight the @target', function() {
+          var el;
+
+          el = $('#target-one');
+          this.s.setTarget(el, {
+            highlightTarget: true
+          });
+          return expect(el).toHaveClass(this.s.highlightClass);
+        });
+        return it('will highlight the @target', function() {
+          var el;
+
+          el = $('#target-one');
+          this.s.setTarget(el, {
+            highlightTarget: false
+          });
+          return expect(el).not.toHaveClass(this.s.highlightClass);
         });
       });
     });

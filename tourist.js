@@ -85,6 +85,10 @@
 
     Base.prototype.hide = function() {};
 
+    Base.prototype.setTarget = function(targetElement, step) {
+      return this._setTarget(targetElement, step);
+    };
+
     Base.prototype.cleanupCurrentTarget = function() {
       if (this.target && this.target.removeClass) {
         this.target.removeClass(this.highlightClass);

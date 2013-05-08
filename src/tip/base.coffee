@@ -71,6 +71,13 @@ class Tourist.Tip.Base
   hide: ->
     # Override me
 
+  # Set the element which the tip will point to
+  #
+  # targetElement - a jquery element
+  # step - step object
+  setTarget: (targetElement, step) ->
+    @_setTarget(targetElement, step)
+
   # Unhighlight and unset the current target
   cleanupCurrentTarget: ->
     @target.removeClass(@highlightClass) if @target and @target.removeClass
