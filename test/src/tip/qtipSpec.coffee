@@ -1,8 +1,8 @@
-BasicTipTests 'with Tourist.Tip.Simple', ->
+BasicTipTests 'with Tourist.Tip.QTip', ->
   new Tourist.Tip.QTip
     model: @model
 
-BasicTourTests 'with Tourist.Tip.Simple', ->
+BasicTourTests 'with Tourist.Tip.QTip', ->
   new Tourist.Tour
     stepOptions: @options
     steps: @steps
