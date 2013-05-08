@@ -335,6 +335,11 @@
       return $('#qtip-' + this.qtip.id);
     };
 
+    QTip.prototype._setTarget = function(targetElement, step) {
+      QTip.__super__._setTarget.call(this, targetElement, step);
+      return this.qtip.set('position.target', targetElement || false);
+    };
+
     QTip.prototype._renderContent = function(step, contentElement) {
       var at, my,
         _this = this;

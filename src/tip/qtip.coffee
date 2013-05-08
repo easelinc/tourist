@@ -95,6 +95,11 @@ class Tourist.Tip.QTip extends Tourist.Tip.Base
   _getTipElement: ->
     $('#qtip-'+@qtip.id)
 
+  # Override to set the target on the qtip
+  _setTarget: (targetElement, step) ->
+    super(targetElement, step)
+    @qtip.set('position.target', targetElement or false)
+
   # Jam the content into the qtip's body. Also place the tip along side the
   # target element.
   _renderContent: (step, contentElement) ->
