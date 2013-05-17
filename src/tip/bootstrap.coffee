@@ -4,16 +4,9 @@ Qtip based tip implementation
 ###
 class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
 
-  template: '''
-    <div class="popover fade top in">
-      <div class="arrow"></div>
-      <div class="popover-content"></div>
-    </div>
-  '''
-
   # Options support everything qtip supports.
   initialize: (options) ->
-    @tip = new BootstrapTip()
+    @tip = new Tourist.Tip.BootstrapTip()
 
   destroy: ->
     @tip.destroy()
@@ -55,7 +48,7 @@ class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
 ###
 Simple implementation of tooltip with bootstrap markup.
 ###
-class BootstrapTip
+class Tourist.Tip.BootstrapTip
 
   template: '''
     <div class="popover">
@@ -69,7 +62,6 @@ class BootstrapTip
 
   destroy: ->
     @el.remove()
-    super()
 
   # Show the tip
   show: ->
@@ -89,22 +81,22 @@ class BootstrapTip
     @_getContentElement().html(content)
 
   _getContentElement: ->
-    @el.find('popover-content')
+    @el.find('.popover-content')
 
   _getTipElement: ->
-    @el.find('arrow')
+    @el.find('.arrow')
 
   _setPosition: (target, my, at) ->
     @el
       .css({ top: 0, left: 0, display: 'block' })
 
-    targetPosition = @_caculateTargetPosition(at)
+    targetPosition = @_caculateTargetPosition(at, target)
     tipPosition = @_caculateTargetPosition(my, targetPosition)
     position = @_adjustForArrow(my, tipPosition)
 
     @el.offset(position)
 
-  _caculateTargetPosition: (atPosition) ->
+  _caculateTargetPosition: (atPosition, target) ->
     bounds = @_getTargetBounds(target)
     pos = @_lookupPosition(atPosition, bounds.width, bounds.height)
 
