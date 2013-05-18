@@ -679,7 +679,7 @@
   })();
 
   /*
-  Qtip based tip implementation
+  Bootstrap based tip implementation
   */
 
 
@@ -715,10 +715,6 @@
 
     Bootstrap.prototype._getTipElement = function() {
       return this.tip.el;
-    };
-
-    Bootstrap.prototype._setTarget = function(targetElement, step) {
-      return Bootstrap.__super__._setTarget.call(this, targetElement, step);
     };
 
     Bootstrap.prototype._renderContent = function(step, contentElement) {

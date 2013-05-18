@@ -1,10 +1,9 @@
 
 ###
-Qtip based tip implementation
+Bootstrap based tip implementation
 ###
 class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
 
-  # Options support everything qtip supports.
   initialize: (options) ->
     @tip = new Tourist.Tip.BootstrapTip()
 
@@ -25,15 +24,11 @@ class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
   Private
   ###
 
-  # Overridden to get the qtip element
+  # Overridden to get the bootstrap element
   _getTipElement: ->
     @tip.el
 
-  # Override to set the target on the qtip
-  _setTarget: (targetElement, step) ->
-    super(targetElement, step)
-
-  # Jam the content into the qtip's body. Also place the tip along side the
+  # Jam the content into the tip's body. Also place the tip along side the
   # target element.
   _renderContent: (step, contentElement) ->
     my = step.my or 'left center'
