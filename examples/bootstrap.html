@@ -28,51 +28,41 @@
     two: 2
   };
 
-  STEPS = [{
-    content: '<p>This is a minimal step.</p><p class="action">Read the heading, then click next.</p>',
+  STEP_PROTO = {
+    content: '<p>This is a minimal step.</p>',
     highlightTarget: true,
     nextButton: true,
-    target: $('.target'),
-    my: 'bottom right',
-    at: 'top left'
-  },{
-    content: '<p>This is a minimal step.</p><p class="action">Read the heading, then click next.</p>',
-    highlightTarget: true,
-    nextButton: true,
-    target: $('.target'),
-    my: 'bottom center',
-    at: 'top left'
-  },{
-    content: '<p>This is a minimal step.</p><p class="action">Read the heading, then click next.</p>',
-    highlightTarget: true,
-    nextButton: true,
-    target: $('.target'),
-    my: 'bottom left',
-    at: 'top left'
-  },
+    target: $('.target')
+  }
 
-  {
-    content: '<p>This is a minimal step.</p><p class="action">Read the heading, then click next.</p>',
-    highlightTarget: true,
-    nextButton: true,
-    target: $('.target'),
-    my: 'left bottom',
-    at: 'right top'
-  },{
-    content: '<p>This is a minimal step.</p><p class="action">Read the heading, then click next.</p>',
-    highlightTarget: true,
-    nextButton: true,
-    target: $('.target'),
-    my: 'left center',
-    at: 'right top'
-  },{
-    content: '<p>This is a minimal step.</p><p class="action">Read the heading, then click next.</p>',
-    highlightTarget: true,
-    nextButton: true,
-    target: $('.target'),
-    my: 'left top',
-    at: 'right top'
-  }]
+  STEP_POS = {
+    'top left': ['bottom right', 'bottom center', 'bottom left'],
+    'top center': ['bottom right', 'bottom center', 'bottom left'],
+    'top right': ['bottom right', 'bottom center', 'bottom left'],
+
+    'right top': ['left bottom', 'left center', 'left top'],
+    'right center': ['left bottom', 'left center', 'left top'],
+    'right bottom': ['left bottom', 'left center', 'left top'],
+
+    'bottom right': ['top right', 'top center', 'top left'],
+    'bottom center': ['top right', 'top center', 'top left'],
+    'bottom left': ['top right', 'top center', 'top left'],
+
+    'left bottom': ['right bottom', 'right center', 'right top'],
+    'left center': ['right bottom', 'right center', 'right top'],
+    'left top': ['right bottom', 'right center', 'right top'],
+  }
+
+  STEPS = []
+
+  for(at in STEP_POS){
+    for(var i = 0; i < STEP_POS[at].length; i++){
+      step = _.clone(STEP_PROTO)
+      step.at = at
+      step.my = STEP_POS[at][i]
+      STEPS.push(step)
+    }
+  }
 
   TOUR = new Tourist.Tour({
     stepOptions: STEP_OPTIONS,

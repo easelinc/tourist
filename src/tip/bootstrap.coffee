@@ -94,7 +94,7 @@ class Tourist.Tip.BootstrapTip
     [clas, shift] = my.split(' ')
 
     @el
-      .css({ top: 0, left: 0, display: 'block' })
+      .css({ top: 0, left: 0, margin: 0, display: 'block' })
       .removeClass('top').removeClass('bottom')
       .removeClass('left').removeClass('right')
       .addClass(@FLIP_POSITION[clas])
@@ -158,8 +158,12 @@ class Tourist.Tip.BootstrapTip
 
     # adjust the main direction
     switch clas
+      when 'top'
+        position.top += height+@options.offset
       when 'bottom'
         position.top -= height+@options.offset
+      when 'left'
+        position.left += width+@options.offset
       when 'right'
         position.left -= width+@options.offset
 

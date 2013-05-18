@@ -796,6 +796,7 @@
       this.el.css({
         top: 0,
         left: 0,
+        margin: 0,
         display: 'block'
       }).removeClass('top').removeClass('bottom').removeClass('left').removeClass('right').addClass(this.FLIP_POSITION[clas]);
       if (!target) {
@@ -860,8 +861,14 @@
         left: tipPosition.left
       };
       switch (clas) {
+        case 'top':
+          position.top += height + this.options.offset;
+          break;
         case 'bottom':
           position.top -= height + this.options.offset;
+          break;
+        case 'left':
+          position.left += width + this.options.offset;
           break;
         case 'right':
           position.left -= width + this.options.offset;
