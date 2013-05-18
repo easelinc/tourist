@@ -58,6 +58,10 @@ class Tourist.Tip.BootstrapTip
   '''
 
   constructor: (options) ->
+    defs =
+      offset: 10
+      tipOffset: 10
+    @options = _.extend(defs, options)
     @el = $($.parseHTML(@template))
 
   destroy: ->
@@ -87,8 +91,33 @@ class Tourist.Tip.BootstrapTip
     @el.find('.arrow')
 
   _setPosition: (target, my, at) ->
+    [clas, shift] = my.split(' ')
+
     @el
       .css({ top: 0, left: 0, display: 'block' })
+      .removeClass('top, left, right, bottom')
+      .addClass(@FLIP_POSITION[clas])
+
+    return unless target
+
+    # unset the tip position
+    tip = @_getTipElement().css
+      left: ''
+      right: ''
+      top: ''
+      bottom: ''
+
+    tipOffset =
+      left: tip[0].offsetWidth/2
+      right: 0
+      top: tip[0].offsetHeight/2
+      top: 0
+
+    if shift != 'center'
+      css = {}
+      css[shift] = tipOffset[shift] + @options.tipOffset
+      css[@FLIP_POSITION[shift]] = 'auto'
+      tip.css(css)
 
     targetPosition = @_caculateTargetPosition(at, target)
     tipPosition = @_caculateTipPosition(my, targetPosition)
@@ -117,15 +146,34 @@ class Tourist.Tip.BootstrapTip
 
   _adjustForArrow: (myPosition, tipPosition) ->
     [clas, shift] = myPosition.split(' ') # will be top, left, right, or bottom
-    @el
-      .removeClass('top, left, right, bottom')
-      .addClass(clas)
 
     tip = @_getTipElement()
     width = tip[0].offsetWidth
     height = tip[0].offsetHeight
 
-    tipPosition
+    position =
+      top: tipPosition.top
+      left: tipPosition.left
+
+    # adjust the main direction
+    switch clas
+      when 'bottom'
+        position.top -= height+@options.offset
+      when 'right'
+        position.left -= width+@options.offset
+
+    # shift the tip if necessary
+    switch shift
+      when 'left'
+        position.left -= width/2+@options.tipOffset
+      when 'right'
+        position.left += width/2+@options.tipOffset
+      when 'top'
+        position.top -= height/2+@options.tipOffset
+      when 'right'
+        position.top += height/2+@options.tipOffset
+
+    position
 
   _lookupPosition: (position, width, height) ->
     width2 = width/2
@@ -148,6 +196,11 @@ class Tourist.Tip.BootstrapTip
 
     posLookup[position]
 
+  FLIP_POSITION:
+    bottom: 'top'
+    top: 'bottom'
+    left: 'right'
+    right: 'left'
 
   _getTargetBounds: (target) ->
       el = target[0]
@@ -161,35 +214,3 @@ class Tourist.Tip.BootstrapTip
 
       $.extend({}, size, target.offset())
 
-
-
-
-
-  _setTipPosition: (offset, placement) ->
-    @el
-      .offset(offset)
-      .addClass(placement)
-
-    actualWidth = @el[0].offsetWidth
-    actualHeight = @el[0].offsetHeight
-
-    if placement == 'top' && actualHeight != height
-      offset.top = offset.top + height - actualHeight
-      replace = true
-
-    if placement == 'bottom' || placement == 'top'
-      delta = 0
-
-      if offset.left < 0
-        delta = offset.left * -2
-        offset.left = 0
-        $tip.offset(offset)
-        actualWidth = @el[0].offsetWidth
-        actualHeight = @el[0].offsetHeight
-
-      this.replaceArrow(delta - width + actualWidth, actualWidth, 'left')
-
-    else
-      this.replaceArrow(actualHeight - height, actualHeight, 'top')
-
-    @el.offset(offset) if replace

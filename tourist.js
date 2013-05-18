@@ -744,6 +744,13 @@
     BootstrapTip.prototype.template = '<div class="popover">\n  <div class="arrow"></div>\n  <div class="popover-content"></div>\n</div>';
 
     function BootstrapTip(options) {
+      var defs;
+
+      defs = {
+        offset: 10,
+        tipOffset: 10
+      };
+      this.options = _.extend(defs, options);
       this.el = $($.parseHTML(this.template));
     }
 
@@ -783,13 +790,35 @@
     };
 
     BootstrapTip.prototype._setPosition = function(target, my, at) {
-      var position, targetPosition, tipPosition;
+      var clas, css, position, shift, targetPosition, tip, tipOffset, tipPosition, _ref4;
 
+      _ref4 = my.split(' '), clas = _ref4[0], shift = _ref4[1];
       this.el.css({
         top: 0,
         left: 0,
         display: 'block'
+      }).removeClass('top, left, right, bottom').addClass(this.FLIP_POSITION[clas]);
+      if (!target) {
+        return;
+      }
+      tip = this._getTipElement().css({
+        left: '',
+        right: '',
+        top: '',
+        bottom: ''
       });
+      tipOffset = {
+        left: tip[0].offsetWidth / 2,
+        right: 0,
+        top: tip[0].offsetHeight / 2,
+        top: 0
+      };
+      if (shift !== 'center') {
+        css = {};
+        css[shift] = tipOffset[shift] + this.options.tipOffset;
+        css[this.FLIP_POSITION[shift]] = 'auto';
+        tip.css(css);
+      }
       targetPosition = this._caculateTargetPosition(at, target);
       tipPosition = this._caculateTipPosition(my, targetPosition);
       position = this._adjustForArrow(my, tipPosition);
@@ -820,14 +849,37 @@
     };
 
     BootstrapTip.prototype._adjustForArrow = function(myPosition, tipPosition) {
-      var clas, height, shift, tip, width, _ref4;
+      var clas, height, position, shift, tip, width, _ref4;
 
       _ref4 = myPosition.split(' '), clas = _ref4[0], shift = _ref4[1];
-      this.el.removeClass('top, left, right, bottom').addClass(clas);
       tip = this._getTipElement();
       width = tip[0].offsetWidth;
       height = tip[0].offsetHeight;
-      return tipPosition;
+      position = {
+        top: tipPosition.top,
+        left: tipPosition.left
+      };
+      switch (clas) {
+        case 'bottom':
+          position.top -= height + this.options.offset;
+          break;
+        case 'right':
+          position.left -= width + this.options.offset;
+      }
+      switch (shift) {
+        case 'left':
+          position.left -= width / 2 + this.options.tipOffset;
+          break;
+        case 'right':
+          position.left += width / 2 + this.options.tipOffset;
+          break;
+        case 'top':
+          position.top -= height / 2 + this.options.tipOffset;
+          break;
+        case 'right':
+          position.top += height / 2 + this.options.tipOffset;
+      }
+      return position;
     };
 
     BootstrapTip.prototype._lookupPosition = function(position, width, height) {
@@ -852,6 +904,13 @@
       return posLookup[position];
     };
 
+    BootstrapTip.prototype.FLIP_POSITION = {
+      bottom: 'top',
+      top: 'bottom',
+      left: 'right',
+      right: 'left'
+    };
+
     BootstrapTip.prototype._getTargetBounds = function(target) {
       var el, size;
 
@@ -865,34 +924,6 @@
         };
       }
       return $.extend({}, size, target.offset());
-    };
-
-    BootstrapTip.prototype._setTipPosition = function(offset, placement) {
-      var actualHeight, actualWidth, delta, replace;
-
-      this.el.offset(offset).addClass(placement);
-      actualWidth = this.el[0].offsetWidth;
-      actualHeight = this.el[0].offsetHeight;
-      if (placement === 'top' && actualHeight !== height) {
-        offset.top = offset.top + height - actualHeight;
-        replace = true;
-      }
-      if (placement === 'bottom' || placement === 'top') {
-        delta = 0;
-        if (offset.left < 0) {
-          delta = offset.left * -2;
-          offset.left = 0;
-          $tip.offset(offset);
-          actualWidth = this.el[0].offsetWidth;
-          actualHeight = this.el[0].offsetHeight;
-        }
-        this.replaceArrow(delta - width + actualWidth, actualWidth, 'left');
-      } else {
-        this.replaceArrow(actualHeight - height, actualHeight, 'top');
-      }
-      if (replace) {
-        return this.el.offset(offset);
-      }
     };
 
     return BootstrapTip;
