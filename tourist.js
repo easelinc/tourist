@@ -737,11 +737,25 @@
 
   /*
   Simple implementation of tooltip with bootstrap markup.
+  
+  Almost entirely deals with positioning. Uses the
+  
+    my: 'top center'
+    at: 'bottom center'
+  
+  Method for positioning like qtip2.
   */
 
 
   Tourist.Tip.BootstrapTip = (function() {
     BootstrapTip.prototype.template = '<div class="popover">\n  <div class="arrow"></div>\n  <div class="popover-content"></div>\n</div>';
+
+    BootstrapTip.prototype.FLIP_POSITION = {
+      bottom: 'top',
+      top: 'bottom',
+      left: 'right',
+      right: 'left'
+    };
 
     function BootstrapTip(options) {
       var defs;
@@ -780,6 +794,11 @@
     BootstrapTip.prototype.setContent = function(content) {
       return this._getContentElement().html(content);
     };
+
+    /*
+    Private
+    */
+
 
     BootstrapTip.prototype._getContentElement = function() {
       return this.el.find('.popover-content');
@@ -909,13 +928,6 @@
         'bottom center': [width2, height]
       };
       return posLookup[position];
-    };
-
-    BootstrapTip.prototype.FLIP_POSITION = {
-      bottom: 'top',
-      top: 'bottom',
-      left: 'right',
-      right: 'left'
     };
 
     BootstrapTip.prototype._getTargetBounds = function(target) {

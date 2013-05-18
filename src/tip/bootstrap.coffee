@@ -32,7 +32,6 @@ class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
   # Override to set the target on the qtip
   _setTarget: (targetElement, step) ->
     super(targetElement, step)
-    #@tip.setTarget(targetElement)
 
   # Jam the content into the qtip's body. Also place the tip along side the
   # target element.
@@ -47,6 +46,13 @@ class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
 
 ###
 Simple implementation of tooltip with bootstrap markup.
+
+Almost entirely deals with positioning. Uses the
+
+  my: 'top center'
+  at: 'bottom center'
+
+Method for positioning like qtip2.
 ###
 class Tourist.Tip.BootstrapTip
 
@@ -56,6 +62,12 @@ class Tourist.Tip.BootstrapTip
       <div class="popover-content"></div>
     </div>
   '''
+
+  FLIP_POSITION:
+    bottom: 'top'
+    top: 'bottom'
+    left: 'right'
+    right: 'left'
 
   constructor: (options) ->
     defs =
@@ -67,11 +79,9 @@ class Tourist.Tip.BootstrapTip
   destroy: ->
     @el.remove()
 
-  # Show the tip
   show: ->
     @el.show().addClass('visible')
 
-  # Hide the tip
   hide: ->
     @el.hide().removeClass('visible')
 
@@ -83,6 +93,10 @@ class Tourist.Tip.BootstrapTip
 
   setContent: (content) ->
     @_getContentElement().html(content)
+
+  ###
+  Private
+  ###
 
   _getContentElement: ->
     @el.find('.popover-content')
@@ -101,7 +115,7 @@ class Tourist.Tip.BootstrapTip
 
     return unless target
 
-    # unset the tip position
+    # unset any old tip positioning
     tip = @_getTipElement().css
       left: ''
       right: ''
@@ -126,6 +140,12 @@ class Tourist.Tip.BootstrapTip
 
     @el.offset(position)
 
+  # Figure out where we need to point to on the target element.
+  #
+  # myPosition - position string on the target. e.g. 'top left'
+  # target - target as a jquery element
+  #
+  # returns an object with top and left attrs
   _caculateTargetPosition: (atPosition, target) ->
     bounds = @_getTargetBounds(target)
     pos = @_lookupPosition(atPosition, bounds.width, bounds.height)
@@ -135,6 +155,13 @@ class Tourist.Tip.BootstrapTip
       top: bounds.top + pos[1]
     }
 
+  # Position the tip itself to be at the right place in relation to the
+  # targetPosition.
+  #
+  # myPosition - position string for the tip. e.g. 'top left'
+  # targetPosition - where to point to on the target element. e.g. {top: 20, left: 10}
+  #
+  # returns an object with top and left attrs
   _caculateTipPosition: (myPosition, targetPosition) ->
     width = @el[0].offsetWidth
     height = @el[0].offsetHeight
@@ -145,6 +172,12 @@ class Tourist.Tip.BootstrapTip
       top: targetPosition.top - pos[1]
     }
 
+  # Just adjust the tip position to make way for the arrow.
+  #
+  # myPosition - position string for the tip. e.g. 'top left'
+  # tipPosition - proper position for the whole tip. e.g. {top: 20, left: 10}
+  #
+  # returns an object with top and left attrs
   _adjustForArrow: (myPosition, tipPosition) ->
     [clas, shift] = myPosition.split(' ') # will be top, left, right, or bottom
 
@@ -167,7 +200,7 @@ class Tourist.Tip.BootstrapTip
       when 'right'
         position.left -= width+@options.offset
 
-    # shift the tip if necessary
+    # shift the tip
     switch shift
       when 'left'
         position.left -= width/2+@options.tipOffset
@@ -180,6 +213,13 @@ class Tourist.Tip.BootstrapTip
 
     position
 
+  # Figure out how much to shift based on the position string
+  #
+  # position - position string like 'top left'
+  # width - width of the thing
+  # height - height of the thing
+  #
+  # returns a list: [left, top]
   _lookupPosition: (position, width, height) ->
     width2 = width/2
     height2 = height/2
@@ -201,12 +241,9 @@ class Tourist.Tip.BootstrapTip
 
     posLookup[position]
 
-  FLIP_POSITION:
-    bottom: 'top'
-    top: 'bottom'
-    left: 'right'
-    right: 'left'
-
+  # Returns the boundaries of the target element
+  #
+  # target - a jquery element
   _getTargetBounds: (target) ->
       el = target[0]
 
