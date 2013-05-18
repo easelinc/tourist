@@ -797,7 +797,7 @@
         top: 0,
         left: 0,
         display: 'block'
-      }).removeClass('top, left, right, bottom').addClass(this.FLIP_POSITION[clas]);
+      }).removeClass('top').removeClass('bottom').removeClass('left').removeClass('right').addClass(this.FLIP_POSITION[clas]);
       if (!target) {
         return;
       }
@@ -811,7 +811,7 @@
         left: tip[0].offsetWidth / 2,
         right: 0,
         top: tip[0].offsetHeight / 2,
-        top: 0
+        bottom: 0
       };
       if (shift !== 'center') {
         css = {};
@@ -876,7 +876,7 @@
         case 'top':
           position.top -= height / 2 + this.options.tipOffset;
           break;
-        case 'right':
+        case 'bottom':
           position.top += height / 2 + this.options.tipOffset;
       }
       return position;

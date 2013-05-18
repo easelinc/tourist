@@ -95,7 +95,8 @@ class Tourist.Tip.BootstrapTip
 
     @el
       .css({ top: 0, left: 0, display: 'block' })
-      .removeClass('top, left, right, bottom')
+      .removeClass('top').removeClass('bottom')
+      .removeClass('left').removeClass('right')
       .addClass(@FLIP_POSITION[clas])
 
     return unless target
@@ -111,7 +112,7 @@ class Tourist.Tip.BootstrapTip
       left: tip[0].offsetWidth/2
       right: 0
       top: tip[0].offsetHeight/2
-      top: 0
+      bottom: 0
 
     if shift != 'center'
       css = {}
@@ -170,7 +171,7 @@ class Tourist.Tip.BootstrapTip
         position.left += width/2+@options.tipOffset
       when 'top'
         position.top -= height/2+@options.tipOffset
-      when 'right'
+      when 'bottom'
         position.top += height/2+@options.tipOffset
 
     position
