@@ -240,14 +240,14 @@ class Tourist.Tip.BootstrapTip
   #
   # target - a jquery element
   _getTargetBounds: (target) ->
-      el = target[0]
+    el = target[0]
 
-      if typeof el.getBoundingClientRect == 'function'
-        size = el.getBoundingClientRect()
-      else
-        size =
-          width: el.offsetWidth
-          height: el.offsetHeight
+    if typeof el.getBoundingClientRect == 'function'
+      size = el.getBoundingClientRect()
+    else
+      size =
+        width: el.offsetWidth
+        height: el.offsetHeight
 
-      $.extend({}, size, target.offset())
+    $.extend({}, size, target.offset())
 
