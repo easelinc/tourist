@@ -728,7 +728,7 @@
       at = step.at || 'right center';
       this.tip.setContainer(step.container || $('body'));
       this.tip.setContent(contentElement);
-      return this.tip.setPosition(step.targetElement || false, my, at);
+      return this.tip.setPosition(step.target || false, my, at);
     };
 
     return Bootstrap;
@@ -791,7 +791,7 @@
         display: 'block'
       });
       targetPosition = this._caculateTargetPosition(at, target);
-      tipPosition = this._caculateTargetPosition(my, targetPosition);
+      tipPosition = this._caculateTipPosition(my, targetPosition);
       position = this._adjustForArrow(my, tipPosition);
       return this.el.offset(position);
     };
@@ -812,10 +812,10 @@
 
       width = this.el[0].offsetWidth;
       height = this.el[0].offsetHeight;
-      pos = this._lookupPosition(atPosition, width, height);
+      pos = this._lookupPosition(myPosition, width, height);
       return {
-        left: pos.left + targetPosition.left,
-        top: pos.top + targetPosition.top
+        left: targetPosition.left - pos[0],
+        top: targetPosition.top - pos[1]
       };
     };
 
@@ -855,7 +855,7 @@
     BootstrapTip.prototype._getTargetBounds = function(target) {
       var el, size;
 
-      el = this.el[0];
+      el = target[0];
       if (typeof el.getBoundingClientRect === 'function') {
         size = el.getBoundingClientRect();
       } else {
@@ -864,7 +864,7 @@
           height: el.offsetHeight
         };
       }
-      return $.extend({}, size, this.el.offset());
+      return $.extend({}, size, target.offset());
     };
 
     BootstrapTip.prototype._setTipPosition = function(offset, placement) {

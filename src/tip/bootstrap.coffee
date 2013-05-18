@@ -42,7 +42,7 @@ class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
 
     @tip.setContainer(step.container or $('body'))
     @tip.setContent(contentElement)
-    @tip.setPosition(step.targetElement or false, my, at)
+    @tip.setPosition(step.target or false, my, at)
 
 
 ###
@@ -91,7 +91,7 @@ class Tourist.Tip.BootstrapTip
       .css({ top: 0, left: 0, display: 'block' })
 
     targetPosition = @_caculateTargetPosition(at, target)
-    tipPosition = @_caculateTargetPosition(my, targetPosition)
+    tipPosition = @_caculateTipPosition(my, targetPosition)
     position = @_adjustForArrow(my, tipPosition)
 
     @el.offset(position)
@@ -108,11 +108,11 @@ class Tourist.Tip.BootstrapTip
   _caculateTipPosition: (myPosition, targetPosition) ->
     width = @el[0].offsetWidth
     height = @el[0].offsetHeight
-    pos = @_lookupPosition(atPosition, width, height)
+    pos = @_lookupPosition(myPosition, width, height)
 
     return {
-      left: pos.left + targetPosition.left
-      top: pos.top + targetPosition.top
+      left: targetPosition.left - pos[0]
+      top: targetPosition.top - pos[1]
     }
 
   _adjustForArrow: (myPosition, tipPosition) ->
@@ -150,7 +150,7 @@ class Tourist.Tip.BootstrapTip
 
 
   _getTargetBounds: (target) ->
-      el = @el[0]
+      el = target[0]
 
       if typeof el.getBoundingClientRect == 'function'
         size = el.getBoundingClientRect()
@@ -159,7 +159,7 @@ class Tourist.Tip.BootstrapTip
           width: el.offsetWidth
           height: el.offsetHeight
 
-      $.extend({}, size, @el.offset())
+      $.extend({}, size, target.offset())
 
 
 
