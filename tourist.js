@@ -734,12 +734,11 @@
   /*
   Simple implementation of tooltip with bootstrap markup.
   
-  Almost entirely deals with positioning. Uses the
+  Almost entirely deals with positioning. Uses the similar method for
+  positioning as qtip2:
   
     my: 'top center'
     at: 'bottom center'
-  
-  Method for positioning like qtip2.
   */
 
 
@@ -777,10 +776,7 @@
     };
 
     BootstrapTip.prototype.setPosition = function(target, my, at) {
-      this.target = target;
-      this.my = my;
-      this.at = at;
-      return this._setPosition(this.target, this.my, this.at);
+      return this._setPosition(target, my, at);
     };
 
     BootstrapTip.prototype.setContainer = function(container) {
@@ -805,9 +801,10 @@
     };
 
     BootstrapTip.prototype._setPosition = function(target, my, at) {
-      var clas, css, position, shift, targetPosition, tip, tipOffset, tipPosition, _ref4;
+      var clas, css, originalDisplay, position, shift, targetPosition, tip, tipOffset, tipPosition, _ref4;
 
       _ref4 = my.split(' '), clas = _ref4[0], shift = _ref4[1];
+      originalDisplay = this.el.css('display');
       this.el.css({
         top: 0,
         left: 0,
@@ -823,13 +820,13 @@
         top: '',
         bottom: ''
       });
-      tipOffset = {
-        left: tip[0].offsetWidth / 2,
-        right: 0,
-        top: tip[0].offsetHeight / 2,
-        bottom: 0
-      };
       if (shift !== 'center') {
+        tipOffset = {
+          left: tip[0].offsetWidth / 2,
+          right: 0,
+          top: tip[0].offsetHeight / 2,
+          bottom: 0
+        };
         css = {};
         css[shift] = tipOffset[shift] + this.options.tipOffset;
         css[this.FLIP_POSITION[shift]] = 'auto';

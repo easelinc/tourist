@@ -42,12 +42,12 @@ class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
 ###
 Simple implementation of tooltip with bootstrap markup.
 
-Almost entirely deals with positioning. Uses the
+Almost entirely deals with positioning. Uses the similar method for
+positioning as qtip2:
 
   my: 'top center'
   at: 'bottom center'
 
-Method for positioning like qtip2.
 ###
 class Tourist.Tip.BootstrapTip
 
@@ -80,8 +80,8 @@ class Tourist.Tip.BootstrapTip
   hide: ->
     @el.hide().removeClass('visible')
 
-  setPosition: (@target, @my, @at) ->
-    @_setPosition(@target, @my, @at)
+  setPosition: (target, my, at) ->
+    @_setPosition(target, my, at)
 
   setContainer: (container) ->
     container.append(@el)
@@ -99,8 +99,15 @@ class Tourist.Tip.BootstrapTip
   _getTipElement: ->
     @el.find('.arrow')
 
+  # Sets the target and the relationship of the tip to the project.
+  #
+  # target - target node as a jquery element
+  # my - position of the tip e.g. 'top center'
+  # at - where to point to the target e.g. 'bottom center'
   _setPosition: (target, my, at) ->
     [clas, shift] = my.split(' ')
+
+    originalDisplay = @el.css('display')
 
     @el
       .css({ top: 0, left: 0, margin: 0, display: 'block' })
@@ -117,13 +124,13 @@ class Tourist.Tip.BootstrapTip
       top: ''
       bottom: ''
 
-    tipOffset =
-      left: tip[0].offsetWidth/2
-      right: 0
-      top: tip[0].offsetHeight/2
-      bottom: 0
-
     if shift != 'center'
+      tipOffset =
+        left: tip[0].offsetWidth/2
+        right: 0
+        top: tip[0].offsetHeight/2
+        bottom: 0
+
       css = {}
       css[shift] = tipOffset[shift] + @options.tipOffset
       css[@FLIP_POSITION[shift]] = 'auto'
