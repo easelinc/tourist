@@ -56,8 +56,17 @@ describe "Tourist.Tip.BootstrapTip", ->
 
   describe 'positioning', ->
     it 'setPosition will not show the tip', ->
-      el = $('#target-one')
-      #@s.setTarget(el, {})
+      expect(@s.el).toHide()
 
-      #target = @s.qtip.get('position.target')
-      #expect(target).toEqual(el)
+      el = $('#target-one')
+      @s.setPosition(el, 'top center', 'bottom center')
+
+      expect(@s.el).toHide()
+
+    it 'setPosition keeps the tip shown', ->
+      @s.show()
+
+      el = $('#target-one')
+      @s.setPosition(el, 'top center', 'bottom center')
+
+      expect(@s.el).toShow()

@@ -64,10 +64,21 @@
       });
     });
     return describe('positioning', function() {
-      return it('setPosition will not show the tip', function() {
+      it('setPosition will not show the tip', function() {
         var el;
 
-        return el = $('#target-one');
+        expect(this.s.el).toHide();
+        el = $('#target-one');
+        this.s.setPosition(el, 'top center', 'bottom center');
+        return expect(this.s.el).toHide();
+      });
+      return it('setPosition keeps the tip shown', function() {
+        var el;
+
+        this.s.show();
+        el = $('#target-one');
+        this.s.setPosition(el, 'top center', 'bottom center');
+        return expect(this.s.el).toShow();
       });
     });
   });

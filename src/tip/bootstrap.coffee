@@ -143,6 +143,9 @@ class Tourist.Tip.BootstrapTip
 
     @el.offset(position)
 
+    # reset the display so we dont inadvertantly show the tip
+    @el.css(display: originalDisplay)
+
   # Figure out where we need to point to on the target element.
   #
   # myPosition - position string on the target. e.g. 'top left'
