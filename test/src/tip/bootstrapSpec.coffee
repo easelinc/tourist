@@ -11,27 +11,9 @@ BasicTourTests 'with Tourist.Tip.Bootstrap', ->
     successStep: @finalSucceed
     tipClass: 'Bootstrap'
 
-xdescribe "Tourist.Tip.Bootstrap specific", ->
-  beforeEach ->
-    loadFixtures('tour.html')
-
-    @model = new Tourist.Model
-      current_step: null
-
-    @s = new Tourist.Tip.Bootstrap
-      model: @model
-
-  afterEach ->
-    Tourist.Tip.Base.destroy()
-
-  describe 'setTarget()', ->
-    it 'will set the @target', ->
-      el = $('#target-one')
-      @s.setTarget(el, {})
-
-      target = @s.qtip.get('position.target')
-      expect(target).toEqual(el)
-
+# Only test the basic things here. Positioning of the popover and the arrow is
+# hard to test in code. There is an html file in examples/bootstrap-position-
+# test.html to test all the positions.
 describe "Tourist.Tip.BootstrapTip", ->
   beforeEach ->
     loadFixtures('tour.html')

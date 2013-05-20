@@ -16,31 +16,6 @@
     });
   });
 
-  xdescribe("Tourist.Tip.Bootstrap specific", function() {
-    beforeEach(function() {
-      loadFixtures('tour.html');
-      this.model = new Tourist.Model({
-        current_step: null
-      });
-      return this.s = new Tourist.Tip.Bootstrap({
-        model: this.model
-      });
-    });
-    afterEach(function() {
-      return Tourist.Tip.Base.destroy();
-    });
-    return describe('setTarget()', function() {
-      return it('will set the @target', function() {
-        var el, target;
-
-        el = $('#target-one');
-        this.s.setTarget(el, {});
-        target = this.s.qtip.get('position.target');
-        return expect(target).toEqual(el);
-      });
-    });
-  });
-
   describe("Tourist.Tip.BootstrapTip", function() {
     beforeEach(function() {
       loadFixtures('tour.html');
