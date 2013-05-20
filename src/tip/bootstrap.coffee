@@ -70,6 +70,7 @@ class Tourist.Tip.BootstrapTip
       tipOffset: 10
     @options = _.extend(defs, options)
     @el = $($.parseHTML(@template))
+    @hide()
 
   destroy: ->
     @el.remove()

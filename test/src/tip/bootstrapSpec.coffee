@@ -41,8 +41,21 @@ describe "Tourist.Tip.BootstrapTip", ->
   afterEach ->
     @s.destroy()
 
-  describe 'setTarget()', ->
-    it 'will set the @target', ->
+  describe 'hide/show', ->
+    it 'initially hidden', ->
+      expect(@s.el).toHide()
+
+    it 'hide works', ->
+      @s.show()
+      @s.hide()
+      expect(@s.el).toHide()
+
+    it 'show works', ->
+      @s.show()
+      expect(@s.el).toShow()
+
+  describe 'positioning', ->
+    it 'setPosition will not show the tip', ->
       el = $('#target-one')
       #@s.setTarget(el, {})
 

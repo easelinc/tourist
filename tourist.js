@@ -761,6 +761,7 @@
       };
       this.options = _.extend(defs, options);
       this.el = $($.parseHTML(this.template));
+      this.hide();
     }
 
     BootstrapTip.prototype.destroy = function() {

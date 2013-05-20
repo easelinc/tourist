@@ -49,8 +49,22 @@
     afterEach(function() {
       return this.s.destroy();
     });
-    return describe('setTarget()', function() {
-      return it('will set the @target', function() {
+    describe('hide/show', function() {
+      it('initially hidden', function() {
+        return expect(this.s.el).toHide();
+      });
+      it('hide works', function() {
+        this.s.show();
+        this.s.hide();
+        return expect(this.s.el).toHide();
+      });
+      return it('show works', function() {
+        this.s.show();
+        return expect(this.s.el).toShow();
+      });
+    });
+    return describe('positioning', function() {
+      return it('setPosition will not show the tip', function() {
         var el;
 
         return el = $('#target-one');
