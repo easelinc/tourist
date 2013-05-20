@@ -16,6 +16,43 @@
     });
   });
 
+  describe("Tourist.Tip.Bootstrap", function() {
+    beforeEach(function() {
+      loadFixtures('tour.html');
+      this.model = new Tourist.Model();
+      return this.s = new Tourist.Tip.Bootstrap({
+        model: this.model
+      });
+    });
+    afterEach(function() {
+      return this.s.destroy();
+    });
+    return describe('hide/show', function() {
+      it('slidein effect runs', function() {
+        var el;
+
+        spyOn(Tourist.Tip.Bootstrap.effects, 'slidein').andCallThrough();
+        this.s.options.showEffect = 'slidein';
+        el = $('#target-one');
+        this.s.tip.setPosition(el, 'top center', 'bottom center');
+        this.s.show();
+        return expect(Tourist.Tip.Bootstrap.effects.slidein).toHaveBeenCalled();
+      });
+      it('show works with an effect', function() {
+        Tourist.Tip.Bootstrap.effects.showeff = jasmine.createSpy();
+        this.s.options.showEffect = 'showeff';
+        this.s.show();
+        return expect(Tourist.Tip.Bootstrap.effects.showeff).toHaveBeenCalled();
+      });
+      return it('hide works with an effect', function() {
+        Tourist.Tip.Bootstrap.effects.hideeff = jasmine.createSpy();
+        this.s.options.hideEffect = 'hideeff';
+        this.s.hide();
+        return expect(Tourist.Tip.Bootstrap.effects.hideeff).toHaveBeenCalled();
+      });
+    });
+  });
+
   describe("Tourist.Tip.BootstrapTip", function() {
     beforeEach(function() {
       loadFixtures('tour.html');

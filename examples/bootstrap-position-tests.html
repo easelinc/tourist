@@ -67,9 +67,10 @@
   TOUR = new Tourist.Tour({
     stepOptions: STEP_OPTIONS,
     steps: STEPS,
-    //cancelStep: @finalQuit
-    //successStep: @finalSucceed
-    tipClass: 'Bootstrap'
+    tipClass: 'Bootstrap',
+    tipOptions:{
+      showEffect: 'slidein'
+    }
   });
   TOUR.start();
 

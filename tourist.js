@@ -692,6 +692,13 @@
     }
 
     Bootstrap.prototype.initialize = function(options) {
+      var defs;
+
+      defs = {
+        showEffect: null,
+        hideEffect: null
+      };
+      this.options = _.extend(defs, options);
       return this.tip = new Tourist.Tip.BootstrapTip();
     };
 
@@ -701,11 +708,25 @@
     };
 
     Bootstrap.prototype.show = function() {
-      return this.tip.show();
+      var fn;
+
+      if (this.options.showEffect) {
+        fn = Tourist.Tip.Bootstrap.effects[this.options.showEffect];
+        return fn.call(this, this.tip, this.tip.el);
+      } else {
+        return this.tip.show();
+      }
     };
 
     Bootstrap.prototype.hide = function() {
-      return this.tip.hide();
+      var fn;
+
+      if (this.options.hideEffect) {
+        fn = Tourist.Tip.Bootstrap.effects[this.options.hideEffect];
+        return fn.call(this, this.tip, this.tip.el);
+      } else {
+        return this.tip.hide();
+      }
     };
 
     /*
@@ -730,6 +751,36 @@
     return Bootstrap;
 
   })(Tourist.Tip.Base);
+
+  Tourist.Tip.Bootstrap.effects = {
+    slidein: function(tip, element) {
+      var OFFSETS, css, offset, side, value;
+
+      OFFSETS = {
+        top: 80,
+        left: 80,
+        right: -80,
+        bottom: -80
+      };
+      side = tip.my.split(' ')[0];
+      side = side || 'top';
+      offset = OFFSETS[side];
+      if (side === 'bottom') {
+        side = 'top';
+      }
+      if (side === 'right') {
+        side = 'left';
+      }
+      value = parseInt(element.css(side));
+      css = {};
+      css[side] = value + offset;
+      element.css(css);
+      element.show();
+      css[side] = value;
+      element.animate(css, 300, 'easeOutCubic');
+      return null;
+    }
+  };
 
   /*
   Simple implementation of tooltip with bootstrap markup.
@@ -777,7 +828,10 @@
     };
 
     BootstrapTip.prototype.setPosition = function(target, my, at) {
-      return this._setPosition(target, my, at);
+      this.target = target;
+      this.my = my;
+      this.at = at;
+      return this._setPosition(this.target, this.my, this.at);
     };
 
     BootstrapTip.prototype.setContainer = function(container) {

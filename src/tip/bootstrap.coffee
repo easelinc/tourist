@@ -5,6 +5,10 @@ Bootstrap based tip implementation
 class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
 
   initialize: (options) ->
+    defs =
+      showEffect: null
+      hideEffect: null
+    @options = _.extend(defs, options)
     @tip = new Tourist.Tip.BootstrapTip()
 
   destroy: ->
@@ -13,11 +17,19 @@ class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
 
   # Show the tip
   show: ->
-    @tip.show()
+    if @options.showEffect
+      fn = Tourist.Tip.Bootstrap.effects[@options.showEffect]
+      fn.call(this, @tip, @tip.el)
+    else
+      @tip.show()
 
   # Hide the tip
   hide: ->
-    @tip.hide()
+    if @options.hideEffect
+      fn = Tourist.Tip.Bootstrap.effects[@options.hideEffect]
+      fn.call(this, @tip, @tip.el)
+    else
+      @tip.hide()
 
 
   ###
@@ -37,6 +49,34 @@ class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
     @tip.setContainer(step.container or $('body'))
     @tip.setContent(contentElement)
     @tip.setPosition(step.target or false, my, at)
+
+
+Tourist.Tip.Bootstrap.effects =
+  slidein: (tip, element) ->
+    OFFSETS = top: 80, left: 80, right: -80, bottom: -80
+
+    # this is a 'Corner' object. Will give us a top, bottom, etc
+    side = tip.my.split(' ')[0]
+    side = side or 'top'
+
+    # figure out where to start the animation from
+    offset = OFFSETS[side]
+
+    # side must be top or left.
+    side = 'top' if side == 'bottom'
+    side = 'left' if side == 'right'
+
+    value = parseInt(element.css(side))
+
+    # set initial position
+    css = {}
+    css[side] = value + offset
+    element.css(css)
+    element.show()
+
+    css[side] = value
+    element.animate(css, 300, 'easeOutCubic')
+    null
 
 
 ###
@@ -81,8 +121,8 @@ class Tourist.Tip.BootstrapTip
   hide: ->
     @el.hide().removeClass('visible')
 
-  setPosition: (target, my, at) ->
-    @_setPosition(target, my, at)
+  setPosition: (@target, @my, @at) ->
+    @_setPosition(@target, @my, @at)
 
   setContainer: (container) ->
     container.append(@el)
