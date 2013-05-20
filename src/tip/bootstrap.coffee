@@ -51,7 +51,16 @@ class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
     @tip.setPosition(step.target or false, my, at)
 
 
+# One can add more effects by hanging a function from this object, then using
+# it in the tipOptions.hideEffect or showEffect. i.e.
+#
+# @s = new Tourist.Tip.Bootstrap
+#   model: m
+#   showEffect: 'slidein'
+#
 Tourist.Tip.Bootstrap.effects =
+
+  # Move tip away from target 80px, then slide it in.
   slidein: (tip, element) ->
     OFFSETS = top: 80, left: 80, right: -80, bottom: -80
 
