@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Bootstrap Position Tests</title>
+
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="../test/vendor/stylesheets/jquery.qtip.css" type="text/css" media="screen">
+
+  <script src="../test/vendor/javascripts/jquery-1.9.1.js"></script>
+  <script src="../test/vendor/javascripts/underscore-1.4.4.js"></script>
+  <script src="../test/vendor/javascripts/backbone-1.0.0.js"></script>
+  <script src="../test/vendor/javascripts/jquery.qtip.js"></script>
+
+  <!-- Uses JQUI for the effects only :/ -->
+  <script src="../test/vendor/javascripts/jquery-ui-1.10.2.custom.js"></script>
+
+  <script src="../tourist.js"></script>
+
+  <!-- Tour js is defined here -->
+  <script type="text/javascript">
+  $(function(){
+
+  STEP_OPTIONS = {
+    one: 1,
+    two: 2
+  };
+
+  STEP_PROTO = {
+    content: '<p>This is a minimal step.</p>',
+    highlightTarget: true,
+    nextButton: true,
+    target: $('.target')
+  }
+
+  STEP_POS = {
+    'top left': ['bottom right', 'bottom center', 'bottom left'],
+    'top center': ['bottom right', 'bottom center', 'bottom left'],
+    'top right': ['bottom right', 'bottom center', 'bottom left'],
+
+    'right top': ['left bottom', 'left center', 'left top'],
+    'right center': ['left bottom', 'left center', 'left top'],
+    'right bottom': ['left bottom', 'left center', 'left top'],
+
+    'bottom right': ['top right', 'top center', 'top left'],
+    'bottom center': ['top right', 'top center', 'top left'],
+    'bottom left': ['top right', 'top center', 'top left'],
+
+    'left bottom': ['right bottom', 'right center', 'right top'],
+    'left center': ['right bottom', 'right center', 'right top'],
+    'left top': ['right bottom', 'right center', 'right top'],
+  }
+
+  STEPS = []
+
+  for(at in STEP_POS){
+    for(var i = 0; i < STEP_POS[at].length; i++){
+      step = _.clone(STEP_PROTO)
+      step.at = at
+      step.my = STEP_POS[at][i]
+      STEPS.push(step)
+    }
+  }
+
+  TOUR = new Tourist.Tour({
+    stepOptions: STEP_OPTIONS,
+    steps: STEPS,
+    tipClass: 'Bootstrap',
+    tipOptions:{
+      showEffect: 'slidein'
+    }
+  });
+  TOUR.start();
+
+  });
+  </script>
+
+  <!-- Tour CSS is defined here -->
+  <style type="text/css">
+  /**/
+  .tour-highlight{
+    /*outline: 2px solid #00c3ff;*/
+    background: transparent;
+    -moz-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+    -o-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+    box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+    border-radius: 3px;
+  }
+
+  .target{
+    background: #f0f0f0;
+    width: 200px;
+    height: 150px;
+    margin: 200px auto 0 auto;
+  }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <h1 id="main-heading" class="page-header">Test of positioning with Bootstrap popovers.</h1>
+
+    <p>Click through them and make sure they work as expected</p>
+
+    <div class="target">This is the target</div>
+  </div>
+</body>
+</html>
