@@ -50,6 +50,7 @@
         tipOptions:{ showEffect: 'slidein' }
       });
       tour.start();
+      return tour;
     }, // end tour1
 
     tour2: function (){
@@ -131,6 +132,7 @@
         }
       });
       tour.start();
+      return tour;
     }, // end tour2
 
   }
@@ -170,7 +172,13 @@
 
     $('.btn-run-example').click(function(e){
       var btn = $(e.target);
-      TOURS[btn.attr('data-tour')]();
+      var tour = TOURS[btn.attr('data-tour')]();
+
+      btn.prop('disabled', true)
+      tour.bind('stop', function(){
+        btn.prop('disabled', false)
+      });
+
       return false;
     });
 
