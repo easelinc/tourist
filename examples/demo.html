@@ -19,8 +19,12 @@
 
   <!-- Uses JQUI for the effects only :/ -->
   <script src="../test/vendor/javascripts/jquery-ui-1.10.2.custom.js"></script>
+  <link rel="stylesheet" href="demo.css" type="text/css" media="screen">
 
   <script src="../tourist.js"></script>
+
+  <script type="text/javascript" src="//use.typekit.net/suf6bzn.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
   <!-- Tour js is defined here -->
   <script type="text/javascript">
@@ -79,10 +83,11 @@
           options.view.disable();
           options.view.unbind('select', this.onSelectKitten);
         },
-        // a fn name in bind allows you to reference it with `this`
+        // a function name in bind allows you to reference
+        // it with `this` in setup and teardown
         bind: ['onSelectKitten'],
         onSelectKitten: function(tour, options, view, kitten){
-          // The user clicks a kitten. We can move to the next step.
+          // User clicks a kitten, we move to the next step
           tour.next();
         }
       }, {
@@ -99,8 +104,8 @@
         at: 'top center',
         setup: function(tour, options){
           // we can contextually modify the step's configuraton.
-          // Whatever returned here will override the initial values.
-          // Here we point to the user's kitten.
+          // Whatever returned here will override the initial
+          // values. Here we point to the user's kitten.
           return { target: options.view.getSelected() };
         },
         teardown: function(tour, options){
@@ -113,7 +118,9 @@
         // Final step after a successful run through
         content:
           '<p>Nice job, this is a success step</p>'+
-          '<p>You can run this again with this example button.</p>',
+          '<p>'+
+          '  You can run this again with this example button.'+
+          '</p>',
         closeButton: true,
         highlightTarget: true,
         my: 'left center',
@@ -197,145 +204,89 @@
   });
   </script>
 
-  <!-- Tour CSS is defined here -->
-  <style type="text/css">
-    body{
-      padding: 100px 0;
-    }
-    pre{
-      background: transparent;
-      border: none;
-      padding: 0;
-      max-height: 300px;
-      overflow: auto;
-    }
-    p{
-      line-height: 1.6
-    }
-
-    .container{
-      max-width: 900px;
-    }
-
-    /**/
-    .tour-highlight {
-      /*outline: 2px solid #00c3ff;*/
-      background: transparent;
-      -moz-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
-      -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
-      -o-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
-      box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
-      border-radius: 3px;
-    }
-
-    /* Tour specific */
-    .tour-block {
-      width: 47%;
-      float: left;
-      height: 50px;
-      background: #f0f0f0;
-      border-radius: 2px;
-      text-align: center;
-    }
-    img.tour-block {
-      display: block;
-      height: auto;
-      width: 160px;
-    }
-    .tour-block.last {
-      float: right;
-    }
-
-    /* Tour 1 */
-
-    /* Tour 2 */
-    #tour2 .kittens img {
-      cursor: pointer;
-    }
-    #tour2 .kittens.disabled img {
-      opacity: .3;
-      cursor: default;
-    }
-    #tour2 .kittens.has-selection img {
-      opacity: .3;
-    }
-    #tour2 .kittens.has-selection img.selected {
-      opacity: initial;
-    }
-  </style>
-
 </head>
 <body>
+  <div class="nav-section">
+    <div class="container">
+      <h1 id="main-heading">Tourist.js</h1>
+      <h2>Extremely flexible and powerful tours.</h2>
+    </div>
+  </div>
+
   <div class="container">
 
-    <h1 id="main-heading">Tourist.js</h1>
-    <h2>Extremely flexible and powerful tours.</h2>
-
-    <p>
-      Tourist.js is a simple library for creating guided tours through your
-      app. It's suited more for comlpex apps rather than websites. One of our
-      main requirements was the ability to control the interface for each
-      step. For example, one step might need to open a window or menu to work
-      correctly. Tourist gives you hooks to do this.
-    </p>
-
-
-    <h2>Get started quickly</h2>
-    <div class="row-fluid" id="tour1">
-
-      <span class="explanation span5">
-        <p>
-          Specify a series of steps which explain elements to point at and
-          what to say. Tourist manages moving between your steps.
-        </p>
-
-        <p><button class="btn btn-run-example" data-tour="tour1">Run this example</button></p>
-
-        <div class="example-output">
-          <div id="thing1" class="tour-block">Hey look at me!</div>
-          <div id="thing2" class="tour-block  last">No look at me!</div>
-        </div>
-      </span>
-
-      <span class="example span7">
-        <pre><code></code></pre>
-      </span>
-
-    </div>
+    <section>
+      <p>
+        Tourist.js is a simple library for creating guided tours through your
+        app. It's suited more for comlpex apps rather than websites. One of our
+        main requirements was the ability to control the interface for each
+        step. For example, one step might need to open a window or menu to work
+        correctly. Tourist gives you hooks to do this.
+      </p>
+    </section>
 
 
-    <h2>Powerful</h2>
-    <div class="row-fluid" id="tour2">
+    <section>
+      <div class="row-fluid" id="tour1">
+        <span class="explanation span5">
+          <h2>Get started quickly</h2>
+          <p>
+            Specify a series of steps which explain elements to point at and
+            what to say. Tourist manages moving between your steps.
+          </p>
 
-      <span class="explanation span5">
-        <p>
-          Tourist was designed for complex apps rather than websites. Tourist makes it easy to:
-        </p>
+          <h3 class="example-heading"><span>Example</span></h3>
+          <p><button class="btn btn-run-example" data-tour="tour1">Run this example</button></p>
 
-        <ul>
-          <li>control the interface for a specific step</li>
-          <li>move to the next step only after the user completes a specific task</li>
-        </ul>
-
-        <p>
-          Just use the <code>setup()</code> and <code>teardown()</code> functions in your step options.
-        </p>
-
-        <p><button class="btn btn-run-example btn-run-tour2" data-tour="tour2">Run this example</button></p>
-        <div class="example-output">
-          <div class="kittens disabled">
-            <img src="http://placekitten.com/g/350/250" id="kitten1" class="tour-block" />
-            <img src="http://placekitten.com/g/420/300" id="kitten2" class="tour-block last" />
-            <div style="clear: both"></div>
+          <div class="example">
+            <div id="thing1" class="tour-block">Hey look at me!</div>
+            <div id="thing2" class="tour-block  last">No look at me!</div>
           </div>
-        </div>
-      </span>
+        </span>
 
-      <span class="example span7">
-        <pre><code></code></pre>
-      </span>
+        <span class="example-code span7">
+          <pre><code></code></pre>
+        </span>
 
-    </div>
+      </div>
+    </section>
+
+
+    <section>
+      <div class="row-fluid" id="tour2">
+
+        <span class="explanation span5">
+          <h2>Powerful</h2>
+          <p>
+            Tourist was designed for complex apps rather than websites. Tourist makes it easy to:
+          </p>
+
+          <ul>
+            <li>control the interface for a specific step</li>
+            <li>move to the next step only after the user completes a specific task</li>
+          </ul>
+
+          <p>
+            Just use the <code>setup()</code> and <code>teardown()</code> functions in your step options.
+          </p>
+
+          <h3 class="example-heading"><span>Example</span></h3>
+          <p><button class="btn btn-run-example btn-run-tour2" data-tour="tour2">Run this example</button></p>
+          <div class="example">
+            <div class="kittens disabled">
+              <img src="http://placekitten.com/g/350/250" id="kitten1" class="tour-block" />
+              <img src="http://placekitten.com/g/420/300" id="kitten2" class="tour-block last" />
+              <div style="clear: both"></div>
+            </div>
+          </div>
+        </span>
+
+        <span class="example-code span7">
+          <pre><code></code></pre>
+        </span>
+
+      </div>
+    </section>
 
   </div>
 </body>
