@@ -92,17 +92,14 @@ p, ul, li{
 }
 
 
-/**/
-.tour-highlight {
-  /*outline: 2px solid #00c3ff;*/
-  background: transparent;
-  -moz-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
-  -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
-  -o-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
-  box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
-  border-radius: 3px;
+/* tips */
+.popover {
+  border-radius: 2px;
+  border: none;
 }
-
+.popover p{
+  font-size: 14px;
+}
 
 /* Tour specific */
 
