@@ -24,96 +24,131 @@
 
   <!-- Tour js is defined here -->
   <script type="text/javascript">
-  hljs.initHighlightingOnLoad();
+
+  TOURS = {
+
+    tour1: function (){
+      var steps = [{
+        content: '<p>First look at this thing</p>',
+        highlightTarget: true,
+        nextButton: true,
+        target: $('#thing1'),
+        my: 'bottom center',
+        at: 'top center'
+      }, {
+        content: '<p>And then at this thing</p>',
+        highlightTarget: true,
+        nextButton: true,
+        target: $('#thing2'),
+        my: 'bottom center',
+        at: 'top center'
+      }]
+
+      var tour = new Tourist.Tour({
+        steps: steps,
+        tipClass: 'Bootstrap',
+        tipOptions:{ showEffect: 'slidein' }
+      });
+      tour.start();
+    }, // end tour1
+
+    tour2: function (){
+      // We'll control this view with the tour
+      var view = new KittenView($('.kittens'));
+
+      var steps = [{
+        // Step 1
+        content:
+          '<p>Check out these kittens! Aren\'t they cute!?</p>'+
+          '<p class="action">'+
+          '  Click your favorite to move to the next step.'+
+          '</p>',
+        highlightTarget: true,
+        my: 'bottom center',
+        at: 'top center',
+        target: $('.kittens'),
+        setup: function(tour, options){
+          // We can control the view passed in via stepOptions
+          options.view.reset();
+          options.view.bind('select', this.onSelectKitten)
+          options.view.enable();
+        },
+        teardown: function(tour, options){
+          // Disallow more kitten selection
+          options.view.disable();
+          options.view.unbind('select', this.onSelectKitten);
+        },
+        // a fn name in bind allows you to reference it with `this`
+        bind: ['onSelectKitten'],
+        onSelectKitten: function(tour, options, view, kitten){
+          // The user clicks a kitten. We can move to the next step.
+          tour.next();
+        }
+      }, {
+        // Step 2
+        content: '<p>Obviously you\'ve chosen the best one!</p>',
+        highlightTarget: true,
+        nextButton: true,
+        my: 'bottom center',
+        at: 'top center',
+        setup: function(tour, options){
+          // we can contextually modify the step's configuraton.
+          // Whatever returned here will override the initial values.
+          // Here we point to the user's kitten.
+          return { target: options.view.getSelected() };
+        },
+        teardown: function(tour, options){
+          // Enable so the user click kittens after the tour
+          options.view.enable();
+        }
+      }];
+
+      var tour = new Tourist.Tour({
+        tipClass: 'Bootstrap',
+        tipOptions:{ showEffect: 'slidein' },
+        steps: steps,
+        stepOptions:{
+          // pass in the view so the tour steps can use it
+          view: view
+        }
+      });
+      tour.start();
+    }, // end tour2
+
+  }
+
+  function KittenView(el){
+    var self = this;
+    var kittens = el.find('img');
+
+    kittens.click(function(e){
+      if(!el.hasClass('disabled'))
+        self.select($(e.target))
+    });
+
+    this.disable = function(){
+      el.addClass('disabled');
+    }
+    this.enable = function(){
+      el.removeClass('disabled');
+    }
+    this.reset = function(){
+      el.removeClass('has-selection');
+      el.find('img').removeClass('selected');
+    }
+    this.select = function(kitten){
+      kittens.removeClass('selected')
+      kitten.addClass('selected')
+      el.addClass('has-selection')
+      this.trigger('select', this, kitten);
+    }
+    this.getSelected = function(){
+      return el.find('.selected');
+    }
+  }
+  _.extend(KittenView.prototype, Backbone.Events)
 
   $(function(){
-
-    TOURS = {
-
-      tour1: function (){
-        var steps = [{
-          content: '<p>First look at this thing</p>',
-          highlightTarget: true,
-          nextButton: true,
-          target: $('#thing1'),
-          my: 'bottom center',
-          at: 'top center'
-        }, {
-          content: '<p>And then at this thing</p>',
-          highlightTarget: true,
-          nextButton: true,
-          target: $('#thing2'),
-          my: 'bottom center',
-          at: 'top center'
-        }]
-
-        var tour = new Tourist.Tour({
-          steps: steps,
-          tipClass: 'Bootstrap',
-          tipOptions:{ showEffect: 'slidein' }
-        });
-        tour.start();
-      }, // end tour1
-
-      tour2: function (){
-        // We'll control this view with the tour
-        var view = new KittenView($('#tour2 .kittens'));
-
-        var steps = [{
-          content:
-            '<p>Check out these kittens! Aren\'t they cute!?</p>'+
-            '<p class="action">Click your favorite to move to the next step.</p>',
-          highlightTarget: true,
-          my: 'bottom center',
-          at: 'top center',
-          target: $('.kittens'),
-          setup: function(tour, options){
-            // We can control the view passed in via tourOptions
-            options.view.reset();
-            options.view.bind('select', this.onSelectKitten)
-            options.view.enable();
-          },
-          teardown: function(tour, options){
-            // Disallow more kitten selection
-            options.view.disable();
-            options.view.unbind('select', this.onSelectKitten);
-          },
-          // specifying a fn in bind allows you to reference it with `this`
-          bind: ['onSelectKitten'],
-          onSelectKitten: function(tour, options, view, kitten){
-            // When the user selects a kitten, we can move to the next step.
-            tour.next();
-          }
-        }, {
-          content: '<p>Obviously you\'ve chosen the best one!</p>',
-          highlightTarget: true,
-          nextButton: true,
-          target: $('.kittens'),
-          my: 'bottom center',
-          at: 'top center',
-          setup: function(tour, options){
-            // we can contextually modify the step options. Whatever returned
-            // here will override the initial values. Here we point to the
-            // user's kitten.
-            return { target: options.view.getSelected() };
-          },
-          teardown: function(tour, options){
-            // let the user play with the selection
-            options.view.enable()
-          }
-        }];
-
-        var tour = new Tourist.Tour({
-          tipClass: 'Bootstrap',
-          tipOptions:{ showEffect: 'slidein' },
-          steps: steps,
-          // pass in the view so the tour steps can use it
-          stepOptions:{ view: view },
-        });
-        tour.start();
-      }, // end tour2
-
-    }
 
     $('.btn-run-example').click(function(e){
       var btn = $(e.target);
@@ -121,36 +156,17 @@
       return false;
     });
 
-    function KittenView(el){
-      var self = this;
-      var kittens = el.find('img');
-
-      kittens.click(function(e){
-        if(!el.hasClass('disabled'))
-          self.select($(e.target))
-      });
-
-      this.disable = function(){
-        el.addClass('disabled');
-      }
-      this.enable = function(){
-        el.removeClass('disabled');
-      }
-      this.reset = function(){
-        el.removeClass('has-selection');
-        el.find('img').removeClass('selected');
-      }
-      this.select = function(kitten){
-        kittens.removeClass('selected')
-        kitten.addClass('selected')
-        el.addClass('has-selection')
-        this.trigger('select', this, kitten);
-      }
-      this.getSelected = function(){
-        return el.find('.selected');
-      }
+    // no code in the markup. From the function itself!
+    for(var fn in TOURS){
+      var code = TOURS[fn]+'';
+      var lines = code.trim().split('\n');
+      var newfn = []
+      for(var i = 1; i < lines.length-1; i++)
+        newfn.push(lines[i].replace(/^      /, ''))
+      code = newfn.join('\n');
+      $('#'+fn+' pre code').text(code);
     }
-    _.extend(KittenView.prototype, Backbone.Events)
+    hljs.initHighlightingOnLoad();
 
   });
   </script>
@@ -225,11 +241,11 @@
     <div id="main-heading">Tourist.js</div>
     <h1 id="">Extremely flexible and powerful tours.</h1>
 
-<!--
 
     <h2>Get started quickly</h2>
     <div class="row-fluid" id="tour1">
-      <span class="explanation span6">
+
+      <span class="explanation span5">
         <p>
           Specify a series of steps which explain elements to point at and
           what to say. Tourist manages moving between your steps.
@@ -243,41 +259,23 @@
         </div>
       </span>
 
-      <span class="example span6">
-        <pre><code>var steps = [{
-  content: '&lt;p>First look at this thing&lt;/p>',
-  highlightTarget: true,
-  nextButton: true,
-  target: $('#thing1')
-}, {
-  content: '&lt;p>And then at this thing&lt;/p>',
-  highlightTarget: true,
-  nextButton: true,
-  target: $('#thing1')
-}]
-
-var tour = new Tourist.Tour({
-  steps: steps,
-  tipClass: 'Bootstrap',
-  tipOptions:{ showEffect: 'slidein' }
-});
-tour.start();
-        </code></pre>
-
+      <span class="example span7">
+        <pre><code></code></pre>
       </span>
 
     </div>
 
--->
 
     <h2>Powerful</h2>
     <div class="row-fluid" id="tour2">
+
       <span class="explanation span5">
         <p>
           Tourist was designed for complex apps rather than websites. Tourist makes it easy to:
         </p>
+
         <ul>
-          <li>modify the interface for a specific step</li>
+          <li>control the interface for a specific step</li>
           <li>move to the next step only after the user completes a specific task</li>
         </ul>
 
@@ -289,68 +287,14 @@ tour.start();
         <div class="example-output">
           <div class="kittens disabled">
             <img src="http://placekitten.com/g/350/250" id="kitten1" class="tour-block" />
-            <!-- <img src="http://placekitten.com/g/560/400" id="kitten2" class="tour-block last" /> -->
             <img src="http://placekitten.com/g/420/300" id="kitten2" class="tour-block last" />
             <div style="clear: both"></div>
           </div>
         </div>
-
       </span>
 
       <span class="example span7">
-        <pre><code>// We'll control this view with the tour
-var view = new KittenView($('#tour2 .kittens'));
-
-var steps = [{
-  content:
-    '&lt;p>Check out these kittens! Aren\'t they cute!?&lt;/p>'+
-    '&lt;p class="action">Click your favorite to move to the next step.&lt;/p>',
-  highlightTarget: true,
-  my: 'bottom center',
-  at: 'top center',
-  target: $('.kittens'),
-  setup: function(tour, options){
-    // We can control the view passed in via tourOptions
-    options.view.reset();
-    options.view.bind('select', this.onSelectKitten)
-    options.view.enable();
-  },
-  teardown: function(tour, options){
-    // Disallow more kitten selection
-    options.view.disable();
-    options.view.unbind('select', this.onSelectKitten);
-  },
-  // specifying a fn in bind allows you to reference it with `this`
-  bind: ['onSelectKitten'],
-  onSelectKitten: function(tour, options, view, kitten){
-    // When the user selects a kitten, we can move to the next step.
-    tour.next();
-  }
-}, {
-  content: '&lt;p>Obviously you\'ve chosen the best one!&lt;/p>',
-  highlightTarget: true,
-  nextButton: true,
-  target: $('.kittens'),
-  my: 'bottom center',
-  at: 'top center',
-  setup: function(tour, options){
-    // we can contextually modify the step options. Whatever returned
-    // here will override the initial values. Here we point to the
-    // user's kitten.
-    return { target: options.view.getSelected() };
-  }
-}];
-
-var tour = new Tourist.Tour({
-  tipClass: 'Bootstrap',
-  tipOptions:{ showEffect: 'slidein' }
-  steps: steps,
-  // pass in the view so the tour steps can use it
-  stepOptions:{ view: view },
-});
-tour.start();
-        </code></pre>
-
+        <pre><code></code></pre>
       </span>
 
     </div>
