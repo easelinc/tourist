@@ -96,6 +96,7 @@ p, ul, li{
 .popover {
   border-radius: 2px;
   border: none;
+  width: 276px;
 }
 .popover p{
   font-size: 14px;
