@@ -194,7 +194,7 @@
       var code = TOURS[fn]+'';
       var lines = code.trim().split('\n');
       var newfn = []
-      for(var i = 1; i < lines.length-1; i++)
+      for(var i = 1; i < lines.length-2; i++)
         newfn.push(lines[i].replace(/^      /, ''))
       code = newfn.join('\n');
       $('#'+fn+' pre code').text(code);
@@ -225,6 +225,14 @@
       </p>
     </section>
 
+
+    <section>
+      <h2>Installation</h2>
+
+      <p>The code is available via <code>bower install tourist</code> or on github. Once you have the code, you just need to include the javascript file. An optional CSS file with minimal styling is included as well.</p>
+
+      <pre><code>&lt;script src="tourist.js">&lt;/script></code></pre>
+    </section>
 
     <section>
       <div class="row-fluid" id="tour1">
@@ -286,6 +294,12 @@
         </span>
 
       </div>
+    </section>
+
+    <section>
+      <h2>Dependencies</h2>
+      <p>Tourist depends on Backbone and JQuery.</p>
+      <p>Tourist comes with the ability to use either <a href="http://twitter.github.io/bootstrap/javascript.html#popovers">Bootstrap popovers</a> or <a href="http://craigsworks.com/projects/qtip2/">QTip2</a> tips, so you'll need either Bootstrap CSS (only the CSS is necessary) or QTip2 installed. You can write your own connector if you'd like.</p>
     </section>
 
   </div>
