@@ -108,7 +108,20 @@
         }
       }];
 
+      var successStep = {
+        // Final step after a successful run through
+        content:
+          '<p>Nice job, this is a success step</p>'+
+          '<p>You can run this again with this example button.</p>',
+        closeButton: true,
+        highlightTarget: true,
+        my: 'left center',
+        at: 'right center',
+        target: $('.btn-run-tour2')
+      }
+
       var tour = new Tourist.Tour({
+        successStep: successStep,
         tipClass: 'Bootstrap',
         tipOptions:{ showEffect: 'slidein' },
         steps: steps,
@@ -179,7 +192,7 @@
   <!-- Tour CSS is defined here -->
   <style type="text/css">
     body{
-      padding: 30px 0;
+      padding: 100px 0;
     }
     pre{
       background: transparent;
@@ -228,8 +241,12 @@
     /* Tour 1 */
 
     /* Tour 2 */
+    #tour2 .kittens img {
+      cursor: pointer;
+    }
     #tour2 .kittens.disabled img {
       opacity: .3;
+      cursor: default;
     }
     #tour2 .kittens.has-selection img {
       opacity: .3;
@@ -288,7 +305,7 @@
           Just use the <code>setup()</code> and <code>teardown()</code> functions in your step options.
         </p>
 
-        <p><button class="btn btn-run-example" data-tour="tour2">Run this example</button></p>
+        <p><button class="btn btn-run-example btn-run-tour2" data-tour="tour2">Run this example</button></p>
         <div class="example-output">
           <div class="kittens disabled">
             <img src="http://placekitten.com/g/350/250" id="kitten1" class="tour-block" />
