@@ -520,7 +520,7 @@
 
 
   Tourist.Tour = (function() {
-    Tour.prototype._module = 'Tourist';
+    _.extend(Tour.prototype, Backbone.Events);
 
     function Tour(options) {
       var defs, tipOptions;
@@ -550,6 +550,7 @@
 
 
     Tour.prototype.start = function() {
+      this.trigger('start', this);
       return this.next();
     };
 
@@ -614,9 +615,10 @@
 
     Tour.prototype._stop = function() {
       this._teardownCurrentStep();
-      return this.model.set({
+      this.model.set({
         current_step: null
       });
+      return this.trigger('stop', this);
     };
 
     Tour.prototype._showFinalStep = function(success) {

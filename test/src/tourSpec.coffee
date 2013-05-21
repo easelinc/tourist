@@ -249,6 +249,21 @@ window.BasicTourTests = (description, tourGenerator) ->
         @s.view.onClickClose({})
         expect(@s.model.get('current_step')).toEqual(null)
 
+    describe 'events', ->
+      it 'emits a start event', ->
+        spy = jasmine.createSpy()
+        @s.bind('start', spy)
+        @s.start()
+        expect(spy).toHaveBeenCalled()
+
+      it 'emits a stop event', ->
+        spy = jasmine.createSpy()
+        @s.bind('stop', spy)
+        @s.start()
+        @s.next()
+        @s.stop(false)
+        expect(spy).toHaveBeenCalled()
+
 BasicTourTests 'with Tourist.Tip.Simple', ->
   new Tourist.Tour
     stepOptions: @options
