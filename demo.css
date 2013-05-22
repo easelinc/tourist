@@ -61,7 +61,7 @@ p, ul, li{
 }
 #header .nav li.twitter{
   position: absolute;
-  overflow: hidden;
+  overflow: visible;
   width: 76px;
   right: -100px;
   top: 0px;
