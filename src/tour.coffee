@@ -85,14 +85,14 @@ Step object function options:
 
 ###
 class Tourist.Tour
-  _module: 'Tourist'
+  _.extend(@prototype, Backbone.Events)
 
   # options - tour options
   #   stepOptions - an object of options to be passed to each function called on a step object
   #   tipOptions - an object passed to the tip
   #   steps - array of step objects
-  #   finalCancel - step object for a step that runs if hit the close button.
-  #   finalSuccess - step object for a step that runs last when they make it all the way through.
+  #   cancelStep - step object for a step that runs if hit the close button.
+  #   successStep - step object for a step that runs last when they make it all the way through.
   constructor: (@options={}) ->
     defs =
       tipClass: 'Simple'
@@ -119,6 +119,7 @@ class Tourist.Tour
   #
   # Return nothing
   start: ->
+    @trigger('start', this)
     @next()
 
   # Resets the data and runs the final step
@@ -191,6 +192,7 @@ class Tourist.Tour
   _stop: ->
     @_teardownCurrentStep()
     @model.set(current_step: null)
+    @trigger('stop', this)
 
   # Shows a final step.
   #

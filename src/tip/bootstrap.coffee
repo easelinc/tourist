@@ -84,7 +84,13 @@ Tourist.Tip.Bootstrap.effects =
     element.show()
 
     css[side] = value
-    element.animate(css, 300, 'easeOutCubic')
+
+    # if they have jquery ui, then use a fancy easing. Otherwise, use a builtin.
+    easings = ['easeOutCubic', 'swing', 'linear']
+    for easing in easings
+      break if $.easing[easing]
+
+    element.animate(css, 300, easing)
     null
 
 
