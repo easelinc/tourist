@@ -43,6 +43,11 @@ p, ul, li{
   line-height: 1.0;
   height: 25px;
 }
+#header .logo{
+  position: absolute;
+  left: -80px;
+  top: 5px;
+}
 #header .nav{
   margin-top: 30px;
   position: relative;
@@ -103,6 +108,7 @@ p, ul, li{
 
 .container{
   max-width: 800px;
+  position: relative;
 }
 .container section {
   margin: 60px 0 70px 0;
@@ -223,6 +229,10 @@ Bootstrap switches to stacked columns below this breakpoint.
   pre{
     clear: both;
     margin-top: 20px;
+  }
+
+  #header .logo{
+    display: none;
   }
 
   #header, #footer{
