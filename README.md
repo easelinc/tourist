@@ -52,7 +52,7 @@ tour.start();
 
 Create one like this:
 
-```
+```javascript
 var steps = [{...}, {...}]
 var tour = new Tourist.Tour({
   steps: steps
@@ -81,7 +81,7 @@ The 'step object' is a simple js obj that specifies how a step will behave.
 
 A simple Example of a step object:
 
-```
+```javascript
 {
   content: '<p>Welcome to my step</p>'
   target: $('#something-to-point-at')
@@ -137,9 +137,8 @@ properties in the step object.
 
 Example, the target might be dynamic so you would specify:
 
-```
+```javascript
 {
-  ...
   setup: function(tour, options) {
     options.model.bind('change:thing', @onThingChange);
     return { target: $('#point-to-me') };
@@ -154,9 +153,8 @@ things you bound to in setup().
 
 `this` is the step object itself.
 
-```
+```javascript
 {
-  ...
   teardown: function(tour, options) {
     options.model.unbind('change:thing', @onThingChange);
   }
@@ -171,7 +169,7 @@ Return nothing from `teardown()`
 
 Will bind functions to the step object as this, and the first 2 args as tour and options. i.e.
 
-```
+```javascript
 {
   bind: ['onChangeSomething'],
   onChangeSomething: function(tour, options, model, value) {
