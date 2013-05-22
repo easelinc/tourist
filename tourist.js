@@ -756,7 +756,7 @@
 
   Tourist.Tip.Bootstrap.effects = {
     slidein: function(tip, element) {
-      var OFFSETS, css, offset, side, value;
+      var OFFSETS, css, easing, easings, offset, side, value, _i, _len;
 
       OFFSETS = {
         top: 80,
@@ -779,7 +779,14 @@
       element.css(css);
       element.show();
       css[side] = value;
-      element.animate(css, 300, 'easeOutCubic');
+      easings = ['easeOutCubic', 'swing', 'linear'];
+      for (_i = 0, _len = easings.length; _i < _len; _i++) {
+        easing = easings[_i];
+        if ($.easing[easing]) {
+          break;
+        }
+      }
+      element.animate(css, 300, easing);
       return null;
     }
   };
