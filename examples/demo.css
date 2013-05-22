@@ -28,45 +28,45 @@ p, ul, li{
   line-height: 1.6;
 }
 
-.nav-section{
+#header{
   background: #fff;
   border-bottom: 2px solid #e9e9e9;
   padding: 30px 0;
 }
-.nav-section h1 {
+#header h1 {
   margin: 0;
 }
-.nav-section h2 {
+#header h2 {
   font-weight: normal;
   font-size: 22px;
   color: #a2a2a2;
   line-height: 1.0;
   height: 25px;
 }
-.nav-section .nav{
+#header .nav{
   margin-top: 30px;
   position: relative;
 }
-.nav-section .nav li{
+#header .nav li{
   float: left;
   margin-left: 10px;
 }
-.nav-section .nav li iframe{
+#header .nav li iframe{
   margin-top: 3px;
 }
-.nav-section .nav li.twitter{
+#header .nav li.twitter{
   position: absolute;
   overflow: hidden;
   width: 76px;
   right: -100px;
   top: 0px;
 }
-.nav-section .nav li a{
+#header .nav li a{
   color: #909090;
   font-weight: bold;
   font-size: 16px;
 }
-.nav-section .nav li a:hover{
+#header .nav li a:hover{
   color: #666;
   background: none;
 }
@@ -209,7 +209,7 @@ p, ul, li{
 
 
 @media screen and (max-width: 979px) {
-  .nav-section .nav li.twitter{
+  #header .nav li.twitter{
     right: 0px;
     top: 30px;
   }
@@ -225,7 +225,7 @@ Bootstrap switches to stacked columns below this breakpoint.
     margin-top: 20px;
   }
 
-  .nav-section, #footer{
+  #header, #footer{
     margin-right: -20px;
     margin-left: -20px;
     padding-left: 20px;
