@@ -229,6 +229,9 @@ class Tourist.Tour
     step.index = index
     step.total = @options.steps.length
 
+    unless step.final
+      step.final = (@options.steps.length == index+1 and not @options.successStep)
+
     # can pass dynamic options from setup
     step = _.extend(step, @_setupStep(step))
 

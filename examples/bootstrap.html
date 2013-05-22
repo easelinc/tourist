@@ -35,11 +35,19 @@
     at: 'bottom center'
   }]
 
+  FINAL = {
+    content: '<p>Final Step</p>',
+    highlightTarget: true,
+    nextButton: true,
+    target: $('#main-heading'),
+    my: 'top center',
+    at: 'bottom center'
+  }
+
   TOUR = new Tourist.Tour({
     stepOptions: STEP_OPTIONS,
     steps: STEPS,
-    //cancelStep: @finalQuit
-    //successStep: @finalSucceed
+    successStep: FINAL,
     tipClass: 'Bootstrap',
     tipOptions:{
       showEffect: 'slidein'

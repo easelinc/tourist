@@ -123,8 +123,9 @@ window.BasicTourTests = (description, tourGenerator) ->
         @s.start()
         @s.next()
         @s.next()
-        @s.next()
+        expect(@s.model.get('current_step').final).toEqual(false)
 
+        @s.next()
         expect(@s.model.get('current_step').index).toEqual(3)
         expect(@s.model.get('current_step').final).toEqual(true)
 
@@ -132,6 +133,16 @@ window.BasicTourTests = (description, tourGenerator) ->
         expect(el).toShow()
         expect(el.find('.three')).not.toExist()
         expect(el.find('.finalsuccess')).toExist()
+
+      it 'last step is final when no successStep', ->
+        @s.options.successStep = null
+
+        @s.start()
+        @s.next()
+        @s.next()
+
+        expect(@s.model.get('current_step').index).toEqual(2)
+        expect(@s.model.get('current_step').final).toEqual(true)
 
       it 'calls the function when successStep is just a function', ->
         callback = jasmine.createSpy()

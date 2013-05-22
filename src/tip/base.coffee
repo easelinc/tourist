@@ -12,6 +12,7 @@ class Tourist.Tip.Base
   # You can override any of thsee templates for your own stuff
   skipButtonTemplate: '<button class="btn btn-small pull-right tour-next">Skip this step →</button>'
   nextButtonTemplate: '<button class="btn btn-primary btn-small pull-right tour-next">Next step →</button>'
+  finalButtonTemplate: '<button class="btn btn-primary btn-small pull-right tour-next">Finish up</button>'
 
   closeButtonTemplate: '<a class="btn btn-close tour-close" href="#"><i class="icon icon-remove"></i></a>'
   okButtonTemplate: '<button class="btn btn-small tour-close btn-primary">Okay</button>'
@@ -161,7 +162,9 @@ class Tourist.Tip.Base
 
     buttons += @okButtonTemplate if step.okButton
     buttons += @skipButtonTemplate if step.skipButton
-    buttons += @nextButtonTemplate if step.nextButton
+
+    if step.nextButton
+      buttons += if step.final then @finalButtonTemplate else @nextButtonTemplate
 
     buttons
 
