@@ -531,7 +531,7 @@
       this.onChangeCurrentStep = __bind(this.onChangeCurrentStep, this);
       this.next = __bind(this.next, this);
       defs = {
-        tipClass: 'Simple'
+        tipClass: 'Bootstrap'
       };
       this.options = _.extend(defs, this.options);
       this.model = new Tourist.Model({

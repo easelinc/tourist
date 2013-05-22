@@ -96,7 +96,7 @@ class Tourist.Tour
   #   successStep - step object for a step that runs last when they make it all the way through.
   constructor: (@options={}) ->
     defs =
-      tipClass: 'Simple'
+      tipClass: 'Bootstrap'
     @options = _.extend(defs, @options)
 
     @model = new Tourist.Model
