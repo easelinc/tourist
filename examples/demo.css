@@ -41,7 +41,6 @@ p, ul, li{
   font-size: 22px;
   color: #a2a2a2;
   line-height: 1.0;
-  width: 620px;
   height: 25px;
 }
 .nav-section .nav{
@@ -216,3 +215,20 @@ p, ul, li{
   }
 }
 
+/*
+SmallTablet:
+Bootstrap switches to stacked columns below this breakpoint.
+*/
+@media (max-width: 767px) {
+  pre{
+    clear: both;
+    margin-top: 20px;
+  }
+
+  .nav-section, #footer{
+    margin-right: -20px;
+    margin-left: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
