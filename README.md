@@ -240,7 +240,7 @@ Options accepted are any options QTip supports and in their format.
 
 ### Your own Tip implementation
 
-You can use your own tip implementation if you want. Make a class and hang it off the `Tourist.Tip` namespace. See [the tips code][tipcode] for examples. Here is a basic example in coffeescript:
+You can use your own tip implementation if you want. Make a class and hang it off the `Tourist.Tip` namespace. See [the tips code][tipscode] for examples. The [bootstrap example][bootstraptip] is probably most interesting. Here is a basic example in coffeescript:
 
 ```coffeescript
 # you need to provide these implementations at a minimum
@@ -298,4 +298,4 @@ MIT License
 
 [booteffect]: https://github.com/easelinc/tourist/blob/master/src/tip/bootstrap.coffee#L64
 [tipscode]: https://github.com/easelinc/tourist/tree/master/src/tip
-[simpletip]: https://github.com/easelinc/tourist/blob/master/src/tip/simple.coffee
+[bootstraptip]: https://github.com/easelinc/tourist/blob/master/src/tip/bootstrap.coffee
