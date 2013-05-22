@@ -11,7 +11,7 @@ and what to say. Tourist.js manages moving between those steps.
 
 The code is available via `bower install tourist`. Once you have the code, you just need to include the javascript file. An optional CSS file with minimal styling is included as well.
 
-```
+```html
 <script src="tourist.js"></script>
 
 <!-- Optional! -->
