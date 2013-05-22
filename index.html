@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Tourist.js</title>
+
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+
+  <script src="vendor/javascripts/jquery-1.9.1.js"></script>
+  <script src="vendor/javascripts/underscore-1.4.4.js"></script>
+  <script src="vendor/javascripts/backbone-1.0.0.js"></script>
+
+  <script src="vendor/javascripts/highlight.js"></script>
+  <link rel="stylesheet" href="vendor/stylesheets/highlight-dark.css" type="text/css" media="screen">
+
+  <!-- Uses JQUI for the effects only :/ -->
+  <script src="vendor/javascripts/jquery-ui-1.10.2.custom.js"></script>
+
+  <script src="tourist.js"></script>
+  <link rel="stylesheet" href="tourist.css" type="text/css" media="screen">
+  <link rel="stylesheet" href="demo.css" type="text/css" media="screen">
+
+  <script type="text/javascript" src="//use.typekit.net/suf6bzn.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+  <!-- Tour js is defined here -->
+  <script type="text/javascript">
+
+  TOURS = {
+
+    tour1: function (){
+      var steps = [{
+        content: '<p>First look at this thing</p>',
+        highlightTarget: true,
+        nextButton: true,
+        target: $('#thing1'),
+        my: 'bottom center',
+        at: 'top center'
+      }, {
+        content: '<p>And then at this thing</p>',
+        highlightTarget: true,
+        nextButton: true,
+        target: $('#thing2'),
+        my: 'bottom center',
+        at: 'top center'
+      }]
+
+      var tour = new Tourist.Tour({
+        steps: steps,
+        tipClass: 'Bootstrap',
+        tipOptions:{ showEffect: 'slidein' }
+      });
+      tour.start();
+      return tour;
+    }, // end tour1
+
+    tour2: function (){
+      // We'll control this view with the tour
+      var view = new KittenView($('.kittens'));
+
+      var steps = [{
+        // Step 1
+        content:
+          '<p>Check out these kittens! Aren\'t they cute!?</p>'+
+          '<p class="action">'+
+          '  Click your favorite to move to the next step.'+
+          '</p>',
+        highlightTarget: true,
+        my: 'bottom center',
+        at: 'top center',
+        target: $('.kittens'),
+        setup: function(tour, options){
+          // We can control the view passed in via stepOptions
+          options.view.reset();
+          options.view.bind('select', this.onSelectKitten)
+          options.view.enable();
+        },
+        teardown: function(tour, options){
+          // Disallow more kitten selection
+          options.view.disable();
+          options.view.unbind('select', this.onSelectKitten);
+        },
+        // a function name in bind allows you to reference
+        // it with `this` in setup and teardown
+        bind: ['onSelectKitten'],
+        onSelectKitten: function(tour, options, view, kitten){
+          // User clicks a kitten, we move to the next step
+          tour.next();
+        }
+      }, {
+        // Step 2
+        content:
+          '<p>Obviously you\'ve chosen the best one!</p>'+
+          '<p>'+
+          '  Notice you cannot chose the other kitten.'+
+          '  When the tour is over, you will be able to.'+
+          '</p>',
+        highlightTarget: true,
+        nextButton: true,
+        my: 'bottom center',
+        at: 'top center',
+        setup: function(tour, options){
+          // we can contextually modify the step's configuraton.
+          // Whatever returned here will override the initial
+          // values. Here we point to the user's kitten.
+          return { target: options.view.getSelected() };
+        },
+        teardown: function(tour, options){
+          // Enable so the user click kittens after the tour
+          options.view.enable();
+        }
+      }];
+
+      var successStep = {
+        // Final step after a successful run through
+        content:
+          '<p>Nice job, this is a success step</p>'+
+          '<p>'+
+          '  You can run this again with this example button.'+
+          '</p>',
+        closeButton: true,
+        highlightTarget: true,
+        my: 'left center',
+        at: 'right center',
+        target: $('.btn-run-tour2')
+      }
+
+      var tour = new Tourist.Tour({
+        successStep: successStep,
+        tipClass: 'Bootstrap',
+        tipOptions:{ showEffect: 'slidein' },
+        steps: steps,
+        stepOptions:{
+          // pass in the view so the tour steps can use it
+          view: view
+        }
+      });
+      tour.start();
+      return tour;
+    }, // end tour2
+
+  }
+
+  function KittenView(el){
+    var self = this;
+    var kittens = el.find('img');
+
+    kittens.click(function(e){
+      if(!el.hasClass('disabled'))
+        self.select($(e.target))
+    });
+
+    this.disable = function(){
+      el.addClass('disabled');
+    }
+    this.enable = function(){
+      el.removeClass('disabled');
+    }
+    this.reset = function(){
+      el.removeClass('has-selection');
+      el.find('img').removeClass('selected');
+    }
+    this.select = function(kitten){
+      kittens.removeClass('selected')
+      kitten.addClass('selected')
+      el.addClass('has-selection')
+      this.trigger('select', this, kitten);
+    }
+    this.getSelected = function(){
+      return el.find('.selected');
+    }
+  }
+  _.extend(KittenView.prototype, Backbone.Events)
+
+  $(function(){
+
+    $('.btn-run-example').click(function(e){
+      var btn = $(e.target);
+      var tour = TOURS[btn.attr('data-tour')]();
+
+      btn.prop('disabled', true)
+      tour.bind('stop', function(){
+        btn.prop('disabled', false)
+      });
+
+      return false;
+    });
+
+    // no code in the markup. From the function itself!
+    for(var fn in TOURS){
+      var code = TOURS[fn]+'';
+      var lines = code.trim().split('\n');
+      var newfn = []
+      for(var i = 1; i < lines.length-2; i++)
+        newfn.push(lines[i].replace(/^      /, ''))
+      code = newfn.join('\n');
+      $('#'+fn+' pre code').text(code);
+    }
+    hljs.initHighlightingOnLoad();
+
+  });
+  </script>
+
+</head>
+<body>
+  <div id="header">
+    <div class="container">
+      <ul class="nav pull-right">
+        <li class="twitter">
+          <a href="https://twitter.com/share" class="twitter-share-button" data-text="Make really flexible feature tours with Tourist.js" data-via="easelapp">Tweet</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        </li>
+        <li><a href="https://github.com/easelinc/tourist">Github</a></li>
+        <li><a href="https://github.com/easelinc/tourist">Docs</a></li>
+      </ul>
+
+      <img src="logo.png" class="logo">
+      <h1 id="main-heading">Tourist.js</h1>
+      <h2>Simple, flexible tours brought to you by <a href="#">easel.io</a></h2>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <section>
+      <p>
+        Tourist.js is a simple library for creating guided tours through your
+        app. It's better suited to complex, single-page apps than websites.
+        One of our main requirements was the ability to control the interface
+        for each step. For example, a step in the tour might need to open a
+        window or menu to work correctly. Tourist gives you hooks to do this.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>Installation</h2>
+
+      <p>The code is available via <code>bower install tourist</code> or on github. Once you have the code, you just need to include the javascript file. An optional CSS file with minimal styling is included as well.</p>
+
+      <pre><code class="xml">&lt;script src="tourist.js">&lt;/script>
+
+&lt;!-- Optional! -->
+&lt;link rel="stylesheet" href="../tourist.css" type="text/css" media="screen"></code></pre>
+    </section>
+
+    <section>
+      <div class="row-fluid" id="tour1">
+        <span class="explanation span5">
+          <h2>Get started quickly</h2>
+          <p>
+            Specify a series of steps which explain elements to point at and
+            what to say. Tourist manages moving between your steps.
+          </p>
+
+          <h3 class="example-heading"><span>Example</span></h3>
+          <p><button class="btn btn-run-example" data-tour="tour1">Run this example</button></p>
+
+          <div class="example">
+            <div id="thing1" class="tour-block">Hey look at me!</div>
+            <div id="thing2" class="tour-block last">No look at me!</div>
+            <div style="clear: both"></div>
+          </div>
+        </span>
+
+        <span class="example-code span7">
+          <pre><code class="javascript"></code></pre>
+        </span>
+
+      </div>
+    </section>
+
+
+    <section>
+      <div class="row-fluid" id="tour2">
+
+        <span class="explanation span5">
+          <h2>Powerful</h2>
+          <p>
+            Tourist was designed for complex apps rather than websites. Tourist makes it easy to:
+          </p>
+
+          <ul>
+            <li>control the interface for a specific step</li>
+            <li>move to the next step only after the user completes a specific task</li>
+          </ul>
+
+          <p>
+            Just use the <code>setup()</code> and <code>teardown()</code> functions in your step options.
+          </p>
+
+          <h3 class="example-heading"><span>Example</span></h3>
+          <p><button class="btn btn-run-example btn-run-tour2" data-tour="tour2">Run this example</button></p>
+          <div class="example">
+            <div class="kittens disabled">
+              <img src="http://placekitten.com/g/350/250" id="kitten1" class="tour-block" />
+              <img src="http://placekitten.com/g/420/300" id="kitten2" class="tour-block last" />
+              <div style="clear: both"></div>
+            </div>
+          </div>
+        </span>
+
+        <span class="example-code span7">
+          <pre><code class="javascript"></code></pre>
+        </span>
+
+      </div>
+    </section>
+
+    <section>
+      <h2>Dependencies</h2>
+      <p>Tourist depends on <a href="http://backbonejs.org/">Backbone</a> and <a href="http://jquery.com/">jQuery</a>.</p>
+      <p>Tourist comes with the ability to use either <a href="http://twitter.github.io/bootstrap/javascript.html#popovers">Bootstrap popovers</a> (default) or <a href="http://craigsworks.com/projects/qtip2/">QTip2</a> tips, so you'll need either Bootstrap CSS (only the CSS is necessary!) or QTip2 installed. You can write your own <a href="https://github.com/easelinc/tourist/blob/master/src/tip/simple.coffee">tooltip connector</a> if you'd like.</p>
+    </section>
+
+  </div>
+
+  <div id="footer">
+    <div class="container">
+      <a href="https://easel.io" class="link">A thing by Easel</a>
+      <a href="https://github.com/easelinc/tourist" class="link link-right">Tourist.js on Github</a>
+      <a href="https://easel.io" class="logo">
+        <img src="easel.png" alt="Easel.io logo"/>
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
+
+
+
+
