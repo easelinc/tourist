@@ -187,6 +187,87 @@ Will bind functions to the step object as this, and the first 2 args as tour and
 }
 ```
 
+## Tip objects
+
+You wont be creating `Tip` objects yourself, the `Tour` object will handle
+that. But you can choose which tip implementation to use and you can pass the
+tip options to use on creation.
+
+### Bootstrap tips
+
+Bootstrap tips are the default tip. They use only the markup and css from
+Bootstrap. Bootstrap's javascript for tooltips or popovers is not necessary.
+Here's how to use them.
+
+```javascript
+var tour = new Tourist.Tour({
+  steps: steps,
+  tipClass: 'Bootstrap'
+  tipOptions: {
+    showEffect: 'slidein'
+  }
+});
+```
+
+It supports some options you can specify in `tipOptions`:
+
+* `showEffect` a string effect name
+* `hideEffect` a string effect name
+
+Only one effect is defined at this time: `slidein`. And you need to include
+jQuery UI to get the proper easing function for it.
+
+Effects are specified as functions on `Tourist.Tip.Bootstrap.effects`
+take a look at the implementation for [an existing effect][booteffect] to get
+an idea how to extend.
+
+### QTip2 tips
+
+An alternative is to use QTip2 tips. You need to include both the QTip js and
+css for these to work.
+
+```javascript
+var tour = new Tourist.Tour({
+  steps: steps,
+  tipClass: 'QTip'
+  tipOptions: {
+    ...
+  }
+});
+```
+
+Options accepted are any options QTip supports and in their format.
+
+### Your own Tip implementation
+
+You can use your own tip implementation if you want. Make a class and hang it off the `Tourist.Tip` namespace. See [the tips code][tipcode] for examples. Here is a basic example in coffeescript:
+
+```coffeescript
+# you need to provide these implementations at a minimum
+class Tourist.Tip.MyTip extends Tourist.Tip.Base
+  initialize: (options) ->
+    # options would be: { likes: ['turtles'] }
+    $('body').append(@el)
+
+  show: ->
+    @el.show()
+
+  hide: ->
+    @el.hide()
+
+  _getTipElement: ->
+    @el
+
+  # Jam the content into our element
+  _renderContent: (step, contentElement) ->
+    @el.html(contentElement)
+
+tour = new Tourist.Tour
+  steps: steps
+  tipClass: 'MyTip'
+  tipOptions: { likes: ['turtles'] }
+```
+
 ## Testing/Building
 
 * uses coffeescript
@@ -214,3 +295,7 @@ MIT License
 [install]: http://jashkenas.github.com/coffee-script/#installation
 [skeleton]: http://buttersafe.com/2008/03/13/romance-on-the-floating-island/
 [styleguide]: https://github.com/easelinc/coffeescript-style-guide
+
+[booteffect]: https://github.com/easelinc/tourist/blob/master/src/tip/bootstrap.coffee#L64
+[tipscode]: https://github.com/easelinc/tourist/tree/master/src/tip
+[simpletip]: https://github.com/easelinc/tourist/blob/master/src/tip/simple.coffee

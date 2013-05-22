@@ -89,6 +89,7 @@ class Tourist.Tour
 
   # options - tour options
   #   stepOptions - an object of options to be passed to each function called on a step object
+  #   tipClass - the class from the Tourist.Tip namespace to use
   #   tipOptions - an object passed to the tip
   #   steps - array of step objects
   #   cancelStep - step object for a step that runs if hit the close button.
