@@ -20,7 +20,7 @@ The code is available via `bower install tourist`. Once you have the code, you j
 
 ## Dependencies
 
-Tourist depends on Backbone and jQuery.
+Tourist depends on Backbone and jQuery. jQuery UI is optional. Tourist uses an easing function from jQuery UI if present in the show effect with the Bootstrap tip implementation.
 
 Tourist comes with the ability to use either [Bootstrap popovers][popovers] (default) or [QTip2][qtip2] tips, so you'll need either Bootstrap CSS (only the CSS is necessary!) or QTip2 installed. You can write your own tooltip connector if you'd like.
 
@@ -77,7 +77,7 @@ tour.start();
 
 ## The step object
 
-The 'step object' is a simple js obj that specifies how a step will behave.
+The 'step object' is a simple javascript object that specifies how a step will behave.
 
 A simple Example of a step object:
 
@@ -99,11 +99,11 @@ A simple Example of a step object:
 ### Step object options
 
 * `content` a string of html to put into the step.
-* `target` jquery object or absolute point: [10, 30]
+* `target` jQuery object or absolute point: [10, 30]
 * `highlightTarget` optional bool, true will outline the target with a bright color.
-* `container` optional jquery element that should contain the step flyout.
+* `container` optional jQuery element that should contain the step flyout.
               default: $('body')
-* `viewport` optional jquery element that the step flyout should stay within.
+* `viewport` optional jQuery element that the step flyout should stay within.
              $(window) is commonly used. default: false
 * `my` string position of the pointer on the tip. default: 'left center'
 * `at` string position on the element the tip points to. default: 'right center' see http://craigsworks.com/projects/qtip2/docs/position/#basics
@@ -125,8 +125,6 @@ All functions on the step will have the signature `function(tour, options){}` wh
             interface, bind to events, etc. The same object is passed to all
             of a step object's functions, so it is handy for passing data
             between steps.
-
-Onto the options:
 
 #### setup()
 
@@ -189,7 +187,7 @@ Will bind functions to the step object as this, and the first 2 args as tour and
 
 ## Tip objects
 
-You wont be creating `Tip` objects yourself, the `Tour` object will handle
+You won't be creating `Tip` objects yourself, the `Tour` object will handle
 that. But you can choose which tip implementation to use and you can pass the
 tip options to use on creation.
 
@@ -223,8 +221,8 @@ an idea how to extend.
 
 ### QTip2 tips
 
-An alternative is to use QTip2 tips. You need to include both the QTip js and
-css for these to work.
+An alternative is to use QTip2 tips. You need to include both the QTip javascript and
+CSS for these to work.
 
 ```javascript
 var tour = new Tourist.Tour({
@@ -270,11 +268,11 @@ tour = new Tourist.Tour
 
 ## Testing/Building
 
-* uses coffeescript
+* Uses coffeescript
   * [install coffeescript][install]
   * `make watch` and `make test-watch`
-* start a webserver at the root. I use `python -m SimpleHTTPServer 8080`
-* visit http://localhost:8080/test/suite.html
+* Start a webserver at the root. I use `python -m SimpleHTTPServer 8080`
+* Visit http://localhost:8080/test/suite.html
 
 ## Structure
 
@@ -285,7 +283,7 @@ tour = new Tourist.Tour
 
 ## Contributing
 
-* adhere to our [styleguide][styleguide]
+* Adhere to our [styleguide][styleguide]
 * Send a pull request.
 * Write tests. New untested code will not be merged.
 
