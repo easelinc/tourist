@@ -57,7 +57,9 @@ p, ul, li{
 }
 .nav-section .nav li.twitter{
   position: absolute;
-  right: -130px;
+  overflow: hidden;
+  width: 76px;
+  right: -100px;
   top: 0px;
 }
 .nav-section .nav li a{
@@ -203,5 +205,14 @@ p, ul, li{
 }
 #tour2 img.tour-block.last {
   float: right;
+}
+
+
+
+@media screen and (max-width: 979px) {
+  .nav-section .nav li.twitter{
+    right: 0px;
+    top: 30px;
+  }
 }
 
