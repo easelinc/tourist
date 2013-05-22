@@ -15,14 +15,14 @@ The code is available via `bower install tourist`. Once you have the code, you j
 <script src="tourist.js"></script>
 
 <!-- Optional! -->
-<link rel="stylesheet" href="../tourist.css" type="text/css" media="screen">
+<link rel="stylesheet" href="tourist.css" type="text/css" media="screen">
 ```
 
 ## Dependencies
 
 Tourist depends on Backbone and jQuery.
 
-Tourist comes with the ability to use either Bootstrap popovers (default) or QTip2 tips, so you'll need either Bootstrap CSS (only the CSS is necessary!) or QTip2 installed. You can write your own tooltip connector if you'd like.
+Tourist comes with the ability to use either [Bootstrap popovers][popovers] (default) or [QTip2][qtip2] tips, so you'll need either Bootstrap CSS (only the CSS is necessary!) or QTip2 installed. You can write your own tooltip connector if you'd like.
 
 ## Basic Usage
 
@@ -296,6 +296,8 @@ MIT License
 [skeleton]: http://buttersafe.com/2008/03/13/romance-on-the-floating-island/
 [styleguide]: https://github.com/easelinc/coffeescript-style-guide
 
+[qtip2]: http://craigsworks.com/projects/qtip2/
+[popovers]: http://twitter.github.io/bootstrap/javascript.html#popovers
 [booteffect]: https://github.com/easelinc/tourist/blob/master/src/tip/bootstrap.coffee#L64
 [tipscode]: https://github.com/easelinc/tourist/tree/master/src/tip
 [bootstraptip]: https://github.com/easelinc/tourist/blob/master/src/tip/bootstrap.coffee
