@@ -46,10 +46,19 @@ p, ul, li{
 }
 .nav-section .nav{
   margin-top: 30px;
+  position: relative;
 }
 .nav-section .nav li{
   float: left;
   margin-left: 10px;
+}
+.nav-section .nav li iframe{
+  margin-top: 3px;
+}
+.nav-section .nav li.twitter{
+  position: absolute;
+  right: -130px;
+  top: 0px;
 }
 .nav-section .nav li a{
   color: #909090;
