@@ -83,14 +83,16 @@ A simple Example of a step object:
 
 ```javascript
 {
-  content: '<p>Welcome to my step</p>'
-  target: $('#something-to-point-at')
-  closeButton: true
-  highlightTarget: true
-  setup: (tour, options) ->
-    # do stuff in the interface/bind
-  teardown: (tour, options) ->
-    # remove stuff/unbind
+  content: '<p>Welcome to my step</p>',
+  target: $('#something-to-point-at'),
+  closeButton: true,
+  highlightTarget: true,
+  setup: (tour, options) {
+    // do stuff in the interface/bind
+  },
+  teardown: function(tour, options) {
+    // remove stuff/unbind
+  }
 }
 ```
 
@@ -140,7 +142,7 @@ Example, the target might be dynamic so you would specify:
 ```javascript
 {
   setup: function(tour, options) {
-    options.model.bind('change:thing', @onThingChange);
+    options.model.bind('change:thing', this.onThingChange);
     return { target: $('#point-to-me') };
   }
 }
@@ -156,7 +158,7 @@ things you bound to in setup().
 ```javascript
 {
   teardown: function(tour, options) {
-    options.model.unbind('change:thing', @onThingChange);
+    options.model.unbind('change:thing', this.onThingChange);
   }
 }
 ```
@@ -176,11 +178,11 @@ Will bind functions to the step object as this, and the first 2 args as tour and
     tour.next()
   },
   setup: function(tour, options) {
-    options.document.bind('change:something', @onChangeSomething);
+    options.document.bind('change:something', this.onChangeSomething);
     return {};
   },
   teardown: function(tour, options) {
-    options.document.unbind('change:something', @onChangeSomething)
+    options.document.unbind('change:something', this.onChangeSomething)
   }
 }
 ```
