@@ -48,9 +48,35 @@ var tour = new Tourist.Tour({
 tour.start();
 ```
 
+## Tour object
+
+Create one like this:
+
+```
+var steps = [{...}, {...}]
+var tour = new Tourist.Tour({
+  steps: steps
+});
+tour.start();
+```
+
+### Options
+
+* `steps` a collection of step objects
+* `stepOptions` an object of options to be passed to each function called on a step object
+* `tipOptions` an options object passed to the tip on creation
+* `cancelStep` step object for a step that runs if user hits the close button.
+* `successStep` step object for a step that runs last when they make it all the way through.
+
+### Methods
+
+* `start()` will start the tour. Can be used to restart a stopped tour
+* `stop(doFinalStep)` will stop the tour. doFinalStep is a bool; `true` will run the `cancelStep` specified in the options (if it's specified).
+* `next()` move to the next step
+
 ## The step object
 
-The 'step object' is a simple js obj that specifies how the step will behave.
+The 'step object' is a simple js obj that specifies how a step will behave.
 
 A simple Example of a step object:
 
@@ -88,48 +114,77 @@ A simple Example of a step object:
 
 ### Step object function options
 
-  All functions on the step will have the signature '(tour, options) ->'
+All functions on the step will have the signature `function(tour, options){}` where
 
-    tour - the Draw.Tour object. Handy to call tour.next()
-    options - the step options. An object passed into the tour when created.
-              It has the environment that the fns can use to manipulate the
-              interface, bind to events, etc. The same object is passed to all
-              of a step object's functions, so it is handy for passing data
-              between steps.
+* `tour` is the Draw.Tour object. Handy to call tour.next()
+* `options` is the step options. An object passed into the tour when created.
+            It has the environment that the fns can use to manipulate the
+            interface, bind to events, etc. The same object is passed to all
+            of a step object's functions, so it is handy for passing data
+            between steps.
 
-  setup - called before step is shown. Use to scroll to your target, hide/show things, ...
+Onto the options:
 
-    'this' is the step object itself.
+#### setup()
 
-    MUST return an object. Properties in the returned object will override
-    properties in the step object.
+`setup()` is called before a step is shown. Use it to scroll to your target, hide/show things, etc.
 
-    i.e. the target might be dynamic so you would specify:
+`this` is the step object itself.
 
-    setup: (tour, options) ->
-      return { target: $('#point-to-me') }
+`setup()` can return an object. Properties in the returned object will override
+properties in the step object.
 
-  teardown - function called right before hiding the step. Use to unbind from
-    things you bound to in setup().
+Example, the target might be dynamic so you would specify:
 
-    'this' is the step object itself.
+```
+{
+  ...
+  setup: function(tour, options) {
+    options.model.bind('change:thing', @onThingChange);
+    return { target: $('#point-to-me') };
+  }
+}
+```
 
-    Return nothing.
+#### teardown()
 
-  bind - an array of function names to bind. Use this for event handlers you use in setup().
+`teardown()` will be called right before hiding the step. Use to unbind from
+things you bound to in setup().
 
-    Will bind functions to the step object as this, and the first 2 args as tour and options.
+`this` is the step object itself.
 
-    i.e.
+```
+{
+  ...
+  teardown: function(tour, options) {
+    options.model.unbind('change:thing', @onThingChange);
+  }
+}
+```
 
-    bind: ['onChangeSomething']
-    setup: (tour, options) ->
-      options.document.bind('change:something', @onChangeSomething)
-    onChangeSomething: (tour, options, model, value) ->
-      tour.next()
-    teardown: (tour, options) ->
-      options.document.unbind('change:something', @onChangeSomething)
+Return nothing from `teardown()`
 
+#### bind
+
+`bind` is an array of function names to bind. Use this for event handlers you use in `setup()`.
+
+Will bind functions to the step object as this, and the first 2 args as tour and options. i.e.
+
+```
+{
+  bind: ['onChangeSomething'],
+  onChangeSomething: function(tour, options, model, value) {
+    tour.next()
+  },
+  setup: function(tour, options) {
+    options.document.bind('change:something', @onChangeSomething);
+    return {};
+  },
+  teardown: function(tour, options) {
+    options.document.unbind('change:something', @onChangeSomething)
+  }
+}
+```
 
 ## Testing/Building
 
