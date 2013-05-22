@@ -28,7 +28,7 @@ Tourist comes with the ability to use either Bootstrap popovers (default) or QTi
 
 Making a simple tour is easy:
 
-```
+```javascript
 var steps = [{
   // this is a step object
   content: '<p>Hey user, check this out!</p>',
@@ -64,8 +64,8 @@ tour.start();
 
 * `steps` a collection of step objects
 * `stepOptions` an object of options to be passed to each function called on a step object, notably the `setup()` and `teardown()` functions
-* `tipClass` the class from the Tourist.Tip namespace to use. Defaults to `Bootstrap`, you can use `QTip` if you have QTip2 installed
-* `tipOptions` an options object passed to the tip on creation
+* `tipClass` the class from the `Tourist.Tip` namespace to use. Defaults to `Bootstrap`, you can use `QTip` if you have QTip2 installed
+* `tipOptions` an options object passed to the `tipClass` on creation
 * `cancelStep` step object for a step that runs if user hits the close button.
 * `successStep` step object for a step that runs last when they make it all the way through.
 
