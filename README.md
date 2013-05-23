@@ -111,13 +111,13 @@ A simple Example of a step object:
              $(window) is commonly used. default: false
 * `my` string position of the pointer on the tip. default: 'left center'
 * `at` string position on the element the tip points to. default: 'right center' see http://craigsworks.com/projects/qtip2/docs/position/#basics
-
-### Step object button options
-
 * `okButton` optional bool, true will show a 'primary' ok button
 * `closeButton` optional bool, true will show a close button in the top right corner
 * `skipButton` optional bool, true will show a 'secondary' skip button
 * `nextButton` optional bool, true will show a 'primary' next button
+* `setup` optional function called before the tip is shown; see [setup](#setup) section
+* `teardown` optional function called when the tour moves to the next step; see [teardown](#teardown) section
+* `bind` optional list of function names to bind; see [bind](#bind) section
 
 ### Step object function options
 
