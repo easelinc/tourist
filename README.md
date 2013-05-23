@@ -1,3 +1,5 @@
+# Tourist.js
+
 Tourist.js is a simple library for creating guided tours through your app.
 It's better suited to complex, single-page apps than websites. One of our main
 requirements was the ability to control the interface for each step. For
@@ -47,6 +49,8 @@ var tour = new Tourist.Tour({
 });
 tour.start();
 ```
+
+# Reference
 
 ## Tour object
 
