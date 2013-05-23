@@ -45,6 +45,8 @@
 
     Base.prototype.nextButtonTemplate = '<button class="btn btn-primary btn-small pull-right tour-next">Next step →</button>';
 
+    Base.prototype.finalButtonTemplate = '<button class="btn btn-primary btn-small pull-right tour-next">Finish up</button>';
+
     Base.prototype.closeButtonTemplate = '<a class="btn btn-close tour-close" href="#"><i class="icon icon-remove"></i></a>';
 
     Base.prototype.okButtonTemplate = '<button class="btn btn-small tour-close btn-primary">Okay</button>';
@@ -165,7 +167,7 @@
         buttons += this.skipButtonTemplate;
       }
       if (step.nextButton) {
-        buttons += this.nextButtonTemplate;
+        buttons += step.final ? this.finalButtonTemplate : this.nextButtonTemplate;
       }
       return buttons;
     };
@@ -529,7 +531,7 @@
       this.onChangeCurrentStep = __bind(this.onChangeCurrentStep, this);
       this.next = __bind(this.next, this);
       defs = {
-        tipClass: 'Simple'
+        tipClass: 'Bootstrap'
       };
       this.options = _.extend(defs, this.options);
       this.model = new Tourist.Model({
@@ -647,6 +649,9 @@
       step = _.clone(step);
       step.index = index;
       step.total = this.options.steps.length;
+      if (!step.final) {
+        step.final = this.options.steps.length === index + 1 && !this.options.successStep;
+      }
       step = _.extend(step, this._setupStep(step));
       return this.model.set({
         current_step: step
