@@ -104,7 +104,7 @@ A simple Example of a step object:
 
 * `content` a string of html to put into the step.
 * `target` jQuery object or absolute point: [10, 30]
-* `highlightTarget` optional bool, true will outline the target with a bright color.
+* `highlightTarget` optional bool, true will add the class `tour-highlight` to the target. If tourist.css is included, it will outline the target with a bright color.
 * `container` optional jQuery element that should contain the step flyout.
               default: $('body')
 * `viewport` optional jQuery element that the step flyout should stay within.
