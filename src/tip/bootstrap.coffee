@@ -204,10 +204,14 @@ class Tourist.Tip.BootstrapTip
   # Figure out where we need to point to on the target element.
   #
   # myPosition - position string on the target. e.g. 'top left'
-  # target - target as a jquery element
+  # target - target as a jquery element or an array of coords. i.e. [10,30]
   #
   # returns an object with top and left attrs
   _caculateTargetPosition: (atPosition, target) ->
+
+    if Object.prototype.toString.call(target) == '[object Array]'
+      return {left: target[0], top: target[1]}
+
     bounds = @_getTargetBounds(target)
     pos = @_lookupPosition(atPosition, bounds.width, bounds.height)
 

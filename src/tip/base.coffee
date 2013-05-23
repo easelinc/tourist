@@ -148,7 +148,7 @@ class Tourist.Tip.Base
       counter: if step.final then '' else "step #{step.index+1} of #{step.total}"
       counter_class: if step.final then 'final' else ''
     )))
-    content.find('.tour-buttons').remove() unless buttons
+    content.find('.tour-buttons').addClass('no-buttons') unless buttons
 
     @_renderActionLabels(content)
 
