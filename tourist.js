@@ -450,6 +450,12 @@
     BootstrapTip.prototype._caculateTargetPosition = function(atPosition, target) {
       var bounds, pos;
 
+      if (Object.prototype.toString.call(target) === '[object Array]') {
+        return {
+          left: target[0],
+          top: target[1]
+        };
+      }
       bounds = this._getTargetBounds(target);
       pos = this._lookupPosition(atPosition, bounds.width, bounds.height);
       return {

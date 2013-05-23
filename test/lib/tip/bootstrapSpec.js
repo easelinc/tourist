@@ -84,13 +84,19 @@
         this.s.setPosition(el, 'top center', 'bottom center');
         return expect(this.s.el).toHide();
       });
-      return it('setPosition keeps the tip shown', function() {
+      it('setPosition keeps the tip shown', function() {
         var el;
 
         this.s.show();
         el = $('#target-one');
         this.s.setPosition(el, 'top center', 'bottom center');
         return expect(this.s.el).toShow();
+      });
+      return it('setPosition handles an absolute point', function() {
+        this.s.show();
+        this.s.setPosition([20, 30], 'top left', null);
+        expect(this.s.el.css('top')).toEqual('40px');
+        return expect(this.s.el.css('left')).toEqual('10px');
       });
     });
   });

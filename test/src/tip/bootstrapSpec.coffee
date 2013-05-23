@@ -88,3 +88,11 @@ describe "Tourist.Tip.BootstrapTip", ->
       @s.setPosition(el, 'top center', 'bottom center')
 
       expect(@s.el).toShow()
+
+    it 'setPosition handles an absolute point', ->
+      @s.show()
+
+      @s.setPosition([20, 30], 'top left', null)
+
+      expect(@s.el.css('top')).toEqual('40px')
+      expect(@s.el.css('left')).toEqual('10px')
