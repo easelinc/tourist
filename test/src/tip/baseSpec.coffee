@@ -31,6 +31,7 @@ window.BasicTipTests = (description, tipGenerator) ->
         @s.setTarget(el, {highlightTarget: false})
         expect(el).not.toHaveClass(@s.highlightClass)
 
+
 BasicTipTests 'with Tourist.Tip.Simple', ->
   new Tourist.Tip.Simple
     model: @model

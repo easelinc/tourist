@@ -1,7 +1,7 @@
 {
-  "name": "Tourist",
-  "version": "0.0.3",
-  "main": ["./tourist.js"],
+  "name": "Tourist.js",
+  "version": "0.0.4",
+  "main": ["./tourist.js", "./tourist.css"],
   "dependencies": {},
   "ignore": [
     ".gitignore",

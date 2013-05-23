@@ -89,13 +89,14 @@ class Tourist.Tour
 
   # options - tour options
   #   stepOptions - an object of options to be passed to each function called on a step object
+  #   tipClass - the class from the Tourist.Tip namespace to use
   #   tipOptions - an object passed to the tip
   #   steps - array of step objects
   #   cancelStep - step object for a step that runs if hit the close button.
   #   successStep - step object for a step that runs last when they make it all the way through.
   constructor: (@options={}) ->
     defs =
-      tipClass: 'Simple'
+      tipClass: 'Bootstrap'
     @options = _.extend(defs, @options)
 
     @model = new Tourist.Model
@@ -228,6 +229,9 @@ class Tourist.Tour
     step = _.clone(step)
     step.index = index
     step.total = @options.steps.length
+
+    unless step.final
+      step.final = (@options.steps.length == index+1 and not @options.successStep)
 
     # can pass dynamic options from setup
     step = _.extend(step, @_setupStep(step))
