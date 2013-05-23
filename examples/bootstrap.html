@@ -33,6 +33,28 @@
     target: $('#main-heading'),
     my: 'top center',
     at: 'bottom center'
+  },{
+    content: '<p>This is a tip with no buttons</p><p class="action">Click the heading to continue</p>',
+    highlightTarget: true,
+    target: $('#main-heading'),
+    my: 'top center',
+    at: 'bottom center',
+    bind: ['onClick'],
+    setup: function(tour, options) {
+      $('#main-heading').on('click', this.onClick);
+    },
+    teardown: function(tour, options) {
+      $('#main-heading').off('click', this.onClick);
+    },
+    onClick: function(tour){
+      tour.next();
+      return false;
+    }
+  },{
+    content: '<p>This points to an absolute position: [100, 100]</p>',
+    target: [100, 100],
+    nextButton: true,
+    my: 'top left'
   }]
 
   FINAL = {
