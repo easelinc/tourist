@@ -197,7 +197,7 @@ tip options to use on creation.
 
 ### Bootstrap tips
 
-Bootstrap tips are the default tip. They use only the markup and css from
+Bootstrap tips are the default tip. They use only the markup and CSS from
 Bootstrap. Bootstrap's javascript for tooltips or popovers is not necessary.
 Here's how to use them.
 
