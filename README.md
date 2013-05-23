@@ -9,7 +9,7 @@ correctly. Tourist gives you hooks to do this.
 Basically, you specify a series of steps which explain elements to point at
 and what to say. Tourist.js manages moving between those steps.
 
-## Install
+### Install
 
 The code is available via `bower install tourist`. Once you have the code, you just need to include the javascript file. An optional CSS file with minimal styling is included as well.
 
@@ -20,13 +20,13 @@ The code is available via `bower install tourist`. Once you have the code, you j
 <link rel="stylesheet" href="tourist.css" type="text/css" media="screen">
 ```
 
-## Dependencies
+### Dependencies
 
 Tourist depends on Backbone and jQuery. jQuery UI is optional. Tourist uses an easing function from jQuery UI if present in the show effect with the Bootstrap tip implementation.
 
 Tourist comes with the ability to use either [Bootstrap popovers][popovers] (default) or [QTip2][qtip2] tips, so you'll need either Bootstrap CSS (only the CSS is necessary!) or QTip2 installed. You can write your own tooltip connector if you'd like.
 
-## Basic Usage
+### Basic Usage
 
 Making a simple tour is easy:
 
