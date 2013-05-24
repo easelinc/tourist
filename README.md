@@ -12,7 +12,9 @@ and what to say. Tourist.js manages moving between those steps.
 
 ### Install
 
-The code is available via `bower install tourist`. Once you have the code, you just need to include the javascript file. An optional CSS file with minimal styling is included as well.
+The code is available via `bower install tourist`. Once you have the
+code, you just need to include the javascript file. An optional CSS file
+with minimal styling is included as well.
 
 ```html
 <script src="tourist.js"></script>
@@ -23,9 +25,14 @@ The code is available via `bower install tourist`. Once you have the code, you j
 
 ### Dependencies
 
-Tourist depends on Backbone and jQuery. jQuery UI is optional. Tourist uses an easing function from jQuery UI if present in the show effect with the Bootstrap tip implementation.
+Tourist depends on Backbone and jQuery. jQuery UI is optional. Tourist
+uses an easing function from jQuery UI if present in the show effect
+with the Bootstrap tip implementation.
 
-Tourist comes with the ability to use either [Bootstrap popovers][popovers] (default) or [QTip2][qtip2] tips, so you'll need either Bootstrap CSS (only the CSS is necessary!) or QTip2 installed. You can write your own tooltip connector if you'd like.
+Tourist comes with the ability to use either [Bootstrap popovers][popovers]
+(default) or [QTip2][qtip2] tips, so you'll need either Bootstrap CSS
+(only the CSS is necessary!) or QTip2 installed.  You can write your own
+tooltip connector if you'd like.
 
 ### Basic Usage
 
@@ -133,7 +140,8 @@ All functions on the step will have the signature `function(tour, options){}` wh
 
 #### setup()
 
-`setup()` is called before a step is shown. Use it to scroll to your target, hide/show things, etc.
+`setup()` is called before a step is shown. Use it to scroll to your
+target, hide/show things, etc.
 
 `this` is the step object itself.
 
@@ -170,9 +178,11 @@ Return nothing from `teardown()`
 
 #### bind
 
-`bind` is an array of function names to bind. Use this for event handlers you use in `setup()`.
+`bind` is an array of function names to bind. Use this for event
+handlers you use in `setup()`.
 
-Will bind functions to the step object as this, and the first 2 args as tour and options. i.e.
+Will bind functions to the step object as this, and the first 2 args as
+tour and options. i.e.
 
 ```javascript
 {
@@ -226,8 +236,8 @@ an idea how to extend.
 
 ### QTip2 tips
 
-An alternative is to use QTip2 tips. You need to include both the QTip javascript and
-CSS for these to work.
+An alternative is to use QTip2 tips. You need to include both the QTip
+javascript and CSS for these to work.
 
 ```javascript
 var tour = new Tourist.Tour({
@@ -243,7 +253,10 @@ Options accepted are any options QTip supports and in their format.
 
 ### Your own Tip implementation
 
-You can use your own tip implementation if you want. Make a class and hang it off the `Tourist.Tip` namespace. See [the tips code][tipscode] for examples. The [bootstrap example][bootstraptip] is probably most interesting. Here is a basic example in coffeescript:
+You can use your own tip implementation if you want. Make a class and
+hang it off the `Tourist.Tip` namespace. See [the tips code][tipscode]
+for examples. The [bootstrap example][bootstraptip] is probably most
+interesting. Here is a basic example in coffeescript:
 
 ```coffeescript
 # you need to provide these implementations at a minimum
