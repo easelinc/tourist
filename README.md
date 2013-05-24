@@ -1,4 +1,5 @@
-# Tourist.js
+# Tourist.js [![Build Status](https://travis-ci.org/easelinc/tourist.png)](https://travis-ci.org/easelinc/tourist)
+
 
 Tourist.js is a simple library for creating guided tours through your app.
 It's better suited to complex, single-page apps than websites. One of our main
