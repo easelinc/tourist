@@ -289,11 +289,7 @@ tour = new Tourist.Tour
 * Requires grunt `npm install -g grunt-cli`
 * Install grunt modules `npm install`
 * Automatically compile changes `grunt watch`
-* Run tests with grunt
-  * just run `grunt test`
-* Or run tests in your browser
-  * Start a webserver at the root. I use `python -m SimpleHTTPServer 8080`
-  * Visit `http://localhost:8080/test/suite.html`
+* Run tests with grunt `grunt test`
 
 ## Structure
 
