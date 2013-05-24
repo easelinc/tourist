@@ -5,8 +5,9 @@
   "dependencies": {},
   "ignore": [
     ".gitignore",
+    ".travis.yml",
     "LICENSE",
-    "Makefile",
+    "Gruntfile.js",
     "**/*.md",
     "**/*.json",
     "src/",
