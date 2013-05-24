@@ -1,4 +1,5 @@
-# Tourist.js
+# Tourist.js [![Build Status](https://travis-ci.org/easelinc/tourist.png)](https://travis-ci.org/easelinc/tourist)
+
 
 Tourist.js is a simple library for creating guided tours through your app.
 It's better suited to complex, single-page apps than websites. One of our main
@@ -272,9 +273,9 @@ tour = new Tourist.Tour
 
 ## Testing/Building
 
-* Uses coffeescript
-  * [install coffeescript][install]
-  * `make watch` and `make test-watch`
+* Requires grunt `npm install -g grunt-cli`
+* Install grunt modules `npm install`
+* Automatically compile changes `grunt watch`
 * Start a webserver at the root. I use `python -m SimpleHTTPServer 8080`
 * Visit http://localhost:8080/test/suite.html
 

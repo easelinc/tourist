@@ -1,5 +1,5 @@
-jasmine.getFixtures().fixturesPath = 'fixtures'
-jasmine.getStyleFixtures().fixturesPath = 'fixtures'
+jasmine.getFixtures().fixturesPath = 'test/fixtures'
+jasmine.getStyleFixtures().fixturesPath = 'test/fixtures'
 
 beforeEach ->
   @addMatchers
