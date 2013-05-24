@@ -1,5 +1,6 @@
 .DS_Store
 
-test/lib/*.js
+test/lib
 node_modules/*
 tourist.coffee
+.grunt
