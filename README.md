@@ -291,6 +291,11 @@ tour = new Tourist.Tour
 * Automatically compile changes `grunt watch`
 * Run tests with grunt `grunt test`
 
+## Browser support
+
+Officially tested on latest Firefox and Chrome
+
+
 ## Structure
 
 * /test/src - coffeescript jasmine tests
