@@ -93,8 +93,8 @@
         content:
           '<p>Obviously you\'ve chosen the best one!</p>'+
           '<p>'+
-          '  Notice you cannot chose the other kitten.'+
-          '  When the tour is over, you will be able to.'+
+          '  Notice you cannot choose the other kitten.'+
+          '  In the next step, you will be able to.'+
           '</p>',
         highlightTarget: true,
         nextButton: true,
@@ -115,16 +115,14 @@
       var successStep = {
         // Final step after a successful run through
         content:
-          '<p>Nice job, this is a success step</p>'+
-          '<p>'+
-          '  You can run this again with this example button.'+
-          '</p>',
+          '<p>Nice job, this is a success step.</p>'+
+          '<p>Notice you can now choose either kitten.</p>',
         closeButton: true,
         nextButton: true,
         highlightTarget: true,
         my: 'left center',
         at: 'right center',
-        target: $('.btn-run-tour2')
+        target: $('.kittens')
       }
 
       var tour = new Tourist.Tour({
@@ -238,9 +236,9 @@
       <p>
         Tourist.js is a simple library for creating guided tours through your
         app. It's better suited to complex, single-page apps than websites.
-        One of our main requirements was the ability to control the interface
-        for each step. For example, a step in the tour might need to open a
-        window or menu to work correctly. Tourist gives you hooks to do this.
+        Our main requirement was the ability to control the interface for each
+        step. For example, a step might need to open a window or menu, or wait
+        for the user to complete a task. Tourist gives you hooks to do this.
       </p>
     </section>
 
@@ -248,12 +246,12 @@
     <section>
       <h2>Installation</h2>
 
-      <p>The code is available via <code>bower install tourist</code> or on github. Once you have the code, you just need to include the javascript file. An optional CSS file with minimal styling is included as well.</p>
+      <p>The code is available via <code>bower install tourist</code> or on github. Once you have the code, you just need to include the javascript file. An optional CSS file with minimal styling is available as well.</p>
 
       <pre><code class="xml">&lt;script src="tourist.js">&lt;/script>
 
 &lt;!-- Optional! -->
-&lt;link rel="stylesheet" href="../tourist.css" type="text/css" media="screen"></code></pre>
+&lt;link rel="stylesheet" href="tourist.css" type="text/css" media="screen"></code></pre>
     </section>
 
     <section>
