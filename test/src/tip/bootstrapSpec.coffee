@@ -47,6 +47,18 @@ describe "Tourist.Tip.Bootstrap", ->
 
       expect(Tourist.Tip.Bootstrap.effects.hideeff).toHaveBeenCalled()
 
+  describe 'setTarget', ->
+    it 'setPosition will not show the tip', ->
+
+      el = $('#target-one')
+      @s.tip.setPosition(el, 'top center', 'bottom center')
+
+      spyOn(@s.tip, '_setPosition')
+
+      @s.setTarget([10,20], {})
+
+      expect(@s.tip._setPosition).toHaveBeenCalledWith([10,20], 'top center', 'bottom center')
+
 # Only test the basic things here. Positioning of the popover and the arrow is
 # hard to test in code. There is an html file in examples/bootstrap-position-
 # test.html to test all the positions.

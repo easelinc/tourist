@@ -40,6 +40,16 @@ class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
   _getTipElement: ->
     @tip.el
 
+  # Set the current target. Overridden to set the target on the tip.
+  #
+  # target - a jquery element that this flyout should point to.
+  # step - step object
+  #
+  # Return nothing
+  _setTarget: (target, step) ->
+    super(target, step)
+    @tip.setTarget(target)
+
   # Jam the content into the tip's body. Also place the tip along side the
   # target element.
   _renderContent: (step, contentElement) ->
@@ -136,6 +146,9 @@ class Tourist.Tip.BootstrapTip
   hide: ->
     @el.hide().removeClass('visible')
 
+  setTarget: (@target) ->
+    @_setPosition(@target, @my, @at)
+
   setPosition: (@target, @my, @at) ->
     @_setPosition(@target, @my, @at)
 
@@ -160,7 +173,7 @@ class Tourist.Tip.BootstrapTip
   # target - target node as a jquery element
   # my - position of the tip e.g. 'top center'
   # at - where to point to the target e.g. 'bottom center'
-  _setPosition: (target, my, at) ->
+  _setPosition: (target, my='left center', at='right center') ->
     [clas, shift] = my.split(' ')
 
     originalDisplay = @el.css('display')

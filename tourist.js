@@ -281,6 +281,11 @@
       return this.tip.el;
     };
 
+    Bootstrap.prototype._setTarget = function(target, step) {
+      Bootstrap.__super__._setTarget.call(this, target, step);
+      return this.tip.setTarget(target);
+    };
+
     Bootstrap.prototype._renderContent = function(step, contentElement) {
       var at, my;
 
@@ -377,6 +382,11 @@
       return this.el.hide().removeClass('visible');
     };
 
+    BootstrapTip.prototype.setTarget = function(target) {
+      this.target = target;
+      return this._setPosition(this.target, this.my, this.at);
+    };
+
     BootstrapTip.prototype.setPosition = function(target, my, at) {
       this.target = target;
       this.my = my;
@@ -408,6 +418,12 @@
     BootstrapTip.prototype._setPosition = function(target, my, at) {
       var clas, css, originalDisplay, position, shift, targetPosition, tip, tipOffset, tipPosition, _ref2;
 
+      if (my == null) {
+        my = 'left center';
+      }
+      if (at == null) {
+        at = 'right center';
+      }
       _ref2 = my.split(' '), clas = _ref2[0], shift = _ref2[1];
       originalDisplay = this.el.css('display');
       this.el.css({
