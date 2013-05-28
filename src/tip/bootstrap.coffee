@@ -196,7 +196,7 @@ class Tourist.Tip.BootstrapTip
     tipPosition = @_caculateTipPosition(my, targetPosition)
     position = @_adjustForArrow(my, tipPosition)
 
-    @el.offset(position)
+    @el.css(position)
 
     # reset the display so we dont inadvertantly show the tip
     @el.css(display: originalDisplay)

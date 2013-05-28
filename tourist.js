@@ -440,7 +440,7 @@
       targetPosition = this._caculateTargetPosition(at, target);
       tipPosition = this._caculateTipPosition(my, targetPosition);
       position = this._adjustForArrow(my, tipPosition);
-      this.el.offset(position);
+      this.el.css(position);
       return this.el.css({
         display: originalDisplay
       });
