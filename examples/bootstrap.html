@@ -55,6 +55,19 @@
     target: [100, 100],
     nextButton: true,
     my: 'top left'
+  },{
+    content: '<p>This was delayed 1 second</p>',
+    nextButton: true,
+    highlightTarget: true,
+    my: 'top center',
+    at: 'bottom center',
+    setup: function(tour, options) {
+      var self = this;
+      setTimeout(function(){
+        tour.view.setTarget($('#main-heading'), self);
+        tour.view.show()
+      }, 1000)
+    },
   }]
 
   FINAL = {

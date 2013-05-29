@@ -177,6 +177,8 @@ class Tourist.Tip.BootstrapTip
   # my - position of the tip e.g. 'top center'
   # at - where to point to the target e.g. 'bottom center'
   _setPosition: (target, my='left center', at='right center') ->
+    return unless target
+
     [clas, shift] = my.split(' ')
 
     originalDisplay = @el.css('display')
