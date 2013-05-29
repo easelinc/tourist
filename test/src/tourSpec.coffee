@@ -41,6 +41,7 @@ window.BasicTourTests = (description, tourGenerator) ->
           <p class="finalquit">The user quit early</p>
         '''
         okButton: true
+        target: $('#target-one')
         setup: ->
         teardown: ->
 
@@ -49,6 +50,7 @@ window.BasicTourTests = (description, tourGenerator) ->
           <p class="finalsuccess">User made it all the way through</p>
         '''
         okButton: true
+        target: $('#target-one')
         setup: ->
         teardown: ->
 

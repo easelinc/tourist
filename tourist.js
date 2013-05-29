@@ -77,7 +77,9 @@
       if (step) {
         this._setTarget(step.target || false, step);
         this._renderContent(step, this._buildContentElement(step));
-        this.show();
+        if (step.target) {
+          this.show();
+        }
       }
       return this;
     };
@@ -320,6 +322,7 @@
         side = 'left';
       }
       value = parseInt(element.css(side));
+      element.stop();
       css = {};
       css[side] = value + offset;
       element.css(css);
@@ -423,6 +426,9 @@
       }
       if (at == null) {
         at = 'right center';
+      }
+      if (!target) {
+        return;
       }
       _ref2 = my.split(' '), clas = _ref2[0], shift = _ref2[1];
       originalDisplay = this.el.css('display');

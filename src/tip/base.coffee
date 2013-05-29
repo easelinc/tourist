@@ -60,7 +60,7 @@ class Tourist.Tip.Base
     if step
       @_setTarget(step.target or false, step)
       @_renderContent(step, @_buildContentElement(step))
-      @show()
+      @show() if step.target
 
     this
 
