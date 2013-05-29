@@ -68,6 +68,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
 
-  grunt.registerTask('test', ['coffee', 'jasmine']);
+  grunt.registerTask('test', ['concat', 'coffee', 'jasmine']);
   grunt.registerTask('default', ['concat', 'coffee', 'uglify']);
 };
