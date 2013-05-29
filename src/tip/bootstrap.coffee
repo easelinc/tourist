@@ -87,6 +87,9 @@ Tourist.Tip.Bootstrap.effects =
 
     value = parseInt(element.css(side))
 
+    # stop the previous animation
+    element.stop()
+
     # set initial position
     css = {}
     css[side] = value + offset
