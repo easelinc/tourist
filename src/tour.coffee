@@ -108,6 +108,7 @@ class Tourist.Tour
 
     @view.bind('click:close', _.bind(@stop, this, true))
     @view.bind('click:next', @next)
+    @view.bind('keyup:next', @next)
 
     @model.bind('change:current_step', @onChangeCurrentStep)
 

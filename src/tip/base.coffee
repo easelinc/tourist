@@ -97,6 +97,11 @@ class Tourist.Tip.Base
   onClickNext: (event) =>
     @trigger('click:next', this, event)
     false
+    
+  # User clicked next or skip button
+  onKeyupNext: (event) =>
+    @trigger('click:next', this, event)
+    false    
 
 
   ###
@@ -119,6 +124,12 @@ class Tourist.Tip.Base
   # Bind to the buttons
   _bindClickEvents: ->
     el = @_getTipElement()
+    keyupNext = @onKeyupNext
+    $('html').keyup (eventObject)->
+      console.log eventObject.keyCode
+      if eventObject.keyCode == 13 or eventObject.keyCode == 39
+        keyupNext(eventObject)
+        
     el.delegate('.tour-close', 'click', @onClickClose)
     el.delegate('.tour-next', 'click', @onClickNext)
 
