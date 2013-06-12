@@ -312,6 +312,11 @@ Officially tested on latest Firefox and Chrome
 * Send a pull request.
 * Write tests. New untested code will not be merged.
 
+## Changelog
+
+* `major.minor.patch`: yyyy.mm.dd - description
+* `0.0.12`: 2013-06-12 - add zIndex step object option
+
 MIT License
 
 [jasmine]: http://pivotal.github.com/jasmine/
