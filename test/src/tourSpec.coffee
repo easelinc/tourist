@@ -75,6 +75,20 @@ window.BasicTourTests = (description, tourGenerator) ->
         expect(el.find('.action-label')).toExist()
         expect(el.find('.action-label').text()).toEqual('Do this:')
 
+    describe 'zIndex parameter', ->
+      it 'uses specified z-index', ->
+        @steps[0].zIndex = 4000
+        @s.start()
+        el = @s.view._getTipElement()
+        expect(el.attr('style')).toContain('z-index: 4000')
+
+      it 'clears z-index when not specified', ->
+        @steps[0].zIndex = 4000
+        @s.start()
+        @s.next()
+        el = @s.view._getTipElement()
+        expect(el.attr('style')).not.toContain('z-index: 4000')
+
     describe 'stepping', ->
       it 'starts and updates the model', ->
         expect(@s.model.get('current_step')).toEqual(null)
