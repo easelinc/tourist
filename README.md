@@ -117,6 +117,9 @@ A simple Example of a step object:
               default: $('body')
 * `viewport` optional jQuery element that the step flyout should stay within.
              $(window) is commonly used. default: false
+* `zIndex` optional string or number z-index value for the tip. If not specified, will use
+           value specified in css (or base tip implementation in case of QTip2 tips).
+           Value set on prev step will not affect later steps.
 * `my` string position of the pointer on the tip. default: 'left center'
 * `at` string position on the element the tip points to. default: 'right center' see http://craigsworks.com/projects/qtip2/docs/position/#basics
 * `okButton` optional bool, true will show a 'primary' ok button
