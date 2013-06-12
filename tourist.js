@@ -76,9 +76,13 @@
       this.hide();
       if (step) {
         this._setTarget(step.target || false, step);
+        this._setZIndex('');
         this._renderContent(step, this._buildContentElement(step));
         if (step.target) {
           this.show();
+        }
+        if (step.zIndex) {
+          this._setZIndex(step.zIndex, step);
         }
       }
       return this;
@@ -137,6 +141,13 @@
         target.addClass(this.highlightClass);
       }
       return this.target = target;
+    };
+
+    Base.prototype._setZIndex = function(zIndex) {
+      var el;
+
+      el = this._getTipElement();
+      return el.css('z-index', zIndex || '');
     };
 
     Base.prototype._buildContentElement = function(step) {

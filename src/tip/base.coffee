@@ -59,8 +59,10 @@ class Tourist.Tip.Base
 
     if step
       @_setTarget(step.target or false, step)
+      @_setZIndex('')
       @_renderContent(step, @_buildContentElement(step))
       @show() if step.target
+      @_setZIndex(step.zIndex, step) if step.zIndex
 
     this
 
@@ -132,6 +134,13 @@ class Tourist.Tip.Base
     @cleanupCurrentTarget()
     target.addClass(@highlightClass) if target and step and step.highlightTarget
     @target = target
+
+  # Set z-index on the tip element.
+  #
+  # zIndex - the z-index desired; falsy val will clear it.
+  _setZIndex: (zIndex) ->
+    el = @_getTipElement()
+    el.css('z-index', zIndex or '')
 
   # Will build the element that has all the content for the current step
   #

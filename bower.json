@@ -1,6 +1,6 @@
 {
   "name": "Tourist.js",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "main": ["./tourist.js", "./tourist.min.js", "./tourist.css"],
   "dependencies": {},
   "ignore": [
