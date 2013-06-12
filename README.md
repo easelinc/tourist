@@ -312,7 +312,7 @@ Officially tested on latest Firefox and Chrome
 * Send a pull request.
 * Write tests. New untested code will not be merged.
 
-## Changelog
+## Release History
 
 * `major.minor.patch`: yyyy.mm.dd - description
 * `0.0.12`: 2013-06-12 - add zIndex step object option
