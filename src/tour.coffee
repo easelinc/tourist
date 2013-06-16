@@ -88,6 +88,7 @@ class Tourist.Tour
   _.extend(@prototype, Backbone.Events)
 
   # options - tour options
+  #   keyboard - an object specifying the configuration for keyboard controls
   #   stepOptions - an object of options to be passed to each function called on a step object
   #   tipClass - the class from the Tourist.Tip namespace to use
   #   tipOptions - an object passed to the tip
