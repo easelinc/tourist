@@ -155,12 +155,12 @@ class Tourist.Tour
   #
   # Return nothing
   processKeyboard: (view, event) =>
-    if @_inOptionalArray event.keyCode, @options.keyboard.next
+    if @_inOptionalArray(event.keyCode, @options.keyboard.next)
       if view.options.model.attributes.current_step.nextButton?
-        @next()
+        @_keyboardNext()
     
-    if @_inOptionalArray event.keyCode, @options.keyboard.cancel
-      @stop()
+    if @_inOptionalArray(event.keyCode, @options.keyboard.stop)
+      @_keyboardStop()
     
   
   # Set the stepOptions which is basically like the state for the tour.
@@ -284,3 +284,15 @@ class Tourist.Tour
   # Return true if variable is in optionalArray or is optionalArray
   _inOptionalArray: (variable, optionalArray) ->
     return variable == optionalArray or variable in optionalArray
+    
+  # Proceed to next step after keycode has been matched
+  #
+  # Return nothing
+  _keyboardNext: ->
+    @next()
+  
+  # Cancel tour keycode has been matched
+  #
+  # Return nothing
+  _keyboardStop: ->
+    @stop(true)

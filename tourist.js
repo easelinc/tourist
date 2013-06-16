@@ -135,6 +135,10 @@
       el = this._getTipElement();
       el.delegate('.tour-close', 'click', this.onClickClose);
       el.delegate('.tour-next', 'click', this.onClickNext);
+      return this._bindKeyboardEvents();
+    };
+
+    Base.prototype._bindKeyboardEvents = function(el) {
       return $('html').keyup(_.bind(this.onKeyboardInput, el));
     };
 
@@ -929,11 +933,11 @@
     Tour.prototype.processKeyboard = function(view, event) {
       if (this._inOptionalArray(event.keyCode, this.options.keyboard.next)) {
         if (view.options.model.attributes.current_step.nextButton != null) {
-          this.next();
+          this._keyboardNext();
         }
       }
-      if (this._inOptionalArray(event.keyCode, this.options.keyboard.cancel)) {
-        return this.stop();
+      if (this._inOptionalArray(event.keyCode, this.options.keyboard.stop)) {
+        return this._keyboardStop();
       }
     };
 
@@ -1036,6 +1040,14 @@
 
     Tour.prototype._inOptionalArray = function(variable, optionalArray) {
       return variable === optionalArray || __indexOf.call(optionalArray, variable) >= 0;
+    };
+
+    Tour.prototype._keyboardNext = function() {
+      return this.next();
+    };
+
+    Tour.prototype._keyboardStop = function() {
+      return this.stop(true);
     };
 
     return Tour;

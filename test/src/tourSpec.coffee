@@ -6,6 +6,11 @@ window.BasicTourTests = (description, tourGenerator) ->
       @options =
         this: 1
         that: 34
+        
+      @keyboard = {
+        next: [39, 13]
+        cancel: 27
+      }
 
       @steps = [{
         content: '''
@@ -262,6 +267,43 @@ window.BasicTourTests = (description, tourGenerator) ->
         @s.view.onClickClose({})
         expect(@s.model.get('current_step')).toEqual(null)
 
+    describe 'keyboard controls', ->
+      
+      xit 'should check if keycode is in optional array', ->
+        runs ->
+          @s.start()
+          @s.view.trigger('keyup', 13)
+          setTimeout (-> @s.view.trigger('keyup', 39)), 50
+          
+        waitsFor (-> @s.model.get('current_step').index == 2), 100
+        
+        runs ->
+          expect(@s.model.get('current_step').index).toEqual(2)
+          @s.view.trigger('keyup', 27)
+          
+        waitsFor (-> @s.model.get('current_step').final), 50
+        
+        expect(@s.model.get('current_step').final).toEqual(true)
+        
+      it 'should check if keycode is in optional array', ->
+        expect(@s._inOptionalArray(13, [13, 39])).toEqual(true)
+        expect(@s._inOptionalArray(39, [13, 39])).toEqual(true)
+        expect(@s._inOptionalArray(27, 27)).toEqual(true)
+        
+        expect(@s._inOptionalArray(27, [13, 39])).toEqual(false)
+        expect(@s._inOptionalArray(13, 27)).toEqual(false)
+      
+      it 'handles all "next" keys', ->
+        @s.start()
+        @s._keyboardNext()
+        expect(@s.model.get('current_step').index).toEqual(1)
+        
+      it 'handles all "cancel" keys', ->
+        @s.start()
+        @s.next()
+        @s._keyboardStop()
+        expect(@s.model.get('current_step').final).toEqual(true)
+    
     describe 'events', ->
       it 'emits a start event', ->
         spy = jasmine.createSpy()

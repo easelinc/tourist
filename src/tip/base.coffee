@@ -121,12 +121,16 @@ class Tourist.Tip.Base
   _renderContent: (step, contentElement) ->
     # Override me
 
-  # Bind to the buttons and keyboard
+  # Bind to the buttons
   _bindClickEvents: ->
     el = @_getTipElement()
     el.delegate('.tour-close', 'click', @onClickClose)
     el.delegate('.tour-next', 'click', @onClickNext)
-    $('html').keyup _.bind(@onKeyboardInput, el)
+    @_bindKeyboardEvents()
+
+  # Bind keyboard events
+  _bindKeyboardEvents: (el) ->
+    $('html').keyup(_.bind(@onKeyboardInput, el))
 
   # Set the current target
   #
