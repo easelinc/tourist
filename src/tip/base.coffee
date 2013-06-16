@@ -98,9 +98,9 @@ class Tourist.Tip.Base
     @trigger('click:next', this, event)
     false
     
-  # User clicked next or skip button
-  onKeyupNext: (event) =>
-    @trigger('click:next', this, event)
+  # User navitgated next through the keyboard
+  onKeyboardInput: (event) =>
+    @trigger('keyboard', this, event)
     false    
 
 
@@ -121,17 +121,12 @@ class Tourist.Tip.Base
   _renderContent: (step, contentElement) ->
     # Override me
 
-  # Bind to the buttons
+  # Bind to the buttons and keyboard
   _bindClickEvents: ->
     el = @_getTipElement()
-    keyupNext = @onKeyupNext
-    $('html').keyup (eventObject)->
-      console.log eventObject.keyCode
-      if eventObject.keyCode == 13 or eventObject.keyCode == 39
-        keyupNext(eventObject)
-        
     el.delegate('.tour-close', 'click', @onClickClose)
     el.delegate('.tour-next', 'click', @onClickNext)
+    $('html').keyup _.bind(@onKeyboardInput, el)
 
   # Set the current target
   #

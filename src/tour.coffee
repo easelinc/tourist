@@ -108,7 +108,7 @@ class Tourist.Tour
 
     @view.bind('click:close', _.bind(@stop, this, true))
     @view.bind('click:next', @next)
-    @view.bind('keyup:next', @next)
+    @view.bind('keyboard', @processKeyboard)
 
     @model.bind('change:current_step', @onChangeCurrentStep)
 
@@ -140,7 +140,7 @@ class Tourist.Tour
   # Return nothing
   next: =>
     currentStep = @_teardownCurrentStep()
-
+    
     index = 0
     index = currentStep.index+1 if currentStep
 
@@ -150,7 +150,19 @@ class Tourist.Tour
       @_showSuccessFinalStep()
     else
       @_stop()
-
+  
+  # Process keyboard input and take nesicary action
+  #
+  # Return nothing
+  processKeyboard: (view, event) =>
+    if @_inOptionalArray event.keyCode, @options.keyboard.next
+      if view.options.model.attributes.current_step.nextButton?
+        @next()
+    
+    if @_inOptionalArray event.keyCode, @options.keyboard.cancel
+      @stop()
+    
+  
   # Set the stepOptions which is basically like the state for the tour.
   setStepOptions: (stepOptions) ->
     @options.stepOptions = stepOptions
@@ -263,3 +275,12 @@ class Tourist.Tour
   _teardownStep: (step) ->
     step.teardown.call(step, this, @options.stepOptions) if step and step.teardown
     @view.cleanupCurrentTarget()
+
+  # Helper function for "in" with optional arrays
+  #
+  # variable - a variable to match
+  # optionalArray - either a variable to match or an array to search
+  #
+  # Return true if variable is in optionalArray or is optionalArray
+  _inOptionalArray: (variable, optionalArray) ->
+    return variable == optionalArray or variable in optionalArray

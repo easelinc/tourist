@@ -21,6 +21,11 @@
   <script type="text/javascript">
   $(function(){
 
+  KEYBOARD_CONFIG = {
+      next: [39, 13],
+      cancel: 27
+    }
+
   STEP_OPTIONS = {
     one: 1,
     two: 2
@@ -80,6 +85,7 @@
   }
 
   TOUR = new Tourist.Tour({
+    keyboard: KEYBOARD_CONFIG,
     stepOptions: STEP_OPTIONS,
     steps: STEPS,
     successStep: FINAL,
@@ -101,6 +107,7 @@
   <div class="container">
     <h1 id="main-heading" class="page-header">Tourist works with Bootstrap. Let me show you.</h1>
     <p>This is an extremely minimal example. Look at the page source!</p>
+    <input/>
 
   </div>
 </body>

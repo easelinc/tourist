@@ -2,7 +2,8 @@
   var _ref, _ref1, _ref2, _ref3,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   window.Tourist = window.Tourist || {};
 
@@ -60,7 +61,7 @@
 
     function Base(options) {
       this.options = options != null ? options : {};
-      this.onKeyupNext = __bind(this.onKeyupNext, this);
+      this.onKeyboardInput = __bind(this.onKeyboardInput, this);
       this.onClickNext = __bind(this.onClickNext, this);
       this.onClickClose = __bind(this.onClickClose, this);
       this.el = $('<div/>');
@@ -115,8 +116,8 @@
       return false;
     };
 
-    Base.prototype.onKeyupNext = function(event) {
-      this.trigger('click:next', this, event);
+    Base.prototype.onKeyboardInput = function(event) {
+      this.trigger('keyboard', this, event);
       return false;
     };
 
@@ -130,17 +131,11 @@
     Base.prototype._renderContent = function(step, contentElement) {};
 
     Base.prototype._bindClickEvents = function() {
-      var el, keyupNext;
+      var el;
       el = this._getTipElement();
-      keyupNext = this.onKeyupNext;
-      $('html').keyup(function(eventObject) {
-        console.log(eventObject.keyCode);
-        if (eventObject.keyCode === 13 || eventObject.keyCode === 39) {
-          return keyupNext(eventObject);
-        }
-      });
       el.delegate('.tour-close', 'click', this.onClickClose);
-      return el.delegate('.tour-next', 'click', this.onClickNext);
+      el.delegate('.tour-next', 'click', this.onClickNext);
+      return $('html').keyup(_.bind(this.onKeyboardInput, el));
     };
 
     Base.prototype._setTarget = function(target, step) {
@@ -878,6 +873,7 @@
       var defs, tipOptions;
       this.options = options != null ? options : {};
       this.onChangeCurrentStep = __bind(this.onChangeCurrentStep, this);
+      this.processKeyboard = __bind(this.processKeyboard, this);
       this.next = __bind(this.next, this);
       defs = {
         tipClass: 'Bootstrap'
@@ -892,7 +888,7 @@
       this.view = new Tourist.Tip[this.options.tipClass](tipOptions);
       this.view.bind('click:close', _.bind(this.stop, this, true));
       this.view.bind('click:next', this.next);
-      this.view.bind('keyup:next', this.next);
+      this.view.bind('keyboard', this.processKeyboard);
       this.model.bind('change:current_step', this.onChangeCurrentStep);
     }
 
@@ -927,6 +923,17 @@
         return this._showSuccessFinalStep();
       } else {
         return this._stop();
+      }
+    };
+
+    Tour.prototype.processKeyboard = function(view, event) {
+      if (this._inOptionalArray(event.keyCode, this.options.keyboard.next)) {
+        if (view.options.model.attributes.current_step.nextButton != null) {
+          this.next();
+        }
+      }
+      if (this._inOptionalArray(event.keyCode, this.options.keyboard.cancel)) {
+        return this.stop();
       }
     };
 
@@ -1025,6 +1032,10 @@
         step.teardown.call(step, this, this.options.stepOptions);
       }
       return this.view.cleanupCurrentTarget();
+    };
+
+    Tour.prototype._inOptionalArray = function(variable, optionalArray) {
+      return variable === optionalArray || __indexOf.call(optionalArray, variable) >= 0;
     };
 
     return Tour;
