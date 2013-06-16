@@ -51,7 +51,13 @@ var steps = [{
   ...
 }, ...]
 
+var keyboardConfig = {
+      next: [39, 13],
+      stop: 27
+    }
+
 var tour = new Tourist.Tour({
+  keyboard: keyboardConfig,
   steps: steps,
   tipOptions:{ showEffect: 'slidein' }
 });
@@ -74,6 +80,7 @@ tour.start();
 
 ### Options
 
+* `keyboard` an object specifying the configuration for keyboard controls. Either a single or an array of keycodes is valid
 * `steps` a collection of step objects
 * `stepOptions` an object of options to be passed to each function called on a step object, notably the `setup()` and `teardown()` functions
 * `tipClass` the class from the `Tourist.Tip` namespace to use. Defaults to `Bootstrap`, you can use `QTip` if you have QTip2 installed
