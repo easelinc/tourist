@@ -99,6 +99,11 @@ class Tourist.Tip.Base
   onClickNext: (event) =>
     @trigger('click:next', this, event)
     false
+    
+  # User navitgated next through the keyboard
+  onKeyboardInput: (event) =>
+    @trigger('keyboard', this, event)
+    false    
 
 
   ###
@@ -123,6 +128,11 @@ class Tourist.Tip.Base
     el = @_getTipElement()
     el.delegate('.tour-close', 'click', @onClickClose)
     el.delegate('.tour-next', 'click', @onClickNext)
+    @_bindKeyboardEvents()
+
+  # Bind keyboard events
+  _bindKeyboardEvents: () ->
+    $('html').keyup(@onKeyboardInput)
 
   # Set the current target
   #
