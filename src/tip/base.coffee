@@ -129,8 +129,8 @@ class Tourist.Tip.Base
     @_bindKeyboardEvents()
 
   # Bind keyboard events
-  _bindKeyboardEvents: (el) ->
-    $('html').keyup(_.bind(@onKeyboardInput, el))
+  _bindKeyboardEvents: () ->
+    $('html').keyup(@onKeyboardInput)
 
   # Set the current target
   #

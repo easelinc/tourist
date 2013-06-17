@@ -7,10 +7,9 @@ window.BasicTourTests = (description, tourGenerator) ->
         this: 1
         that: 34
         
-      @keyboard = {
+      @keyboard =
         next: [39, 13]
         cancel: 27
-      }
 
       @steps = [{
         content: '''
@@ -292,17 +291,6 @@ window.BasicTourTests = (description, tourGenerator) ->
         
         expect(@s._inOptionalArray(27, [13, 39])).toEqual(false)
         expect(@s._inOptionalArray(13, 27)).toEqual(false)
-      
-      it 'handles all "next" keys', ->
-        @s.start()
-        @s._keyboardNext()
-        expect(@s.model.get('current_step').index).toEqual(1)
-        
-      it 'handles all "cancel" keys', ->
-        @s.start()
-        @s.next()
-        @s._keyboardStop()
-        expect(@s.model.get('current_step').final).toEqual(true)
     
     describe 'events', ->
       it 'emits a start event', ->

@@ -138,8 +138,8 @@
       return this._bindKeyboardEvents();
     };
 
-    Base.prototype._bindKeyboardEvents = function(el) {
-      return $('html').keyup(_.bind(this.onKeyboardInput, el));
+    Base.prototype._bindKeyboardEvents = function() {
+      return $('html').keyup(this.onKeyboardInput);
     };
 
     Base.prototype._setTarget = function(target, step) {
@@ -876,8 +876,8 @@
     function Tour(options) {
       var defs, tipOptions;
       this.options = options != null ? options : {};
+      this._processKeyboard = __bind(this._processKeyboard, this);
       this.onChangeCurrentStep = __bind(this.onChangeCurrentStep, this);
-      this.processKeyboard = __bind(this.processKeyboard, this);
       this.next = __bind(this.next, this);
       defs = {
         tipClass: 'Bootstrap'
@@ -892,7 +892,7 @@
       this.view = new Tourist.Tip[this.options.tipClass](tipOptions);
       this.view.bind('click:close', _.bind(this.stop, this, true));
       this.view.bind('click:next', this.next);
-      this.view.bind('keyboard', this.processKeyboard);
+      this.view.bind('keyboard', this._processKeyboard);
       this.model.bind('change:current_step', this.onChangeCurrentStep);
     }
 
@@ -927,17 +927,6 @@
         return this._showSuccessFinalStep();
       } else {
         return this._stop();
-      }
-    };
-
-    Tour.prototype.processKeyboard = function(view, event) {
-      if (this._inOptionalArray(event.keyCode, this.options.keyboard.next)) {
-        if (view.options.model.attributes.current_step.nextButton != null) {
-          this._keyboardNext();
-        }
-      }
-      if (this._inOptionalArray(event.keyCode, this.options.keyboard.stop)) {
-        return this._keyboardStop();
       }
     };
 
@@ -1032,9 +1021,6 @@
     };
 
     Tour.prototype._teardownStep = function(step) {
-      if (step && step.teardown) {
-        step.teardown.call(step, this, this.options.stepOptions);
-      }
       return this.view.cleanupCurrentTarget();
     };
 
@@ -1042,12 +1028,15 @@
       return variable === optionalArray || __indexOf.call(optionalArray, variable) >= 0;
     };
 
-    Tour.prototype._keyboardNext = function() {
-      return this.next();
-    };
-
-    Tour.prototype._keyboardStop = function() {
-      return this.stop(true);
+    Tour.prototype._processKeyboard = function(view, event) {
+      if (this._inOptionalArray(event.keyCode, this.options.keyboard.next)) {
+        if (view.options.model.attributes.current_step.nextButton != null) {
+          this.next();
+        }
+      }
+      if (this._inOptionalArray(event.keyCode, this.options.keyboard.stop)) {
+        return this.stop(true);
+      }
     };
 
     return Tour;
