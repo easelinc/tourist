@@ -25,13 +25,13 @@
 .popover .popover-content .tour-counter{
   margin: 0; padding: 0;
   position: absolute;
-  left: 10px; bottom: 12px;
+  left: 10px; bottom: 11px;
   font-size: 11px;
   color: #acacac;
 }
 .popover .tour-buttons{
   padding: 8px 10px;
-  min-height: 27px;
+  min-height: 38px;
   background: #f5f5f5;
   border-radius: 0px 0px 6px 6px;
 }

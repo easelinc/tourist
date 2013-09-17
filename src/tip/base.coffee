@@ -10,12 +10,12 @@ class Tourist.Tip.Base
   _.extend @prototype, Backbone.Events
 
   # You can override any of thsee templates for your own stuff
-  skipButtonTemplate: '<button class="btn btn-small pull-right tour-next">Skip this step →</button>'
-  nextButtonTemplate: '<button class="btn btn-primary btn-small pull-right tour-next">Next step →</button>'
-  finalButtonTemplate: '<button class="btn btn-primary btn-small pull-right tour-next">Finish up</button>'
+  skipButtonTemplate: '<button class="btn btn-xs pull-right tour-next">Skip this step →</button>'
+  nextButtonTemplate: '<button class="btn btn-primary btn-xs pull-right tour-next">Next step →</button>'
+  finalButtonTemplate: '<button class="btn btn-primary btn-xs pull-right tour-next">Finish up</button>'
 
   closeButtonTemplate: '<a class="btn btn-close tour-close" href="#"><i class="icon icon-remove"></i></a>'
-  okButtonTemplate: '<button class="btn btn-small tour-close btn-primary">Okay</button>'
+  okButtonTemplate: '<button class="btn btn-xs tour-close btn-primary">Okay</button>'
 
   actionLabelTemplate: _.template '<h4 class="action-label"><%= label %></h4>'
   actionLabels: ['Do this:', 'Then this:', 'Next this:']
