@@ -63,9 +63,6 @@
   padding: 3px 10px;
 }
 .qtip-tour .qtip-content .tour-counter{
-  margin: 0; padding: 0;
-  position: absolute;
-  left: 10px; bottom: 12px;
   font-size: 11px;
   color: #acacac;
 }
