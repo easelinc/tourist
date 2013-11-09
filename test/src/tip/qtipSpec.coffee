@@ -1,6 +1,8 @@
 BasicTipTests 'with Tourist.Tip.QTip', ->
   new Tourist.Tip.QTip
     model: @model
+    content:
+      text: '.'
 
 BasicTourTests 'with Tourist.Tip.QTip', ->
   new Tourist.Tour
@@ -9,6 +11,9 @@ BasicTourTests 'with Tourist.Tip.QTip', ->
     cancelStep: @finalQuit
     successStep: @finalSucceed
     tipClass: 'QTip'
+    tipOptions:
+      content:
+        text: '.'
 
 describe "Tourist.Tip.QTip specific", ->
   beforeEach ->
@@ -19,6 +24,8 @@ describe "Tourist.Tip.QTip specific", ->
 
     @s = new Tourist.Tip.QTip
       model: @model
+      content:
+        text: '.'
 
   afterEach ->
     Tourist.Tip.Base.destroy()
