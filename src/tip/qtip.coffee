@@ -17,7 +17,7 @@ class Tourist.Tip.QTip extends Tourist.Tip.Base
   # defaults for the qtip flyout.
   QTIP_DEFAULTS:
     content:
-      text: '..'
+      text: ''
     show:
       ready: false
       delay: 0
@@ -167,5 +167,3 @@ class Tourist.Tip.QTip extends Tourist.Tip.Base
 
     bg.removeClass('top left right bottom')
     bg.addClass(direction)
-
-
