@@ -619,7 +619,7 @@
 
     QTip.prototype.QTIP_DEFAULTS = {
       content: {
-        text: '..'
+        text: ''
       },
       show: {
         ready: false,
