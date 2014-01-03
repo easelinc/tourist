@@ -29,8 +29,8 @@ Tourist depends on Backbone and jQuery. jQuery UI is optional. Tourist
 uses an easing function from jQuery UI if present in the show effect
 with the Bootstrap tip implementation.
 
-Tourist comes with the ability to use either [Bootstrap popovers][popovers]
-(default) or [QTip2][qtip2] tips, so you'll need either Bootstrap CSS
+Tourist comes with the ability to use either [Bootstrap 3 popovers][popovers]
+(default) or [QTip2][qtip2] tips, so you'll need either Bootstrap 3 CSS
 (only the CSS is necessary!) or QTip2 installed.  You can write your own
 tooltip connector if you'd like.
 
@@ -325,7 +325,7 @@ MIT License
 [styleguide]: https://github.com/easelinc/coffeescript-style-guide
 
 [qtip2]: http://craigsworks.com/projects/qtip2/
-[popovers]: http://twitter.github.io/bootstrap/javascript.html#popovers
+[popovers]: http://getbootstrap.com/javascript/#popovers
 [booteffect]: https://github.com/easelinc/tourist/blob/master/src/tip/bootstrap.coffee#L64
 [tipscode]: https://github.com/easelinc/tourist/tree/master/src/tip
 [bootstraptip]: https://github.com/easelinc/tourist/blob/master/src/tip/bootstrap.coffee
