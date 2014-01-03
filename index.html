@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>Tourist.js</title>
 
-  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 
   <script src="vendor/javascripts/jquery-1.9.1.js"></script>
   <script src="vendor/javascripts/underscore-1.4.4.js"></script>
@@ -255,16 +255,16 @@
     </section>
 
     <section>
-      <div class="row-fluid" id="tour1">
-        <span class="explanation span5">
+      <div class="row" id="tour1">
+        <span class="explanation col-md-5">
           <h2>Get started quickly</h2>
           <p>
-            Specify a series of steps which explain elements to point at and
+            Specify steps explaining elements to point at and
             what to say. Tourist manages moving between your steps.
           </p>
 
           <h3 class="example-heading"><span>Example</span></h3>
-          <p><button class="btn btn-run-example" data-tour="tour1">Run this example</button></p>
+          <p><button class="btn btn-info btn-run-example" data-tour="tour1">Run this example</button></p>
 
           <div class="example">
             <div id="thing1" class="tour-block">Hey look at me!</div>
@@ -273,7 +273,7 @@
           </div>
         </span>
 
-        <span class="example-code span7">
+        <span class="example-code col-md-7">
           <pre><code class="javascript"></code></pre>
         </span>
 
@@ -282,16 +282,16 @@
 
 
     <section>
-      <div class="row-fluid" id="tour2">
+      <div class="row" id="tour2">
 
-        <span class="explanation span5">
+        <span class="explanation col-md-5">
           <h2>Powerful</h2>
           <p>
-            Tourist was designed for complex apps rather than websites. Tourist makes it easy to:
+            Tourist was designed for complex apps rather than websites. It's easy to:
           </p>
 
           <ul>
-            <li>control the interface for a specific step</li>
+            <li>control the interface for each step</li>
             <li>move to the next step only after the user completes a specific task</li>
           </ul>
 
@@ -300,7 +300,7 @@
           </p>
 
           <h3 class="example-heading"><span>Example</span></h3>
-          <p><button class="btn btn-run-example btn-run-tour2" data-tour="tour2">Run this example</button></p>
+          <p><button class="btn btn-info btn-run-example btn-run-tour2" data-tour="tour2">Run this example</button></p>
           <div class="example">
             <div class="kittens disabled">
               <img src="http://placekitten.com/g/350/250" id="kitten1" class="tour-block" />
@@ -310,7 +310,7 @@
           </div>
         </span>
 
-        <span class="example-code span7">
+        <span class="example-code col-md-7">
           <pre><code class="javascript"></code></pre>
         </span>
 
@@ -337,7 +337,3 @@
 
 </body>
 </html>
-
-
-
-
