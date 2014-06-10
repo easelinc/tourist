@@ -9,7 +9,7 @@ class Tourist.Tip.Bootstrap extends Tourist.Tip.Base
       showEffect: null
       hideEffect: null
     @options = _.extend(defs, options)
-    @tip = new Tourist.Tip.BootstrapTip()
+    @tip = new Tourist.Tip.BootstrapTip(@options)
 
   destroy: ->
     @tip.destroy()

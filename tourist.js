@@ -248,7 +248,7 @@
         hideEffect: null
       };
       this.options = _.extend(defs, options);
-      return this.tip = new Tourist.Tip.BootstrapTip();
+      return this.tip = new Tourist.Tip.BootstrapTip(this.options);
     };
 
     Bootstrap.prototype.destroy = function() {
