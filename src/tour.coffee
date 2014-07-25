@@ -221,8 +221,6 @@ class Tourist.Tour
     step = _.clone(step)
     step.index = index
     step.total = @options.steps.length
-    step.setup = _.once(step.setup) if step.setup
-    step.teardown = _.once(step.teardown) if step.teardown
 
     unless step.final
       step.final = (@options.steps.length == index+1 and not @options.successStep)
