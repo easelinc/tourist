@@ -139,12 +139,10 @@ class Tourist.Tour
   # Return nothing
   next: =>
     currentStep = @model.get('current_step')
-    @_teardownStep(currentStep)
-
-    index = 0
-    index = currentStep.index+1 if currentStep
+    index = if currentStep then currentStep.index+1 else 0
 
     if index < @options.steps.length
+      @_teardownStep(currentStep)
       @_showStep(@options.steps[index], index)
     else if index == @options.steps.length
       @_showSuccessFinalStep()
@@ -197,7 +195,6 @@ class Tourist.Tour
   _showFinalStep: (success) ->
 
     currentStep = @model.get('current_step')
-    @_teardownStep(currentStep)
 
     finalStep = if success then @options.successStep else @options.cancelStep
 
@@ -209,6 +206,7 @@ class Tourist.Tour
     return @_stop() if currentStep and currentStep.final
 
     finalStep.final = true
+    @_teardownStep(currentStep)
     @_showStep(finalStep, @options.steps.length)
 
   # Sets step to the current_step in our model. Does all the neccessary setup.
