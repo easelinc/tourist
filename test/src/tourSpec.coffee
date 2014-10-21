@@ -251,6 +251,16 @@ window.BasicTourTests = (description, tourGenerator) ->
         expect(@steps[1].teardown).toHaveBeenCalledWith(@s, @options)
         expect(@finalQuit.setup).toHaveBeenCalledWith(@s, @options)
 
+      it 'calls teardown of last step only once', ->
+        spyOn(@steps[2], 'teardown')
+
+        @s.start()
+        @s.next()
+        @s.next()
+        @s.next()
+
+        expect(@steps[2].teardown.callCount).toEqual(1)
+
       it 'calls teardown on final', ->
         spyOn(@finalQuit, 'teardown')
 

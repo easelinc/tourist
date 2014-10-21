@@ -138,12 +138,11 @@ class Tourist.Tour
   #
   # Return nothing
   next: =>
-    currentStep = @_teardownCurrentStep()
-
-    index = 0
-    index = currentStep.index+1 if currentStep
+    currentStep = @model.get('current_step')
+    index = if currentStep then currentStep.index+1 else 0
 
     if index < @options.steps.length
+      @_teardownStep(currentStep)
       @_showStep(@options.steps[index], index)
     else if index == @options.steps.length
       @_showSuccessFinalStep()
@@ -179,19 +178,11 @@ class Tourist.Tour
   _showSuccessFinalStep: ->
     @_showFinalStep(true)
 
-  # Teardown the current step.
-  #
-  # Returns the current step after teardown
-  _teardownCurrentStep: ->
-    currentStep = @model.get('current_step')
-    @_teardownStep(currentStep)
-    currentStep
-
   # Stop the tour and reset the state.
   #
   # Return nothing
   _stop: ->
-    @_teardownCurrentStep()
+    @_teardownStep(@model.get('current_step'))
     @model.set(current_step: null)
     @trigger('stop', this)
 
@@ -203,7 +194,7 @@ class Tourist.Tour
   # Return nothing
   _showFinalStep: (success) ->
 
-    currentStep = @_teardownCurrentStep()
+    currentStep = @model.get('current_step')
 
     finalStep = if success then @options.successStep else @options.cancelStep
 
@@ -215,6 +206,7 @@ class Tourist.Tour
     return @_stop() if currentStep and currentStep.final
 
     finalStep.final = true
+    @_teardownStep(currentStep)
     @_showStep(finalStep, @options.steps.length)
 
   # Sets step to the current_step in our model. Does all the neccessary setup.
