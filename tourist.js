@@ -912,12 +912,10 @@
 
     Tour.prototype.next = function() {
       var currentStep, index;
-      currentStep = this._teardownCurrentStep();
-      index = 0;
-      if (currentStep) {
-        index = currentStep.index + 1;
-      }
+      currentStep = this.model.get('current_step');
+      index = currentStep ? currentStep.index + 1 : 0;
       if (index < this.options.steps.length) {
+        this._teardownStep(currentStep);
         return this._showStep(this.options.steps[index], index);
       } else if (index === this.options.steps.length) {
         return this._showSuccessFinalStep();
@@ -952,15 +950,8 @@
       return this._showFinalStep(true);
     };
 
-    Tour.prototype._teardownCurrentStep = function() {
-      var currentStep;
-      currentStep = this.model.get('current_step');
-      this._teardownStep(currentStep);
-      return currentStep;
-    };
-
     Tour.prototype._stop = function() {
-      this._teardownCurrentStep();
+      this._teardownStep(this.model.get('current_step'));
       this.model.set({
         current_step: null
       });
@@ -969,7 +960,7 @@
 
     Tour.prototype._showFinalStep = function(success) {
       var currentStep, finalStep;
-      currentStep = this._teardownCurrentStep();
+      currentStep = this.model.get('current_step');
       finalStep = success ? this.options.successStep : this.options.cancelStep;
       if (_.isFunction(finalStep)) {
         finalStep.call(this, this, this.options.stepOptions);
@@ -982,6 +973,7 @@
         return this._stop();
       }
       finalStep.final = true;
+      this._teardownStep(currentStep);
       return this._showStep(finalStep, this.options.steps.length);
     };
 
@@ -992,6 +984,12 @@
       step = _.clone(step);
       step.index = index;
       step.total = this.options.steps.length;
+      if (step.setup) {
+        step.setup = _.once(step.setup);
+      }
+      if (step.teardown) {
+        step.teardown = _.once(step.teardown);
+      }
       if (!step.final) {
         step.final = this.options.steps.length === index + 1 && !this.options.successStep;
       }
