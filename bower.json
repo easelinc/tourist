@@ -7,7 +7,8 @@
     "./tourist.css"
   ],
   "dependencies": {
-    "backbone": "~1.1.2"
+    "backbone": "~1.1.2",
+    "jquery": "~2.3.1"
   },
   "ignore": [
     ".gitignore",
