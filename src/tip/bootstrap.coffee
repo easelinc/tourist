@@ -120,7 +120,7 @@ positioning as qtip2:
 class Tourist.Tip.BootstrapTip
 
   template: '''
-    <div class="popover">
+    <div class="popover tourist-popover">
       <div class="arrow"></div>
       <div class="popover-content"></div>
     </div>

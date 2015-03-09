@@ -8,36 +8,36 @@
 }
 
 /* bootstrap styles */
-.popover{
+.tourist-popover{
   padding: 0;
 }
-.popover .popover-content{
+.tourist-popover .popover-content{
   padding: 10px 0 0 0;
   min-width: 200px;
 }
-.popover .popover-content p{
+.tourist-popover .popover-content p{
   margin: 0 8px 10px 8px;
 }
-.popover .popover-content .action-label{
+.tourist-popover .popover-content .action-label{
   background: rgba(0, 111, 255, 0.168627);
   font-size: 14px;
   padding: 3px 10px;
 }
-.popover .popover-content .tour-counter{
+.tourist-popover .popover-content .tour-counter{
   margin: 0; padding: 0;
   position: absolute;
   left: 10px; bottom: 14px;
   font-size: 11px;
   color: #acacac;
 }
-.popover .tour-buttons{
+.tourist-popover .tour-buttons{
   padding: 8px 10px;
   min-height: 28px;
   background: #f5f5f5;
   border-radius: 0px 0px 6px 6px;
   box-sizing: content-box;
 }
-.popover .btn-close{
+.tourist-popover .btn-close{
   background: none;
   border: none;
   position: absolute;
@@ -45,7 +45,7 @@
   padding: 0;
   opacity: .3;
 }
-.popover .btn-close:hover{
+.tourist-popover .btn-close:hover{
   opacity: .5;
 }
 
