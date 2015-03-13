@@ -352,7 +352,7 @@
 
 
   Tourist.Tip.BootstrapTip = (function() {
-    BootstrapTip.prototype.template = '<div class="popover">\n  <div class="arrow"></div>\n  <div class="popover-content"></div>\n</div>';
+    BootstrapTip.prototype.template = '<div class="popover tourist-popover">\n  <div class="arrow"></div>\n  <div class="popover-content"></div>\n</div>';
 
     BootstrapTip.prototype.FLIP_POSITION = {
       bottom: 'top',
