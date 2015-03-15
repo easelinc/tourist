@@ -1,12 +1,15 @@
 {
   "name": "Tourist.js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": [
     "./tourist.js",
     "./tourist.min.js",
     "./tourist.css"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "jquery": "~2.3.1"
+  },
   "ignore": [
     ".gitignore",
     ".travis.yml",
