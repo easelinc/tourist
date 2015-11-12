@@ -926,6 +926,21 @@
       }
     };
 
+    Tour.prototype.showStep = function(index) {
+      var currentStep;
+      currentStep = this._teardownCurrentStep();
+      if (currentStep) {
+        index = currentStep.index + index;
+      }
+      if (index < this.options.steps.length && !isNaN(parseInt(index, 10))) {
+        return this._showStep(this.options.steps[index], index);
+      } else if (index === this.options.steps.length) {
+        return this._showSuccessFinalStep();
+      } else {
+        return this._stop();
+      }
+    };
+
     Tour.prototype.setStepOptions = function(stepOptions) {
       return this.options.stepOptions = stepOptions;
     };
