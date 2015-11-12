@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ShowStep Example</title>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+
+    <script src="../test/vendor/javascripts/jquery-1.9.1.js"></script>
+    <script src="../test/vendor/javascripts/underscore-1.4.4.js"></script>
+    <script src="../test/vendor/javascripts/backbone-1.0.0.js"></script>
+
+    <!-- Uses JQUI for the effects only :/ -->
+    <script src="../test/vendor/javascripts/jquery-ui-1.10.2.custom.js"></script>
+
+    <script src="../tourist.js"></script>
+    <link rel="stylesheet" href="../tourist.css" type="text/css" media="screen">
+
+    <!-- Tour js is defined here -->
+    <script type="text/javascript">
+        $(function () {
+
+            STEP_OPTIONS = {
+                one: 1,
+                two: 2
+            };
+
+            STEPS = [{
+                content: '<p>This is the first step.</p><p class="action">Check the box. If checked the next step will be skipped.<br>If you hit the \'Next step\' button the next step will be shown.</p>',
+                highlightTarget: true,
+                nextButton: true,
+                target: $('#input_one'),
+                my: 'top center',
+                at: 'bottom center',
+                bind: ['onClick'],
+                setup: function (tour, options) {
+                    $('#input_one').on('change', this.onClick);
+                },
+                teardown: function (tour, options) {
+                    $('#input_one').off('change', this.onClick);
+                },
+                onClick: function (tour) {
+                    if ($('#input_one').is(':checked')) {
+                        tour.showStep(2);
+                    } else {
+                        tour.next();
+                    }
+                    return false;
+                }
+
+            },
+                {
+                    content: '<p>This is the second step.</p><p class="action">This step will be shown if the checkbox isn\'t checked.</p>',
+                    highlightTarget: true,
+                    nextButton: true,
+                    target: $('#input_two'),
+                    my: 'top center',
+                    at: 'bottom center'
+
+                },
+                {
+                    content: '<p>This is the third step.</p><p class="action">This step will be shown if the checkbox is checked.</p>',
+                    highlightTarget: true,
+                    nextButton: true,
+                    target: $('#input_three'),
+                    my: 'top center',
+                    at: 'bottom center'
+
+                },
+                {
+                    content: '<p>This is the last step.</p><p class="action">Hit the \'Submit\' button.</p>',
+                    highlightTarget: true,
+                    nextButton: false,
+                    target: $('#input_four'),
+                    my: 'top center',
+                    at: 'bottom center'
+
+                }]
+
+            TOUR = new Tourist.Tour({
+                stepOptions: STEP_OPTIONS,
+                steps: STEPS,
+                tipOptions: {
+                    showEffect: 'slidein'
+                }
+            });
+            TOUR.start();
+
+        });
+    </script>
+
+    <!-- Tour CSS is defined here -->
+    <style type="text/css">
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <h1 id="main-heading" class="page-header">This example shows the 'showStep' feature.</h1>
+    <p>Check the box to jump directly to input three. Uncheck it to go to input two.</p>
+    <form class="form-group">
+        <label for="input_one">Input one</label>
+        <input class="form-control" id="input_one" type="checkbox" value="yes">
+        <label for="input_two">Input two</label>
+        <input class="form-control" id="input_two" type="text" value="second input value">
+        <label for="input_three">Input three</label>
+        <input class="form-control" id="input_three" type="text" value="third input value">
+        <label for="input_four">Input three</label>
+        <input class="form-control" id="input_four" type="submit" value="Submit">
+
+    </form>
+
+</div>
+</body>
+</html>
