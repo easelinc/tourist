@@ -932,7 +932,7 @@
       if (currentStep) {
           index = show_step;
       }
-      if (index < this.options.steps.length && !isNaN(parseInt(index, 10))) {
+      if (index < this.options.steps.length && !isNaN(parseInt(index, 10)) && index >= 0) {
         return this._showStep(this.options.steps[index], index);
       } else if (index === this.options.steps.length) {
         return this._showSuccessFinalStep();
