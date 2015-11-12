@@ -930,7 +930,11 @@
       var currentStep;
       currentStep = this._teardownCurrentStep();
       if (currentStep) {
-        index = currentStep.index + index;
+          if (index < currentStep.index) {
+              index = currentStep.index - index;
+          } else {
+              index = currentStep.index + index;
+          }
       }
       if (index < this.options.steps.length && !isNaN(parseInt(index, 10))) {
         return this._showStep(this.options.steps[index], index);
