@@ -26,7 +26,16 @@
                 two: 2
             };
 
-            STEPS = [{
+            STEPS = [                {
+                content: '<p>This is the first step.</p><p class="action">This step will be shown if the checkbox isn\'t checked.</p>',
+                highlightTarget: true,
+                nextButton: true,
+                target: $('#main-heading'),
+                my: 'top center',
+                at: 'bottom center'
+
+            },
+                {
                 content: '<p>This is the first step.</p><p class="action">Check the box. If checked the next step will be skipped.<br>If you hit the \'Next step\' button the next step will be shown.</p>',
                 highlightTarget: true,
                 nextButton: true,
@@ -42,7 +51,7 @@
                 },
                 onClick: function (tour) {
                     if ($('#input_one').is(':checked')) {
-                        tour.showStep(2);
+                        tour.showStep(0);
                     } else {
                         tour.next();
                     }
